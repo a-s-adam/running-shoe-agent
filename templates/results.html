@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Running Shoe Recommendations - Results</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+            transition: background 0.2s;
+        }
+        
+        .back-btn:hover {
+            background: #2980b9;
+        }
+        
+        .summary-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .summary-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .summary-item {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e1e8ed;
+        }
+        
+        .summary-item strong {
+            color: #2c3e50;
+        }
+        
+        .recommendations {
+            margin-bottom: 30px;
+        }
+        
+        .recommendation-card {
+            background: white;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .recommendation-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .shoe-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .shoe-meta {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .score-badge {
+            background: #e74c3c;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        
+        .spec-item {
+            text-align: center;
+        }
+        
+        .spec-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .spec-label {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .explanation-section {
+            margin-bottom: 20px;
+        }
+        
+        .explanation-section h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .explanation-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 3px solid #3498db;
+        }
+        
+        .explanation-box.llm {
+            border-left-color: #e74c3c;
+            background: #fef9e7;
+        }
+        
+        .notes-section {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .notes-section h3 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+        
+        .notes-list {
+            list-style: none;
+        }
+        
+        .notes-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #ffeaa7;
+        }
+        
+        .notes-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .price-highlight {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
+        .price-normal {
+            font-weight: bold;
+            color: #27ae60;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                border-radius: 8px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .specs-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Your Shoe Recommendations</h1>
+            <p>Based on your preferences and running style</p>
+        </div>
+        
+        <div class="content">
+            <a href="/" class="back-btn">← Back to Form</a>
+            
+            <!-- Summary Section -->
+            <div class="summary-section">
+                <h3>📋 Request Summary</h3>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <strong>Brands:</strong><br>
+                        {% if request_data.brand_preferences %}
+                            {{ request_data.brand_preferences|join(', ') }}
+                        {% else %}
+                            Any brand
+                        {% endif %}
+                    </div>
+                    <div class="summary-item">
+                        <strong>Intended Use:</strong><br>
+                        {% set uses = [] %}
+                        {% if request_data.intended_use.easy_runs %}{% set _ = uses.append('Easy Runs') %}{% endif %}
+                        {% if request_data.intended_use.tempo_runs %}{% set _ = uses.append('Tempo Runs') %}{% endif %}
+                        {% if request_data.intended_use.long_runs %}{% set _ = uses.append('Long Runs') %}{% endif %}
+                        {% if request_data.intended_use.races %}{% set _ = uses.append('Races') %}{% endif %}
+                        {% if request_data.intended_use.trail %}{% set _ = uses.append('Trail') %}{% endif %}
+                        {{ uses|join(', ') if uses else 'General running' }}
+                    </div>
+                    <div class="summary-item">
+                        <strong>Budget:</strong><br>
+                        {% if request_data.cost_limiter.enabled %}
+                            ${{ request_data.cost_limiter.max_usd }}
+                        {% else %}
+                            No limit
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recommendations -->
+            <div class="recommendations">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">🏃‍♂️ Recommended Shoes</h2>
+                
+                {% for shoe in recommendations %}
+                <div class="recommendation-card">
+                    <div class="card-header">
+                        <div class="shoe-info">
+                            <h3>{{ shoe.brand }} {{ shoe.model }}</h3>
+                            <div class="shoe-meta">
+                                {{ shoe.category|join(', ') | title }}
+                            </div>
+                        </div>
+                        <div class="score-badge">
+                            {{ "%.1f"|format(shoe.score * 100) }}%
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <!-- Specifications -->
+                        <div class="specs-grid">
+                            <div class="spec-item">
+                                <div class="spec-value">
+                                    {% if shoe.price_usd > request_data.cost_limiter.max_usd and request_data.cost_limiter.enabled %}
+                                        <span class="price-highlight">${{ shoe.price_usd }}</span>
+                                    {% else %}
+                                        <span class="price-normal">${{ shoe.price_usd }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="spec-label">Price</div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-value">{{ shoe.plate|title }}</div>
+                                <div class="spec-label">Plate</div>
+                            </div>
+                            {% if shoe.drop_mm %}
+                            <div class="spec-item">
+                                <div class="spec-value">{{ shoe.drop_mm }}mm</div>
+                                <div class="spec-label">Drop</div>
+                            </div>
+                            {% endif %}
+                            {% if shoe.weight_g %}
+                            <div class="spec-item">
+                                <div class="spec-value">{{ shoe.weight_g }}g</div>
+                                <div class="spec-label">Weight</div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Rule-based explanation -->
+                        <div class="explanation-section">
+                            <h4>🔍 Why This Shoe Matches Your Criteria</h4>
+                            <div class="explanation-box">
+                                {{ shoe.why_rules }}
+                            </div>
+                        </div>
+                        
+                        <!-- AI-generated explanation -->
+                        <div class="explanation-section">
+                            <h4>🤖 AI Analysis</h4>
+                            <div class="explanation-box llm">
+                                {{ shoe.why_llm }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Notes -->
+            {% if notes %}
+            <div class="notes-section">
+                <h3>📝 Important Notes</h3>
+                <ul class="notes-list">
+                    {% for note in notes %}
+                    <li>{{ note }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            
+            <!-- Action Buttons -->
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="/" class="back-btn" style="margin-right: 15px;">← New Search</a>
+                <button onclick="window.print()" style="background: #27ae60; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 1rem;">
+                    🖨️ Print Results
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

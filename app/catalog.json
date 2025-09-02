@@ -1,0 +1,1128 @@
+[
+  {
+    "brand": "Brooks",
+    "model": "Ghost 17",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 3.0,
+    "weight_g": 286
+  },
+  {
+    "brand": "ASICS",
+    "model": "GEL-Kayano 32",
+    "category": [
+      "daily",
+      "easy",
+      "trail"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 298
+  },
+  {
+    "brand": "ASICS",
+    "model": "MegaBlast",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 224.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 210
+  },
+  {
+    "brand": "ASICS",
+    "model": "METASPEED Ray",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 299.95,
+    "plate": "carbon",
+    "drop_mm": 5.0,
+    "weight_g": 119
+  },
+  {
+    "brand": "Brooks",
+    "model": "Ghost Max 3",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 6.0,
+    "weight_g": 306
+  },
+  {
+    "brand": "Nike",
+    "model": "Vomero Plus",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 179.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 295
+  },
+  {
+    "brand": "ASICS",
+    "model": "METASPEED Edge Tokyo",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 269.95,
+    "plate": "carbon",
+    "drop_mm": 5.0,
+    "weight_g": 181
+  },
+  {
+    "brand": "Brooks",
+    "model": "Hyperion Elite 5",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 274.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 201
+  },
+  {
+    "brand": "HOKA",
+    "model": "Arahi 8",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 174.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 278
+  },
+  {
+    "brand": "ASICS",
+    "model": "METASPEED Sky Tokyo",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 269.95,
+    "plate": "carbon",
+    "drop_mm": 5.0,
+    "weight_g": 184
+  },
+  {
+    "brand": "New Balance",
+    "model": "FuelCell SuperComp Elite V5",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 264.95,
+    "plate": "carbon",
+    "drop_mm": 8.0,
+    "weight_g": 204
+  },
+  {
+    "brand": "HOKA",
+    "model": "Rocket X 3",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 249.95,
+    "plate": "carbon",
+    "drop_mm": 7.0,
+    "weight_g": 224
+  },
+  {
+    "brand": "New Balance",
+    "model": "FuelCell Rebel V5",
+    "category": [
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 199.95,
+    "plate": "none",
+    "drop_mm": 6.0,
+    "weight_g": 196
+  },
+  {
+    "brand": "On",
+    "model": "Cloudsurfer Max",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 179.95,
+    "plate": "none",
+    "drop_mm": 6.0,
+    "weight_g": 292
+  },
+  {
+    "brand": "ASICS",
+    "model": "GT-2000 14",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 269
+  },
+  {
+    "brand": "On",
+    "model": "Cloudboom Max",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 229.95,
+    "plate": "none",
+    "drop_mm": 4.0,
+    "weight_g": 295
+  },
+  {
+    "brand": "Brooks",
+    "model": "Hyperion Max 3",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 199.95,
+    "plate": "none",
+    "drop_mm": 6.0,
+    "weight_g": 281
+  },
+  {
+    "brand": "New Balance",
+    "model": "Fresh Foam X More V6",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 199.95,
+    "plate": "none",
+    "drop_mm": 4.0,
+    "weight_g": 312
+  },
+  {
+    "brand": "Saucony",
+    "model": "Hurricane 25",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 174.95,
+    "plate": "none",
+    "drop_mm": 6.0,
+    "weight_g": 284
+  },
+  {
+    "brand": "Brooks",
+    "model": "Ghost 17 GTX",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 169.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 320
+  },
+  {
+    "brand": "Nike",
+    "model": "Structure 26",
+    "category": [
+      "tempo",
+      "daily",
+      "easy",
+      "trail"
+    ],
+    "price_usd": 144.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 315
+  },
+  {
+    "brand": "Saucony",
+    "model": "Kinvara 16",
+    "category": [
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 174.95,
+    "plate": "none",
+    "drop_mm": 4.0,
+    "weight_g": 207
+  },
+  {
+    "brand": "ASICS",
+    "model": "SonicBlast",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 179.95,
+    "plate": "none",
+    "drop_mm": 7.0,
+    "weight_g": null
+  },
+  {
+    "brand": "Brooks",
+    "model": "Hyperion 3",
+    "category": [
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 232
+  },
+  {
+    "brand": "HOKA",
+    "model": "Mach X 3",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 189.95,
+    "plate": "none",
+    "drop_mm": 5.0,
+    "weight_g": 289
+  },
+  {
+    "brand": "Brooks",
+    "model": "Adrenaline GTS 24",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 2.0,
+    "weight_g": 284
+  },
+  {
+    "brand": "HOKA",
+    "model": "Bondi 9",
+    "category": [
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 174.95,
+    "plate": "none",
+    "drop_mm": 5.0,
+    "weight_g": 298
+  },
+  {
+    "brand": "ASICS",
+    "model": "GEL-Nimbus 27",
+    "category": [
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 309
+  },
+  {
+    "brand": "HOKA",
+    "model": "Clifton 10",
+    "category": [
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 174.95,
+    "plate": "none",
+    "drop_mm": 3.0,
+    "weight_g": 272
+  },
+  {
+    "brand": "ASICS",
+    "model": "GT-2000 13",
+    "category": [
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 269
+  },
+  {
+    "brand": "Brooks",
+    "model": "Glycerin 22",
+    "category": [
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 289
+  },
+  {
+    "brand": "ASICS",
+    "model": "SuperBlast 2",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 199.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 249
+  },
+  {
+    "brand": "New Balance",
+    "model": "Fresh Foam X 1080v14",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 6.0,
+    "weight_g": 261
+  },
+  {
+    "brand": "Brooks",
+    "model": "Ghost 16",
+    "category": [
+      "race",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 2.0,
+    "weight_g": 269
+  },
+  {
+    "brand": "HOKA",
+    "model": "Mach 6",
+    "category": [
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 174.95,
+    "plate": "none",
+    "drop_mm": null,
+    "weight_g": 230
+  },
+  {
+    "brand": "Brooks",
+    "model": "Beast GTS 24",
+    "category": [
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 2.0,
+    "weight_g": 352
+  },
+  {
+    "brand": "ASICS",
+    "model": "GEL-Kayano 31",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 303
+  },
+  {
+    "brand": "ASICS",
+    "model": "NovaBlast 5",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 149.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 255
+  },
+  {
+    "brand": "New Balance",
+    "model": "990v6",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 199.95,
+    "plate": "none",
+    "drop_mm": null,
+    "weight_g": null
+  },
+  {
+    "brand": "Nike",
+    "model": "Pegasus 41",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 144.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 289
+  },
+  {
+    "brand": "On",
+    "model": "Cloud 6",
+    "category": [
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 159.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 230
+  },
+  {
+    "brand": "Brooks",
+    "model": "Glycerin Max",
+    "category": [
+      "race",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 199.95,
+    "plate": "none",
+    "drop_mm": 6.0,
+    "weight_g": 298
+  },
+  {
+    "brand": "Brooks",
+    "model": "Ghost Max 2",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 6.0,
+    "weight_g": 306
+  },
+  {
+    "brand": "HOKA",
+    "model": "Gaviota 5",
+    "category": [
+      "easy",
+      "trail"
+    ],
+    "price_usd": 174.95,
+    "plate": "none",
+    "drop_mm": 6.0,
+    "weight_g": 323
+  },
+  {
+    "brand": "ASICS",
+    "model": "Metaspeed Edge Tokyo",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 269.95,
+    "plate": "carbon",
+    "drop_mm": 5.0,
+    "weight_g": 181
+  },
+  {
+    "brand": "ASICS",
+    "model": "Metaspeed Sky Tokyo",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 269.95,
+    "plate": "carbon",
+    "drop_mm": 5.0,
+    "weight_g": 184
+  },
+  {
+    "brand": "New Balance",
+    "model": "Fuelcell Supercomp Elite V5",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 264.95,
+    "plate": "carbon",
+    "drop_mm": 8.0,
+    "weight_g": 204
+  },
+  {
+    "brand": "New Balance",
+    "model": "Fuelcell Rebel V5",
+    "category": [
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 199.95,
+    "plate": "none",
+    "drop_mm": 6.0,
+    "weight_g": 196
+  },
+  {
+    "brand": "ASICS",
+    "model": "Gt2000 14",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 269
+  },
+  {
+    "brand": "Brooks",
+    "model": "Ghost 17 Gtx",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 169.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 320
+  },
+  {
+    "brand": "ASICS",
+    "model": "Sonicblast",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 179.95,
+    "plate": "none",
+    "drop_mm": 7.0,
+    "weight_g": null
+  },
+  {
+    "brand": "HOKA",
+    "model": "Clifton 9",
+    "category": [
+      "daily",
+      "easy",
+      "trail"
+    ],
+    "price_usd": 174.95,
+    "plate": "none",
+    "drop_mm": 5.0,
+    "weight_g": 247
+  },
+  {
+    "brand": "Brooks",
+    "model": "Adrenaline Gts 24",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 2.0,
+    "weight_g": 284
+  },
+  {
+    "brand": "HOKA",
+    "model": "Arahi 7",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 174.95,
+    "plate": "none",
+    "drop_mm": null,
+    "weight_g": 278
+  },
+  {
+    "brand": "ASICS",
+    "model": "Gelnimbus 27",
+    "category": [
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 309
+  },
+  {
+    "brand": "ASICS",
+    "model": "Gt2000 13",
+    "category": [
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 269
+  },
+  {
+    "brand": "ASICS",
+    "model": "Superblast 2",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 199.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 249
+  },
+  {
+    "brand": "New Balance",
+    "model": "Fresh Foam X 1080V14",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 199.95,
+    "plate": "none",
+    "drop_mm": 6.0,
+    "weight_g": 261
+  },
+  {
+    "brand": "Brooks",
+    "model": "Beast Gts 24",
+    "category": [
+      "easy"
+    ],
+    "price_usd": 159.95,
+    "plate": "none",
+    "drop_mm": 2.0,
+    "weight_g": 352
+  },
+  {
+    "brand": "Brooks",
+    "model": "Glycerin 21",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 284
+  },
+  {
+    "brand": "ASICS",
+    "model": "Gelkayano 31",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 303
+  },
+  {
+    "brand": "ASICS",
+    "model": "Novablast 5",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 255
+  },
+  {
+    "brand": "New Balance",
+    "model": "990V6",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 199.95,
+    "plate": "none",
+    "drop_mm": null,
+    "weight_g": null
+  },
+  {
+    "brand": "Saucony",
+    "model": "Triumph 22",
+    "category": [
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 174.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 286
+  },
+  {
+    "brand": "New Balance",
+    "model": "Fresh Foam X 860V14",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 199.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 306
+  },
+  {
+    "brand": "Saucony",
+    "model": "Endorphin Pro 4",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 239.95,
+    "plate": "carbon",
+    "drop_mm": null,
+    "weight_g": 213
+  },
+  {
+    "brand": "Nike",
+    "model": "Air Zoom Alphafly Next 3",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 294.95,
+    "plate": "carbon",
+    "drop_mm": 8.0,
+    "weight_g": 218
+  },
+  {
+    "brand": "Brooks",
+    "model": "Glycerin Gts 22",
+    "category": [
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 303
+  },
+  {
+    "brand": "On",
+    "model": "Cloudrunner 2",
+    "category": [
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 159.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 281
+  },
+  {
+    "brand": "ASICS",
+    "model": "Gelcumulus 27",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 264
+  },
+  {
+    "brand": "New Balance",
+    "model": "Fresh Foam X 860v14",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 199.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 306
+  },
+  {
+    "brand": "Nike",
+    "model": "Air Zoom Alphafly Next",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 294.95,
+    "plate": "carbon",
+    "drop_mm": 8.0,
+    "weight_g": 218
+  },
+  {
+    "brand": "Brooks",
+    "model": "Glycerin GTS 22",
+    "category": [
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 303
+  },
+  {
+    "brand": "ASICS",
+    "model": "GEL-Cumulus 27",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 264
+  },
+  {
+    "brand": "Nike",
+    "model": "ZoomX Vaporfly Next",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 269.95,
+    "plate": "none",
+    "drop_mm": 6.0,
+    "weight_g": null
+  },
+  {
+    "brand": "New Balance",
+    "model": "Fresh Foam X 880v15",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 199.95,
+    "plate": "none",
+    "drop_mm": 6.0,
+    "weight_g": 275
+  },
+  {
+    "brand": "Saucony",
+    "model": "Endorphin Elite 2",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 289.95,
+    "plate": "carbon",
+    "drop_mm": 8.0,
+    "weight_g": 198
+  },
+  {
+    "brand": "Saucony",
+    "model": "Endorphin Speed 5",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 174.95,
+    "plate": "nylon",
+    "drop_mm": 8.0,
+    "weight_g": 235
+  },
+  {
+    "brand": "Nike",
+    "model": "Vomero 18",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 154.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 255
+  },
+  {
+    "brand": "On",
+    "model": "Cloudflyer 5",
+    "category": [
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 169.95,
+    "plate": "none",
+    "drop_mm": 9.0,
+    "weight_g": 301
+  },
+  {
+    "brand": "Saucony",
+    "model": "Ride 18",
+    "category": [
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 174.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 258
+  },
+  {
+    "brand": "Saucony",
+    "model": "Triumph 23",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy",
+      "trail"
+    ],
+    "price_usd": 174.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 261
+  },
+  {
+    "brand": "Nike",
+    "model": "ZoomX Streakfly 2",
+    "category": [
+      "race",
+      "tempo",
+      "easy",
+      "trail"
+    ],
+    "price_usd": 189.95,
+    "plate": "carbon",
+    "drop_mm": 4.0,
+    "weight_g": null
+  },
+  {
+    "brand": "HOKA",
+    "model": "Bondi SR",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 179.95,
+    "plate": "none",
+    "drop_mm": 4.0,
+    "weight_g": null
+  },
+  {
+    "brand": "Brooks",
+    "model": "Hyperion 2",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "carbon",
+    "drop_mm": 8.0,
+    "weight_g": 193
+  },
+  {
+    "brand": "Nike",
+    "model": "ZoomX Vaporfly Next 3",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 259.95,
+    "plate": "carbon",
+    "drop_mm": null,
+    "weight_g": null
+  },
+  {
+    "brand": "Brooks",
+    "model": "Addiction GTS 15",
+    "category": [
+      "race",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 2.0,
+    "weight_g": 346
+  },
+  {
+    "brand": "Nike",
+    "model": "Zoom Fly 6",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 179.95,
+    "plate": "carbon",
+    "drop_mm": 8.0,
+    "weight_g": 264
+  },
+  {
+    "brand": "Saucony",
+    "model": "Guide 18",
+    "category": [
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 174.95,
+    "plate": "none",
+    "drop_mm": null,
+    "weight_g": null
+  }
+]
