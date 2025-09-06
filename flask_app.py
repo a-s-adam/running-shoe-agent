@@ -44,31 +44,20 @@ def load_catalog_data():
         return ["Saucony", "Adidas", "Nike", "Hoka", "Brooks", "Any"], 500
 
 def check_model_status():
-    """Check if the Ollama model is available and responding"""
+    """Check if the API is available (simple health check only)"""
     try:
-        # Check if the recommendation API is running
-        response = requests.get(f"{API_URL}/", timeout=5)
+        # Just check if the API is running - don't test the model
+        response = requests.get(f"{API_URL}/", timeout=3)
         if response.status_code == 200:
-            # Try to get a simple recommendation to test the model
-            test_request = {
-                "brand_preferences": ["Brooks"],
-                "intended_use": {"easy_runs": True, "tempo_runs": False, "long_runs": False, "races": [], "trail": False},
-                "cost_limiter": {"enabled": True, "max_usd": 200}
-            }
-            
-            response = requests.post(f"{API_URL}/recommend", json=test_request, timeout=15)
-            if response.status_code == 200:
-                return "healthy", "✅ Model is working and responding to requests"
-            else:
-                return "warning", "⚠️ API is running but model may have issues"
+            return "healthy", "✅ API server is running"
         else:
-            return "unhealthy", "❌ API is not responding properly"
+            return "warning", "⚠️ API responded with error status"
     except requests.exceptions.ConnectionError:
         return "unhealthy", "❌ Cannot connect to recommendation API"
     except requests.exceptions.Timeout:
-        return "warning", "⚠️ Model is responding but slowly (timeout)"
+        return "warning", "⚠️ API is responding slowly"
     except Exception as e:
-        return "warning", f"⚠️ Model status unclear: {str(e)}"
+        return "warning", f"⚠️ API status unclear: {str(e)}"
 
 @app.route('/')
 def index():
@@ -181,11 +170,11 @@ def model_status():
     return jsonify({"status": status, "message": message})
 
 if __name__ == '__main__':
-    print(f"🚀 Starting Flask app on port {DEFAULT_PORT}")
-    print(f"📡 Recommendation API: {API_URL}")
-    print("🔍 Loading catalog data...")
+    print(f"Starting Flask app on port {DEFAULT_PORT}")
+    print(f"Recommendation API: {API_URL}")
+    print("Loading catalog data...")
     brands, max_price = load_catalog_data()
     print(f"   Found {len(brands)-1} brands, max price: ${max_price}")
-    print("🌐 Web interface will be available at: http://localhost:3000")
+    print("Web interface will be available at: http://localhost:3000")
     
     app.run(host='0.0.0.0', port=DEFAULT_PORT, debug=True)
