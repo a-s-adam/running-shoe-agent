@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uv venv:*)",
+      "Bash(source:*)",
+      "Bash(uv pip install:*)",
+      "Bash(./OllamaSetup.exe)",
+      "Bash(where:*)",
+      "Bash(ollama pull:*)",
+      "Bash(python:*)",
+      "Bash(uvicorn:*)",
+      "Bash(.venvScriptsactivate)",
+      "Bash(.venvScriptsactivate.bat)",
+      "Bash(ollama serve:*)",
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "Bash(git reset:*)",
+      "Bash(git rm:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

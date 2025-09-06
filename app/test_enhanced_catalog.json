@@ -1,0 +1,53 @@
+[
+  {
+    "brand": "Brooks",
+    "model": "Ghost 17",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 3.0,
+    "weight_g": 286,
+    "enhanced_data": {
+      "reviews": {
+        "count": 0,
+        "average_rating": 0.0,
+        "recent_reviews": []
+      },
+      "description": "",
+      "features": [],
+      "popularity_score": 0,
+      "availability_score": 0
+    },
+    "web_source_url": null,
+    "last_updated": "2025-09-06 12:15:50"
+  },
+  {
+    "brand": "ASICS",
+    "model": "GEL-Kayano 32",
+    "category": [
+      "daily",
+      "easy",
+      "trail"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 298,
+    "enhanced_data": {
+      "reviews": {
+        "count": 0,
+        "average_rating": 0.0,
+        "recent_reviews": []
+      },
+      "description": "",
+      "features": [],
+      "popularity_score": 0,
+      "availability_score": 0
+    },
+    "web_source_url": null,
+    "last_updated": "2025-09-06 12:15:52"
+  }
+]
