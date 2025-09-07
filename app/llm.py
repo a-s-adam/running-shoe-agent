@@ -20,13 +20,36 @@ def build_prompt(inputs: Dict[str, Any], candidates: List[Dict[str, Any]]) -> tu
     with open(os.path.join(here, "prompts", "user_template.txt"), "r", encoding="utf-8") as f:
         user_tmpl = f.read()
 
-    # Small, readable candidate table; include critical fields only
+    # Small, readable candidate table; include critical fields and richer specs when available
     lines = []
     for c in candidates:
-        lines.append(
-            f"- {c['brand']} {c['model']} | cat={','.join(c.get('category', []))} "
-            f"| price=${c.get('price_usd','?')} | plate={c.get('plate','none')} | drop={c.get('drop_mm','?')}mm"
-        )
+        cat = ",".join(c.get('category', []))
+        price = c.get('price_usd', '?')
+        plate = c.get('plate', 'none')
+        drop = c.get('drop_mm', '?')
+        weight = c.get('weight_g', None)
+        cushioning = c.get('cushioning_level', None)
+        support = c.get('support_type', None)
+        heel_stack = c.get('heel_stack_mm', None)
+        fore_stack = c.get('forefoot_stack_mm', None)
+
+        parts = [
+            f"- {c['brand']} {c['model']}",
+            f"cat={cat}",
+            f"price=${price}",
+            f"plate={plate}",
+            f"drop={drop}mm"
+        ]
+        if weight is not None:
+            parts.append(f"weight={weight}g")
+        if cushioning:
+            parts.append(f"cushioning={cushioning}")
+        if support:
+            parts.append(f"support={support}")
+        if heel_stack is not None and fore_stack is not None:
+            parts.append(f"stack={heel_stack}/{fore_stack}mm")
+
+        lines.append(" | ".join(parts))
     candidate_table = "\n".join(lines)
 
     user_str = user_tmpl.replace(

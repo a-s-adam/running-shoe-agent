@@ -9,11 +9,17 @@
     "price_usd": 164.95,
     "plate": "none",
     "drop_mm": 3.0,
-    "weight_g": 286
+    "weight_g": 286,
+    "cushioning_level": null,
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
   },
   {
     "brand": "ASICS",
-    "model": "GEL-Kayano 32",
+    "model": "Gelkayano 32",
     "category": [
       "daily",
       "easy",
@@ -22,11 +28,17 @@
     "price_usd": 164.95,
     "plate": "none",
     "drop_mm": 8.0,
-    "weight_g": 298
+    "weight_g": 298,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
   },
   {
     "brand": "ASICS",
-    "model": "MegaBlast",
+    "model": "Megablast",
     "category": [
       "race",
       "tempo",
@@ -35,11 +47,17 @@
     "price_usd": 224.95,
     "plate": "none",
     "drop_mm": 8.0,
-    "weight_g": 210
+    "weight_g": 210,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": null
   },
   {
     "brand": "ASICS",
-    "model": "METASPEED Ray",
+    "model": "Metaspeed Ray",
     "category": [
       "race",
       "tempo",
@@ -48,7 +66,13 @@
     "price_usd": 299.95,
     "plate": "carbon",
     "drop_mm": 5.0,
-    "weight_g": 119
+    "weight_g": 119,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": null
   },
   {
     "brand": "Brooks",
@@ -60,7 +84,13 @@
     "price_usd": 164.95,
     "plate": "none",
     "drop_mm": 6.0,
-    "weight_g": 306
+    "weight_g": 306,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
   },
   {
     "brand": "Nike",
@@ -72,113 +102,17 @@
     "price_usd": 179.95,
     "plate": "none",
     "drop_mm": 0.0,
-    "weight_g": 295
+    "weight_g": 295,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": null
   },
   {
     "brand": "ASICS",
-    "model": "METASPEED Edge Tokyo",
-    "category": [
-      "race",
-      "tempo",
-      "easy"
-    ],
-    "price_usd": 269.95,
-    "plate": "carbon",
-    "drop_mm": 5.0,
-    "weight_g": 181
-  },
-  {
-    "brand": "Brooks",
-    "model": "Hyperion Elite 5",
-    "category": [
-      "race",
-      "tempo",
-      "easy"
-    ],
-    "price_usd": 274.95,
-    "plate": "none",
-    "drop_mm": 8.0,
-    "weight_g": 201
-  },
-  {
-    "brand": "HOKA",
-    "model": "Arahi 8",
-    "category": [
-      "daily",
-      "easy"
-    ],
-    "price_usd": 174.95,
-    "plate": "none",
-    "drop_mm": 8.0,
-    "weight_g": 278
-  },
-  {
-    "brand": "ASICS",
-    "model": "METASPEED Sky Tokyo",
-    "category": [
-      "race",
-      "tempo",
-      "easy"
-    ],
-    "price_usd": 269.95,
-    "plate": "carbon",
-    "drop_mm": 5.0,
-    "weight_g": 184
-  },
-  {
-    "brand": "New Balance",
-    "model": "FuelCell SuperComp Elite V5",
-    "category": [
-      "race",
-      "tempo",
-      "daily",
-      "easy"
-    ],
-    "price_usd": 264.95,
-    "plate": "carbon",
-    "drop_mm": 8.0,
-    "weight_g": 204
-  },
-  {
-    "brand": "HOKA",
-    "model": "Rocket X 3",
-    "category": [
-      "race",
-      "tempo",
-      "easy"
-    ],
-    "price_usd": 249.95,
-    "plate": "carbon",
-    "drop_mm": 7.0,
-    "weight_g": 224
-  },
-  {
-    "brand": "New Balance",
-    "model": "FuelCell Rebel V5",
-    "category": [
-      "tempo",
-      "easy"
-    ],
-    "price_usd": 199.95,
-    "plate": "none",
-    "drop_mm": 6.0,
-    "weight_g": 196
-  },
-  {
-    "brand": "On",
-    "model": "Cloudsurfer Max",
-    "category": [
-      "daily",
-      "easy"
-    ],
-    "price_usd": 179.95,
-    "plate": "none",
-    "drop_mm": 6.0,
-    "weight_g": 292
-  },
-  {
-    "brand": "ASICS",
-    "model": "GT-2000 14",
+    "model": "Gt2000 14",
     "category": [
       "daily",
       "easy"
@@ -186,398 +120,13 @@
     "price_usd": 164.95,
     "plate": "none",
     "drop_mm": 8.0,
-    "weight_g": 269
-  },
-  {
-    "brand": "On",
-    "model": "Cloudboom Max",
-    "category": [
-      "race",
-      "tempo",
-      "easy"
-    ],
-    "price_usd": 229.95,
-    "plate": "none",
-    "drop_mm": 4.0,
-    "weight_g": 295
-  },
-  {
-    "brand": "Brooks",
-    "model": "Hyperion Max 3",
-    "category": [
-      "race",
-      "tempo",
-      "easy"
-    ],
-    "price_usd": 199.95,
-    "plate": "none",
-    "drop_mm": 6.0,
-    "weight_g": 281
-  },
-  {
-    "brand": "New Balance",
-    "model": "Fresh Foam X More V6",
-    "category": [
-      "daily",
-      "easy"
-    ],
-    "price_usd": 199.95,
-    "plate": "none",
-    "drop_mm": 4.0,
-    "weight_g": 312
-  },
-  {
-    "brand": "Saucony",
-    "model": "Hurricane 25",
-    "category": [
-      "race",
-      "tempo",
-      "daily",
-      "easy"
-    ],
-    "price_usd": 174.95,
-    "plate": "none",
-    "drop_mm": 6.0,
-    "weight_g": 284
-  },
-  {
-    "brand": "Brooks",
-    "model": "Ghost 17 GTX",
-    "category": [
-      "daily",
-      "easy"
-    ],
-    "price_usd": 169.95,
-    "plate": "none",
-    "drop_mm": 0.0,
-    "weight_g": 320
-  },
-  {
-    "brand": "Nike",
-    "model": "Structure 26",
-    "category": [
-      "tempo",
-      "daily",
-      "easy",
-      "trail"
-    ],
-    "price_usd": 144.95,
-    "plate": "none",
-    "drop_mm": 0.0,
-    "weight_g": 315
-  },
-  {
-    "brand": "Saucony",
-    "model": "Kinvara 16",
-    "category": [
-      "tempo",
-      "daily",
-      "easy"
-    ],
-    "price_usd": 174.95,
-    "plate": "none",
-    "drop_mm": 4.0,
-    "weight_g": 207
-  },
-  {
-    "brand": "ASICS",
-    "model": "SonicBlast",
-    "category": [
-      "race",
-      "tempo",
-      "daily",
-      "easy"
-    ],
-    "price_usd": 179.95,
-    "plate": "none",
-    "drop_mm": 7.0,
-    "weight_g": null
-  },
-  {
-    "brand": "Brooks",
-    "model": "Hyperion 3",
-    "category": [
-      "tempo",
-      "daily",
-      "easy"
-    ],
-    "price_usd": 164.95,
-    "plate": "none",
-    "drop_mm": 8.0,
-    "weight_g": 232
-  },
-  {
-    "brand": "HOKA",
-    "model": "Mach X 3",
-    "category": [
-      "race",
-      "tempo",
-      "daily",
-      "easy"
-    ],
-    "price_usd": 189.95,
-    "plate": "none",
-    "drop_mm": 5.0,
-    "weight_g": 289
-  },
-  {
-    "brand": "Brooks",
-    "model": "Adrenaline GTS 24",
-    "category": [
-      "daily",
-      "easy"
-    ],
-    "price_usd": 164.95,
-    "plate": "none",
-    "drop_mm": 2.0,
-    "weight_g": 284
-  },
-  {
-    "brand": "HOKA",
-    "model": "Bondi 9",
-    "category": [
-      "tempo",
-      "daily",
-      "easy"
-    ],
-    "price_usd": 174.95,
-    "plate": "none",
-    "drop_mm": 5.0,
-    "weight_g": 298
-  },
-  {
-    "brand": "ASICS",
-    "model": "GEL-Nimbus 27",
-    "category": [
-      "easy"
-    ],
-    "price_usd": 164.95,
-    "plate": "none",
-    "drop_mm": 8.0,
-    "weight_g": 309
-  },
-  {
-    "brand": "HOKA",
-    "model": "Clifton 10",
-    "category": [
-      "tempo",
-      "daily",
-      "easy"
-    ],
-    "price_usd": 174.95,
-    "plate": "none",
-    "drop_mm": 3.0,
-    "weight_g": 272
-  },
-  {
-    "brand": "ASICS",
-    "model": "GT-2000 13",
-    "category": [
-      "tempo",
-      "easy"
-    ],
-    "price_usd": 164.95,
-    "plate": "none",
-    "drop_mm": 8.0,
-    "weight_g": 269
-  },
-  {
-    "brand": "Brooks",
-    "model": "Glycerin 22",
-    "category": [
-      "easy"
-    ],
-    "price_usd": 164.95,
-    "plate": "none",
-    "drop_mm": 0.0,
-    "weight_g": 289
-  },
-  {
-    "brand": "ASICS",
-    "model": "SuperBlast 2",
-    "category": [
-      "race",
-      "tempo",
-      "daily",
-      "easy"
-    ],
-    "price_usd": 199.95,
-    "plate": "none",
-    "drop_mm": 8.0,
-    "weight_g": 249
-  },
-  {
-    "brand": "New Balance",
-    "model": "Fresh Foam X 1080v14",
-    "category": [
-      "daily",
-      "easy"
-    ],
-    "price_usd": 164.95,
-    "plate": "none",
-    "drop_mm": 6.0,
-    "weight_g": 261
-  },
-  {
-    "brand": "Brooks",
-    "model": "Ghost 16",
-    "category": [
-      "race",
-      "easy"
-    ],
-    "price_usd": 164.95,
-    "plate": "none",
-    "drop_mm": 2.0,
-    "weight_g": 269
-  },
-  {
-    "brand": "HOKA",
-    "model": "Mach 6",
-    "category": [
-      "tempo",
-      "daily",
-      "easy"
-    ],
-    "price_usd": 174.95,
-    "plate": "none",
-    "drop_mm": null,
-    "weight_g": 230
-  },
-  {
-    "brand": "Brooks",
-    "model": "Beast GTS 24",
-    "category": [
-      "easy"
-    ],
-    "price_usd": 164.95,
-    "plate": "none",
-    "drop_mm": 2.0,
-    "weight_g": 352
-  },
-  {
-    "brand": "ASICS",
-    "model": "GEL-Kayano 31",
-    "category": [
-      "daily",
-      "easy"
-    ],
-    "price_usd": 164.95,
-    "plate": "none",
-    "drop_mm": 0.0,
-    "weight_g": 303
-  },
-  {
-    "brand": "ASICS",
-    "model": "NovaBlast 5",
-    "category": [
-      "daily",
-      "easy"
-    ],
-    "price_usd": 149.95,
-    "plate": "none",
-    "drop_mm": 8.0,
-    "weight_g": 255
-  },
-  {
-    "brand": "New Balance",
-    "model": "990v6",
-    "category": [
-      "daily",
-      "easy"
-    ],
-    "price_usd": 199.95,
-    "plate": "none",
-    "drop_mm": null,
-    "weight_g": null
-  },
-  {
-    "brand": "Nike",
-    "model": "Pegasus 41",
-    "category": [
-      "daily",
-      "easy"
-    ],
-    "price_usd": 144.95,
-    "plate": "none",
-    "drop_mm": 0.0,
-    "weight_g": 289
-  },
-  {
-    "brand": "On",
-    "model": "Cloud 6",
-    "category": [
-      "tempo",
-      "daily",
-      "easy"
-    ],
-    "price_usd": 159.95,
-    "plate": "none",
-    "drop_mm": 8.0,
-    "weight_g": 230
-  },
-  {
-    "brand": "Brooks",
-    "model": "Glycerin Max",
-    "category": [
-      "race",
-      "daily",
-      "easy"
-    ],
-    "price_usd": 199.95,
-    "plate": "none",
-    "drop_mm": 6.0,
-    "weight_g": 298
-  },
-  {
-    "brand": "Brooks",
-    "model": "Ghost Max 2",
-    "category": [
-      "race",
-      "tempo",
-      "easy"
-    ],
-    "price_usd": 164.95,
-    "plate": "none",
-    "drop_mm": 6.0,
-    "weight_g": 306
-  },
-  {
-    "brand": "HOKA",
-    "model": "Gaviota 5",
-    "category": [
-      "easy",
-      "trail"
-    ],
-    "price_usd": 174.95,
-    "plate": "none",
-    "drop_mm": 6.0,
-    "weight_g": 323
-  },
-  {
-    "brand": "ASICS",
-    "model": "Metaspeed Edge Tokyo",
-    "category": [
-      "race",
-      "tempo",
-      "easy"
-    ],
-    "price_usd": 269.95,
-    "plate": "carbon",
-    "drop_mm": 5.0,
-    "weight_g": 181
-  },
-  {
-    "brand": "ASICS",
-    "model": "Metaspeed Sky Tokyo",
-    "category": [
-      "race",
-      "tempo",
-      "easy"
-    ],
-    "price_usd": 269.95,
-    "plate": "carbon",
-    "drop_mm": 5.0,
-    "weight_g": 184
+    "weight_g": 269,
+    "cushioning_level": null,
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
   },
   {
     "brand": "New Balance",
@@ -591,31 +140,54 @@
     "price_usd": 264.95,
     "plate": "carbon",
     "drop_mm": 8.0,
-    "weight_g": 204
+    "weight_g": 204,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": [
+      "marathon"
+    ],
+    "has_wide_options": true
   },
   {
-    "brand": "New Balance",
-    "model": "Fuelcell Rebel V5",
+    "brand": "On",
+    "model": "Cloudboom Max",
     "category": [
+      "race",
       "tempo",
       "easy"
     ],
-    "price_usd": 199.95,
+    "price_usd": 229.95,
     "plate": "none",
-    "drop_mm": 6.0,
-    "weight_g": 196
+    "drop_mm": 4.0,
+    "weight_g": 295,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": [
+      "marathon"
+    ],
+    "has_wide_options": null
   },
   {
-    "brand": "ASICS",
-    "model": "Gt2000 14",
+    "brand": "New Balance",
+    "model": "Fresh Foam X More V6",
     "category": [
       "daily",
       "easy"
     ],
-    "price_usd": 164.95,
+    "price_usd": 199.95,
     "plate": "none",
-    "drop_mm": 8.0,
-    "weight_g": 269
+    "drop_mm": 4.0,
+    "weight_g": 312,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
   },
   {
     "brand": "Brooks",
@@ -627,7 +199,33 @@
     "price_usd": 169.95,
     "plate": "none",
     "drop_mm": 0.0,
-    "weight_g": 320
+    "weight_g": 320,
+    "cushioning_level": "moderate",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": null
+  },
+  {
+    "brand": "HOKA",
+    "model": "Mach X 3",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 189.95,
+    "plate": "none",
+    "drop_mm": 5.0,
+    "weight_g": 289,
+    "cushioning_level": null,
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": null
   },
   {
     "brand": "ASICS",
@@ -641,7 +239,50 @@
     "price_usd": 179.95,
     "plate": "none",
     "drop_mm": 7.0,
-    "weight_g": null
+    "weight_g": null,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": null
+  },
+  {
+    "brand": "Brooks",
+    "model": "Adrenaline Gts 24",
+    "category": [
+      "easy",
+      "trail"
+    ],
+    "price_usd": 139.95,
+    "plate": "none",
+    "drop_mm": 2.0,
+    "weight_g": 284,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "HOKA",
+    "model": "Bondi 9",
+    "category": [
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 174.95,
+    "plate": "none",
+    "drop_mm": 5.0,
+    "weight_g": 298,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
   },
   {
     "brand": "HOKA",
@@ -654,19 +295,13 @@
     "price_usd": 174.95,
     "plate": "none",
     "drop_mm": 5.0,
-    "weight_g": 247
-  },
-  {
-    "brand": "Brooks",
-    "model": "Adrenaline Gts 24",
-    "category": [
-      "daily",
-      "easy"
-    ],
-    "price_usd": 164.95,
-    "plate": "none",
-    "drop_mm": 2.0,
-    "weight_g": 284
+    "weight_g": 247,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": null
   },
   {
     "brand": "HOKA",
@@ -676,10 +311,18 @@
       "tempo",
       "easy"
     ],
-    "price_usd": 174.95,
+    "price_usd": 144.95,
     "plate": "none",
     "drop_mm": null,
-    "weight_g": 278
+    "weight_g": 278,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": [
+      "marathon"
+    ],
+    "has_wide_options": true
   },
   {
     "brand": "ASICS",
@@ -690,7 +333,33 @@
     "price_usd": 164.95,
     "plate": "none",
     "drop_mm": 8.0,
-    "weight_g": 309
+    "weight_g": 309,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "HOKA",
+    "model": "Clifton 10",
+    "category": [
+      "tempo",
+      "daily",
+      "easy",
+      "trail"
+    ],
+    "price_usd": 174.95,
+    "plate": "none",
+    "drop_mm": 3.0,
+    "weight_g": 272,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
   },
   {
     "brand": "ASICS",
@@ -702,7 +371,31 @@
     "price_usd": 164.95,
     "plate": "none",
     "drop_mm": 8.0,
-    "weight_g": 269
+    "weight_g": 269,
+    "cushioning_level": null,
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "Brooks",
+    "model": "Glycerin 22",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 289,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
   },
   {
     "brand": "ASICS",
@@ -716,7 +409,13 @@
     "price_usd": 199.95,
     "plate": "none",
     "drop_mm": 8.0,
-    "weight_g": 249
+    "weight_g": 249,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": null
   },
   {
     "brand": "New Balance",
@@ -728,54 +427,13 @@
     "price_usd": 199.95,
     "plate": "none",
     "drop_mm": 6.0,
-    "weight_g": 261
-  },
-  {
-    "brand": "Brooks",
-    "model": "Beast Gts 24",
-    "category": [
-      "easy"
-    ],
-    "price_usd": 159.95,
-    "plate": "none",
-    "drop_mm": 2.0,
-    "weight_g": 352
-  },
-  {
-    "brand": "Brooks",
-    "model": "Glycerin 21",
-    "category": [
-      "daily",
-      "easy"
-    ],
-    "price_usd": 164.95,
-    "plate": "none",
-    "drop_mm": 0.0,
-    "weight_g": 284
-  },
-  {
-    "brand": "ASICS",
-    "model": "Gelkayano 31",
-    "category": [
-      "daily",
-      "easy"
-    ],
-    "price_usd": 164.95,
-    "plate": "none",
-    "drop_mm": 0.0,
-    "weight_g": 303
-  },
-  {
-    "brand": "ASICS",
-    "model": "Novablast 5",
-    "category": [
-      "daily",
-      "easy"
-    ],
-    "price_usd": 164.95,
-    "plate": "none",
-    "drop_mm": 8.0,
-    "weight_g": 255
+    "weight_g": 261,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
   },
   {
     "brand": "New Balance",
@@ -787,31 +445,185 @@
     "price_usd": 199.95,
     "plate": "none",
     "drop_mm": null,
-    "weight_g": null
+    "weight_g": null,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
   },
   {
-    "brand": "Saucony",
-    "model": "Triumph 22",
+    "brand": "Brooks",
+    "model": "Beast Gts 24",
+    "category": [
+      "easy"
+    ],
+    "price_usd": 159.95,
+    "plate": "none",
+    "drop_mm": 2.0,
+    "weight_g": 352,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "Brooks",
+    "model": "Glycerin 21",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 284,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": [
+      "5k"
+    ],
+    "has_wide_options": true
+  },
+  {
+    "brand": "Brooks",
+    "model": "Ghost 16",
+    "category": [
+      "race",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 2.0,
+    "weight_g": 269,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "ASICS",
+    "model": "Novablast 5",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 149.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 255,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": [
+      "marathon"
+    ],
+    "has_wide_options": null
+  },
+  {
+    "brand": "HOKA",
+    "model": "Mach 6",
     "category": [
       "tempo",
+      "daily",
       "easy"
     ],
     "price_usd": 174.95,
     "plate": "none",
-    "drop_mm": 0.0,
-    "weight_g": 286
+    "drop_mm": null,
+    "weight_g": 230,
+    "cushioning_level": null,
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": [
+      "half_marathon",
+      "marathon"
+    ],
+    "has_wide_options": null
   },
   {
-    "brand": "New Balance",
-    "model": "Fresh Foam X 860V14",
+    "brand": "Brooks",
+    "model": "Ghost Max 2",
     "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 6.0,
+    "weight_g": 306,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "On",
+    "model": "Cloud 6",
+    "category": [
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 159.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 230,
+    "cushioning_level": null,
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "Nike",
+    "model": "Pegasus 41",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 144.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 289,
+    "cushioning_level": null,
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "Brooks",
+    "model": "Glycerin Max",
+    "category": [
+      "race",
       "daily",
       "easy"
     ],
     "price_usd": 199.95,
     "plate": "none",
-    "drop_mm": 8.0,
-    "weight_g": 306
+    "drop_mm": 6.0,
+    "weight_g": 298,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
   },
   {
     "brand": "Saucony",
@@ -825,7 +637,164 @@
     "price_usd": 239.95,
     "plate": "carbon",
     "drop_mm": null,
-    "weight_g": 213
+    "weight_g": 213,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": [
+      "marathon"
+    ],
+    "has_wide_options": null
+  },
+  {
+    "brand": "ASICS",
+    "model": "Gelkayano 31",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 303,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "New Balance",
+    "model": "Fresh Foam X 860V14",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 199.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 306,
+    "cushioning_level": "moderate",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "Saucony",
+    "model": "Triumph 22",
+    "category": [
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 239.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 286,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "Brooks",
+    "model": "Glycerin Gts 22",
+    "category": [
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 303,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "ASICS",
+    "model": "Metaspeed Edge Tokyo",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 269.95,
+    "plate": "carbon",
+    "drop_mm": 5.0,
+    "weight_g": 181,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": [
+      "10k",
+      "5k"
+    ],
+    "has_wide_options": null
+  },
+  {
+    "brand": "HOKA",
+    "model": "Gaviota 5",
+    "category": [
+      "easy",
+      "trail"
+    ],
+    "price_usd": 174.95,
+    "plate": "none",
+    "drop_mm": 6.0,
+    "weight_g": 323,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "On",
+    "model": "Cloudrunner 2",
+    "category": [
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 159.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 281,
+    "cushioning_level": null,
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "ASICS",
+    "model": "Gelcumulus 27",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 139.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 264,
+    "cushioning_level": null,
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
   },
   {
     "brand": "Nike",
@@ -839,44 +808,357 @@
     "price_usd": 294.95,
     "plate": "carbon",
     "drop_mm": 8.0,
-    "weight_g": 218
-  },
-  {
-    "brand": "Brooks",
-    "model": "Glycerin Gts 22",
-    "category": [
-      "easy"
+    "weight_g": 218,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": [
+      "half_marathon",
+      "marathon"
     ],
-    "price_usd": 164.95,
-    "plate": "none",
-    "drop_mm": 0.0,
-    "weight_g": 303
+    "has_wide_options": true
   },
   {
-    "brand": "On",
-    "model": "Cloudrunner 2",
-    "category": [
-      "tempo",
-      "easy"
-    ],
-    "price_usd": 159.95,
-    "plate": "none",
-    "drop_mm": 0.0,
-    "weight_g": 281
-  },
-  {
-    "brand": "ASICS",
-    "model": "Gelcumulus 27",
+    "brand": "Saucony",
+    "model": "Endorphin Speed 5",
     "category": [
       "race",
       "tempo",
       "daily",
       "easy"
     ],
+    "price_usd": 239.95,
+    "plate": "nylon",
+    "drop_mm": 8.0,
+    "weight_g": 235,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": null
+  },
+  {
+    "brand": "HOKA",
+    "model": "Arahi 8",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 174.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 278,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "Nike",
+    "model": "Zoomx Vaporfly Next 4",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 269.95,
+    "plate": "none",
+    "drop_mm": 6.0,
+    "weight_g": null,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": [
+      "5k",
+      "half_marathon",
+      "marathon"
+    ],
+    "has_wide_options": true
+  },
+  {
+    "brand": "Brooks",
+    "model": "Hyperion Elite 5",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 274.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 201,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": null
+  },
+  {
+    "brand": "Saucony",
+    "model": "Endorphin Elite 2",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 289.95,
+    "plate": "carbon",
+    "drop_mm": 8.0,
+    "weight_g": 198,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": null
+  },
+  {
+    "brand": "ASICS",
+    "model": "GT-2000 14",
+    "category": [
+      "daily",
+      "easy"
+    ],
     "price_usd": 164.95,
     "plate": "none",
     "drop_mm": 8.0,
-    "weight_g": 264
+    "weight_g": 269,
+    "cushioning_level": null,
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "New Balance",
+    "model": "FuelCell SuperComp Elite V5",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 264.95,
+    "plate": "carbon",
+    "drop_mm": 8.0,
+    "weight_g": 204,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": [
+      "marathon"
+    ],
+    "has_wide_options": true
+  },
+  {
+    "brand": "Brooks",
+    "model": "Ghost 17 GTX",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 169.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 320,
+    "cushioning_level": "moderate",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": null
+  },
+  {
+    "brand": "ASICS",
+    "model": "SonicBlast",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 179.95,
+    "plate": "none",
+    "drop_mm": 7.0,
+    "weight_g": null,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": null
+  },
+  {
+    "brand": "Brooks",
+    "model": "Adrenaline GTS 24",
+    "category": [
+      "easy",
+      "trail"
+    ],
+    "price_usd": 139.95,
+    "plate": "none",
+    "drop_mm": 2.0,
+    "weight_g": 284,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "ASICS",
+    "model": "GEL-Nimbus 27",
+    "category": [
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 309,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "ASICS",
+    "model": "GT-2000 13",
+    "category": [
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 269,
+    "cushioning_level": null,
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "ASICS",
+    "model": "SuperBlast 2",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 199.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 249,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": null
+  },
+  {
+    "brand": "New Balance",
+    "model": "Fresh Foam X 1080v14",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 199.95,
+    "plate": "none",
+    "drop_mm": 6.0,
+    "weight_g": 261,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "New Balance",
+    "model": "990v6",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 199.95,
+    "plate": "none",
+    "drop_mm": null,
+    "weight_g": null,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "Brooks",
+    "model": "Beast GTS 24",
+    "category": [
+      "easy"
+    ],
+    "price_usd": 159.95,
+    "plate": "none",
+    "drop_mm": 2.0,
+    "weight_g": 352,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "ASICS",
+    "model": "NovaBlast 5",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 149.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 255,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": [
+      "marathon"
+    ],
+    "has_wide_options": null
+  },
+  {
+    "brand": "ASICS",
+    "model": "GEL-Kayano 31",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 303,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
   },
   {
     "brand": "New Balance",
@@ -888,7 +1170,72 @@
     "price_usd": 199.95,
     "plate": "none",
     "drop_mm": 8.0,
-    "weight_g": 306
+    "weight_g": 306,
+    "cushioning_level": "moderate",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "Brooks",
+    "model": "Glycerin GTS 22",
+    "category": [
+      "easy"
+    ],
+    "price_usd": 164.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 303,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "ASICS",
+    "model": "METASPEED Edge Tokyo",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 269.95,
+    "plate": "carbon",
+    "drop_mm": 5.0,
+    "weight_g": 181,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": [
+      "10k",
+      "5k"
+    ],
+    "has_wide_options": null
+  },
+  {
+    "brand": "ASICS",
+    "model": "GEL-Cumulus 27",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 139.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 264,
+    "cushioning_level": null,
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
   },
   {
     "brand": "Nike",
@@ -902,32 +1249,16 @@
     "price_usd": 294.95,
     "plate": "carbon",
     "drop_mm": 8.0,
-    "weight_g": 218
-  },
-  {
-    "brand": "Brooks",
-    "model": "Glycerin GTS 22",
-    "category": [
-      "easy"
+    "weight_g": 218,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": [
+      "half_marathon",
+      "marathon"
     ],
-    "price_usd": 164.95,
-    "plate": "none",
-    "drop_mm": 0.0,
-    "weight_g": 303
-  },
-  {
-    "brand": "ASICS",
-    "model": "GEL-Cumulus 27",
-    "category": [
-      "race",
-      "tempo",
-      "daily",
-      "easy"
-    ],
-    "price_usd": 164.95,
-    "plate": "none",
-    "drop_mm": 8.0,
-    "weight_g": 264
+    "has_wide_options": true
   },
   {
     "brand": "Nike",
@@ -940,7 +1271,17 @@
     "price_usd": 269.95,
     "plate": "none",
     "drop_mm": 6.0,
-    "weight_g": null
+    "weight_g": null,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": [
+      "5k",
+      "half_marathon",
+      "marathon"
+    ],
+    "has_wide_options": true
   },
   {
     "brand": "New Balance",
@@ -952,34 +1293,13 @@
     "price_usd": 199.95,
     "plate": "none",
     "drop_mm": 6.0,
-    "weight_g": 275
-  },
-  {
-    "brand": "Saucony",
-    "model": "Endorphin Elite 2",
-    "category": [
-      "race",
-      "tempo",
-      "easy"
-    ],
-    "price_usd": 289.95,
-    "plate": "carbon",
-    "drop_mm": 8.0,
-    "weight_g": 198
-  },
-  {
-    "brand": "Saucony",
-    "model": "Endorphin Speed 5",
-    "category": [
-      "race",
-      "tempo",
-      "daily",
-      "easy"
-    ],
-    "price_usd": 174.95,
-    "plate": "nylon",
-    "drop_mm": 8.0,
-    "weight_g": 235
+    "weight_g": 275,
+    "cushioning_level": null,
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
   },
   {
     "brand": "Nike",
@@ -991,7 +1311,93 @@
     "price_usd": 154.95,
     "plate": "none",
     "drop_mm": 0.0,
-    "weight_g": 255
+    "weight_g": 255,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "Saucony",
+    "model": "Triumph 23",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy",
+      "trail"
+    ],
+    "price_usd": 239.95,
+    "plate": "none",
+    "drop_mm": 0.0,
+    "weight_g": 261,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
+  },
+  {
+    "brand": "HOKA",
+    "model": "Rocket X 3",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 249.95,
+    "plate": "carbon",
+    "drop_mm": 7.0,
+    "weight_g": 224,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": null
+  },
+  {
+    "brand": "ASICS",
+    "model": "METASPEED Sky Tokyo",
+    "category": [
+      "race",
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 269.95,
+    "plate": "carbon",
+    "drop_mm": 5.0,
+    "weight_g": 184,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": null
+  },
+  {
+    "brand": "Saucony",
+    "model": "Ride 18",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 239.95,
+    "plate": "none",
+    "drop_mm": 8.0,
+    "weight_g": 258,
+    "cushioning_level": "firm",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": [
+      "half_marathon",
+      "marathon"
+    ],
+    "has_wide_options": true
   },
   {
     "brand": "On",
@@ -1004,35 +1410,68 @@
     "price_usd": 169.95,
     "plate": "none",
     "drop_mm": 9.0,
-    "weight_g": 301
+    "weight_g": 301,
+    "cushioning_level": null,
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": null
   },
   {
-    "brand": "Saucony",
-    "model": "Ride 18",
+    "brand": "New Balance",
+    "model": "FuelCell Rebel V5",
     "category": [
       "tempo",
-      "daily",
       "easy"
     ],
-    "price_usd": 174.95,
+    "price_usd": 199.95,
     "plate": "none",
-    "drop_mm": 8.0,
-    "weight_g": 258
+    "drop_mm": 6.0,
+    "weight_g": 196,
+    "cushioning_level": "firm",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": null
   },
   {
-    "brand": "Saucony",
-    "model": "Triumph 23",
+    "brand": "Brooks",
+    "model": "Hyperion Max 3",
     "category": [
       "race",
       "tempo",
-      "daily",
-      "easy",
-      "trail"
+      "easy"
     ],
-    "price_usd": 174.95,
+    "price_usd": 199.95,
     "plate": "none",
-    "drop_mm": 0.0,
-    "weight_g": 261
+    "drop_mm": 6.0,
+    "weight_g": 281,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": null
+  },
+  {
+    "brand": "On",
+    "model": "Cloudsurfer Max",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 179.95,
+    "plate": "none",
+    "drop_mm": 6.0,
+    "weight_g": 292,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
   },
   {
     "brand": "Nike",
@@ -1040,52 +1479,18 @@
     "category": [
       "race",
       "tempo",
-      "easy",
-      "trail"
+      "easy"
     ],
     "price_usd": 189.95,
     "plate": "carbon",
     "drop_mm": 4.0,
-    "weight_g": null
-  },
-  {
-    "brand": "HOKA",
-    "model": "Bondi SR",
-    "category": [
-      "daily",
-      "easy"
-    ],
-    "price_usd": 179.95,
-    "plate": "none",
-    "drop_mm": 4.0,
-    "weight_g": null
-  },
-  {
-    "brand": "Brooks",
-    "model": "Hyperion 2",
-    "category": [
-      "race",
-      "tempo",
-      "daily",
-      "easy"
-    ],
-    "price_usd": 164.95,
-    "plate": "carbon",
-    "drop_mm": 8.0,
-    "weight_g": 193
-  },
-  {
-    "brand": "Nike",
-    "model": "ZoomX Vaporfly Next 3",
-    "category": [
-      "race",
-      "tempo",
-      "easy"
-    ],
-    "price_usd": 259.95,
-    "plate": "carbon",
-    "drop_mm": null,
-    "weight_g": null
+    "weight_g": null,
+    "cushioning_level": null,
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": null
   },
   {
     "brand": "Brooks",
@@ -1097,7 +1502,73 @@
     "price_usd": 164.95,
     "plate": "none",
     "drop_mm": 2.0,
-    "weight_g": 346
+    "weight_g": 346,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": [
+      "5k",
+      "marathon"
+    ],
+    "has_wide_options": true
+  },
+  {
+    "brand": "HOKA",
+    "model": "Bondi SR",
+    "category": [
+      "daily",
+      "easy"
+    ],
+    "price_usd": 179.95,
+    "plate": "none",
+    "drop_mm": 4.0,
+    "weight_g": null,
+    "cushioning_level": "plush",
+    "support_type": "neutral",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": null
+  },
+  {
+    "brand": "Saucony",
+    "model": "Hurricane 25",
+    "category": [
+      "race",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 169.95,
+    "plate": "none",
+    "drop_mm": 6.0,
+    "weight_g": 284,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": [
+      "marathon"
+    ],
+    "has_wide_options": true
+  },
+  {
+    "brand": "Saucony",
+    "model": "Guide 18",
+    "category": [
+      "tempo",
+      "easy"
+    ],
+    "price_usd": 239.95,
+    "plate": "none",
+    "drop_mm": null,
+    "weight_g": null,
+    "cushioning_level": null,
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
   },
   {
     "brand": "Nike",
@@ -1111,18 +1582,57 @@
     "price_usd": 179.95,
     "plate": "carbon",
     "drop_mm": 8.0,
-    "weight_g": 264
+    "weight_g": 264,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": null,
+    "has_wide_options": true
   },
   {
-    "brand": "Saucony",
-    "model": "Guide 18",
+    "brand": "On",
+    "model": "Cloudmonster 2",
     "category": [
       "tempo",
+      "daily",
       "easy"
     ],
-    "price_usd": 174.95,
+    "price_usd": 179.95,
     "plate": "none",
-    "drop_mm": null,
-    "weight_g": null
+    "drop_mm": 6.0,
+    "weight_g": 295,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": [
+      "marathon"
+    ],
+    "has_wide_options": true
+  },
+  {
+    "brand": "HOKA",
+    "model": "Cielo X1 2",
+    "category": [
+      "race",
+      "tempo",
+      "daily",
+      "easy"
+    ],
+    "price_usd": 274.95,
+    "plate": "carbon",
+    "drop_mm": 7.0,
+    "weight_g": 232,
+    "cushioning_level": "plush",
+    "support_type": "stability",
+    "heel_stack_mm": null,
+    "forefoot_stack_mm": null,
+    "best_for_distances": [
+      "5k",
+      "half_marathon",
+      "marathon"
+    ],
+    "has_wide_options": true
   }
 ]

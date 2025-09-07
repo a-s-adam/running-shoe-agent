@@ -394,6 +394,47 @@ def extract_product_specs_from_text(page_text: str) -> Dict:
                     # Convert ounces to grams (1 oz = 28.35g)
                     specs["weight_g"] = round(float(group) * 28.35)
                     break
+
+        # Cushioning level from descriptive cues
+        lower = page_text.lower()
+        if any(k in lower for k in ["max cushion", "max cushioning", "plush cushioning", "super soft", "ultra plush"]):
+            specs["cushioning_level"] = "plush"
+        elif any(k in lower for k in ["balanced cushion", "moderate cushion", "daily trainer cushion", "medium cushioning", "balanced ride"]):
+            specs["cushioning_level"] = "moderate"
+        elif any(k in lower for k in ["firm ride", "responsive ride", "snappy feel", "racing feel", "stiff ride"]):
+            specs["cushioning_level"] = "firm"
+
+        # Support type (neutral vs stability cues)
+        if any(k in lower for k in ["stability shoe", "pronation support", "medial post", "guide rails", "stabil", "support shoe"]):
+            specs["support_type"] = "stability"
+        elif "neutral" in lower:
+            specs["support_type"] = "neutral"
+
+        # Stack heights: patterns like "39mm heel / 31mm forefoot" or "39mm/31mm"
+        m = re.search(r"(heel\s*)?(stack\s*)?[:\-]?\s*(\d{2})\s*mm\s*(heel)?\s*[/,\-\s]+\s*(\d{2})\s*mm\s*(forefoot)?", page_text, re.IGNORECASE)
+        if m:
+            try:
+                specs["heel_stack_mm"] = float(m.group(3))
+                specs["forefoot_stack_mm"] = float(m.group(5))
+            except Exception:
+                pass
+
+        # Race distance cues
+        distances = []
+        if re.search(r"\b5k\b", lower):
+            distances.append("5k")
+        if re.search(r"\b10k\b", lower):
+            distances.append("10k")
+        if "half marathon" in lower or "half-marathon" in lower:
+            distances.append("half_marathon")
+        if "marathon" in lower:
+            distances.append("marathon")
+        if distances:
+            specs["best_for_distances"] = sorted(set(distances))
+
+        # Width options
+        if any(k in lower for k in ["wide", "2e", "4e"]):
+            specs["has_wide_options"] = True
         
         # Look for specific specs in the "NUTS & BOLTS" section
         # Note: This section requires driver access, so we'll skip it for now
@@ -583,7 +624,13 @@ def main():
                         "price_usd": price or 0.0,
                         "plate": specs.get("plate", "none"),
                         "drop_mm": specs.get("drop_mm"),
-                        "weight_g": specs.get("weight_g")
+                        "weight_g": specs.get("weight_g"),
+                        "cushioning_level": specs.get("cushioning_level"),
+                        "support_type": specs.get("support_type"),
+                        "heel_stack_mm": specs.get("heel_stack_mm"),
+                        "forefoot_stack_mm": specs.get("forefoot_stack_mm"),
+                        "best_for_distances": specs.get("best_for_distances"),
+                        "has_wide_options": specs.get("has_wide_options")
                     }
                     
                     # Add additional fields for verification

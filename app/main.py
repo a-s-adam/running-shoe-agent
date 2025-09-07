@@ -57,11 +57,12 @@ async def recommend_shoes(request: RecommendationRequest) -> RecommendationRespo
             why_llm_list.append(why_llm_list[-1] if why_llm_list else "Good fit for your needs")
         why_llm_list = why_llm_list[:len(candidates)]
         
-        # Step 4: Build initial shortlist with LLM quality scoring
+        # Step 4: Build initial shortlist with LLM quality scoring and ensure depth
         shortlist = []
         for i, candidate in enumerate(candidates):
             # Get LLM quality multiplier and adjust score
-            quality_multiplier = recommender.incorporate_llm_quality_score(candidate, why_llm_list[i])
+            enriched_why = recommender.ensure_explanation_depth(candidate, request, why_llm_list[i])
+            quality_multiplier = recommender.incorporate_llm_quality_score(candidate, enriched_why)
             adjusted_score = min(1.0, candidate["score"] * quality_multiplier)
             
             shortlist.append(RecommendationItem(
@@ -73,7 +74,7 @@ async def recommend_shoes(request: RecommendationRequest) -> RecommendationRespo
                 drop_mm=candidate.get("drop_mm"),
                 weight_g=candidate.get("weight_g"),
                 why_rules=recommender.generate_why_rules(candidate, request),
-                why_llm=why_llm_list[i],
+                why_llm=enriched_why,
                 score=adjusted_score
             ))
         
