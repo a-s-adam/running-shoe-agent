@@ -106,7 +106,7 @@ def find_pagination_links(driver: webdriver.Chrome) -> List[str]:
         return page_urls
         
     except Exception as e:
-        print(f"⚠️ Error finding pagination: {e}")
+        print(f"Error finding pagination: {e}")
         # Fallback to current page
         return [driver.current_url]
 
@@ -553,12 +553,12 @@ def main():
     all_products = []
     
     try:
-        print(f"🚀 Starting enhanced scraper for Road Runner Sports")
-        print(f"📍 Base URL: {args.url}")
-        print(f"⚙️  Settings: throttle={args.throttle}s, retries={args.retries}")
+        print(f"Starting enhanced scraper for Road Runner Sports")
+        print(f"Base URL: {args.url}")
+        print(f"Settings: throttle={args.throttle}s, retries={args.retries}")
         
         # Find all pagination links
-        print(f"🔍 Loading initial page to find pagination...")
+        print(f"Loading initial page to find pagination...")
         driver.get(args.url)
         WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, 'a[href^="/product/"]'))
@@ -653,7 +653,7 @@ def main():
                     break
                     
             except Exception as e:
-                print(f"  ⚠️ Error processing page {page_url}: {e}")
+                print(f"  Error processing page {page_url}: {e}")
                 continue
 
         # Final deduplication across all pages
@@ -716,7 +716,7 @@ def main():
             print(f"  {brand}: {count} products ({percentage:.1f}%)")
 
     except Exception as e:
-        print(f"❌ Fatal error: {e}")
+        print(f"Fatal error: {e}")
         raise
     finally:
         driver.quit()

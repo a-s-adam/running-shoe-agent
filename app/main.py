@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 
 from .schemas import RecommendationRequest, RecommendationResponse, RecommendationItem
 from .recommender import ShoeRecommender
+from .enhanced_recommender import EnhancedShoeRecommender
 from .llm import build_prompt, complete
 
 # Load environment variables
@@ -16,8 +17,9 @@ app = FastAPI(
     version="0.1.0"
 )
 
-# Initialize recommender (loads catalog once)
-recommender = ShoeRecommender()
+# Initialize recommenders (loads catalog once)
+recommender = ShoeRecommender()  # Keep for backward compatibility
+enhanced_recommender = EnhancedShoeRecommender()  # New enhanced system
 
 
 @app.get("/")
@@ -33,72 +35,34 @@ async def root():
 
 @app.post("/recommend", response_model=RecommendationResponse)
 async def recommend_shoes(request: RecommendationRequest) -> RecommendationResponse:
-    """Get personalized running shoe recommendations"""
+    """Get personalized running shoe recommendations with enhanced AI analysis"""
     try:
-        # Step 1: Filter and score candidates
-        candidates = recommender.filter_and_score(request)
+        # Use the enhanced recommender system
+        shortlist = enhanced_recommender.get_enhanced_recommendations(request)
         
-        if not candidates:
+        if not shortlist:
             return RecommendationResponse(
                 inputs_echo=request,
                 shortlist=[],
                 notes=["No shoes match your criteria. Try relaxing brand preferences or budget constraints."]
             )
         
-        # Step 2: Get LLM explanations
-        try:
-            system_str, user_str = build_prompt(request.model_dump(), candidates)
-            why_llm_list = complete(system_str, user_str)
-        except Exception:
-            why_llm_list = ["AI explanation unavailable - using rule-based reasoning"]
-        
-        # Step 3: Align explanations and build response
-        while len(why_llm_list) < len(candidates):
-            why_llm_list.append(why_llm_list[-1] if why_llm_list else "Good fit for your needs")
-        why_llm_list = why_llm_list[:len(candidates)]
-        
-        # Step 4: Build initial shortlist with LLM quality scoring and ensure depth
-        shortlist = []
-        for i, candidate in enumerate(candidates):
-            # Get LLM quality multiplier and adjust score
-            enriched_why = recommender.ensure_explanation_depth(candidate, request, why_llm_list[i])
-            quality_multiplier = recommender.incorporate_llm_quality_score(candidate, enriched_why)
-            adjusted_score = min(1.0, candidate["score"] * quality_multiplier)
-            
-            shortlist.append(RecommendationItem(
-                brand=candidate["brand"],
-                model=candidate["model"],
-                category=candidate["category"],
-                price_usd=candidate["price_usd"],
-                plate=candidate["plate"],
-                drop_mm=candidate.get("drop_mm"),
-                weight_g=candidate.get("weight_g"),
-                why_rules=recommender.generate_why_rules(candidate, request),
-                why_llm=enriched_why,
-                score=adjusted_score
-            ))
-        
-        # Step 5: Re-sort by adjusted scores (LLM quality now factored in)
-        shortlist.sort(key=lambda x: x.score, reverse=True)
-        
-        # Generate notes
+        # Generate enhanced notes
         notes = []
         above_budget_count = sum(1 for item in shortlist if item.price_usd > request.cost_limiter.max_usd)
         if above_budget_count > 0:
-            notes.append(f"Note: {above_budget_count} recommendation(s) exceed your budget but may be worth considering for performance.")
-        if len(shortlist) < 3:
-            notes.append("Fewer recommendations than usual - consider relaxing some constraints.")
+            notes.append(f"Note: {above_budget_count} recommendation(s) exceed your budget but offer premium performance features.")
         
-        # Add note about LLM quality scoring if applicable
-        quality_variations = [item.score for item in shortlist]
-        quality_range = max(quality_variations) - min(quality_variations)
-        if quality_range > 0.05:
-            notes.append("Scores have been adjusted based on AI explanation quality - more detailed explanations receive higher scores.")
+        if len(shortlist) < 3:
+            notes.append("Fewer recommendations than usual - consider relaxing some constraints for more options.")
+        
+        # Add note about enhanced analysis
+        notes.append("Rankings use advanced AI analysis with dynamic scoring based on technical specs, market data, and use-case optimization.")
         
         return RecommendationResponse(inputs_echo=request, shortlist=shortlist, notes=notes)
         
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Recommendation generation failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Enhanced recommendation generation failed: {str(e)}")
 
 
 if __name__ == "__main__":
