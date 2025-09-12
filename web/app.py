@@ -100,18 +100,42 @@ def recommend():
         # Get number of recommendations (default to 5)
         num_recommendations = int(request.form.get('num_recommendations', 5))
         
+        # Carbon plate toggle
+        allow_carbon = request.form.get('allow_carbon') == 'on'
+
+        # Optional weights
+        def _num(name, default):
+            try:
+                v = request.form.get(name)
+                return float(v) if v is not None and v != '' else default
+            except Exception:
+                return default
+
+        weights = {
+            "brand": _num("weight_brand", 1.0),
+            "budget": _num("weight_budget", 1.0),
+            "easy_runs": _num("weight_easy_runs", 1.0),
+            "tempo_runs": _num("weight_tempo_runs", 1.0),
+            "long_runs": _num("weight_long_runs", 1.0),
+            "races": _num("weight_races", 1.0),
+        }
+
         # Prepare API request
         api_request = {
             "brand_preferences": brand_preferences,
             "intended_use": intended_use,
             "cost_limiter": cost_limiter,
-            "num_recommendations": num_recommendations
+            "num_recommendations": num_recommendations,
+            "allow_carbon": allow_carbon,
+            "weights": weights
         }
         
         # Call the recommendation API
-        response = requests.post(f"{API_URL}/recommend", 
-                               json=api_request, 
-                               timeout=30)
+        response = requests.post(
+            f"{API_URL}/recommend",
+            json=api_request,
+            timeout=90
+        )
         
         if response.status_code == 200:
             result = response.json()

@@ -132,3 +132,38 @@ def complete(system_str: str, user_str: str, timeout_s: float = 30.0) -> List[st
 
     # As a last resort, return a single generic line; caller should duplicate per candidate length if needed.
     return ["Solid fit for the stated use; consider feel and budget tradeoffs."]
+
+
+def complete_text(system_str: str, user_str: str, timeout_s: float = 30.0) -> str:
+    """
+    Call Ollama /api/chat and return the raw assistant text content.
+    This is suitable for standard prose answers (not JSON lists).
+    """
+    url = f"{OLLAMA_HOST}/api/chat"
+    payload = {
+        "model": OLLAMA_MODEL,
+        "messages": [
+            {"role": "system", "content": system_str},
+            {"role": "user", "content": user_str},
+        ],
+        "stream": False,
+        "options": {
+            "temperature": float(os.getenv("OLLAMA_TEMPERATURE", 0.5)),
+            "top_p": 0.9,
+            "num_ctx": 2048,
+        },
+    }
+
+    try:
+        with httpx.Client(timeout=timeout_s) as client:
+            resp = client.post(url, json=payload)
+            resp.raise_for_status()
+            data = resp.json()
+        text = data.get("message", {}).get("content", "").strip()
+        if text:
+            return text
+    except Exception:
+        pass
+
+    # Fallback textual response
+    return "This shoe aligns with your stated needs; consider fit preference and budget."

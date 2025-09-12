@@ -32,6 +32,7 @@ ollama serve   # usually auto-starts; ensures localhost:11434
 ```bash
 cp .env.example .env
 # optionally edit OLLAMA_MODEL in .env
+# To enable web-enriched analysis, set FIRECRAWL_API_KEY in .env
 uvicorn app.main:app --reload --port ${PORT:-8000}
 ```
 
@@ -106,6 +107,7 @@ running-shoe-agent/
 - **Local LLM**: Uses Ollama via `http://localhost:11434`
 - **Smart Filtering**: Brand preferences, intended use, and budget constraints
 - **LLM Explanations**: AI-generated justifications for each recommendation
+- **Web Enrichment (Firecrawl)**: When `FIRECRAWL_API_KEY` is set, the model will crawl reviews and product pages for each shoe and incorporate findings into the analysis
 - **Simple Scoring**: Rule-based ranking with configurable weights
 - **FastAPI**: Clean REST API with automatic validation
 - **Web Interface**: Beautiful Flask frontend (optional) for easy form input
@@ -114,4 +116,14 @@ running-shoe-agent/
 
 - Python 3.11+
 - Ollama running locally
+- (Optional) Firecrawl API key for web enrichment
 - ~300 LOC (excluding catalog and tests)
+
+## Firecrawl Setup (Optional)
+
+To incorporate live web context in the AI explanations:
+
+- Get an API key from Firecrawl
+- Set `FIRECRAWL_API_KEY` in `.env`
+
+The enhanced analyzer will search for “<brand> <model> running shoe review 2024”, extract brief context from top sources, and include summaries + source links in the prompt it sends to the LLM.

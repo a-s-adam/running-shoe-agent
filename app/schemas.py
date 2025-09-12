@@ -24,6 +24,18 @@ class RecommendationRequest(BaseModel):
     intended_use: IntendedUse
     cost_limiter: CostLimiter
     num_recommendations: int = Field(default=5, ge=1, le=20, description="Number of recommendations to return (1-20)")
+    allow_carbon: bool = True
+    
+    class Weights(BaseModel):
+        """Relative weights for user preferences (0 disables, default 1.0)"""
+        brand: float = 1.0
+        budget: float = 1.0
+        easy_runs: float = 1.0
+        tempo_runs: float = 1.0
+        long_runs: float = 1.0
+        races: float = 1.0
+
+    weights: Optional[Weights] = None
 
 
 class RecommendationItem(BaseModel):
@@ -38,6 +50,7 @@ class RecommendationItem(BaseModel):
     why_rules: str = Field(description="Why this shoe matches the rules")
     why_llm: str = Field(description="LLM-generated explanation")
     score: float = Field(ge=0, le=1, description="Recommendation score 0-1")
+    sources: List[str] = Field(default_factory=list, description="Web source URLs used for AI analysis")
 
 
 class RecommendationResponse(BaseModel):

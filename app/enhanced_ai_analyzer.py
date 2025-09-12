@@ -13,7 +13,8 @@ analysis techniques including:
 from typing import Dict, List, Any, Tuple
 import json
 import os
-from .llm import complete
+from .llm import complete, complete_text
+from .firecrawl_client import FirecrawlClient
 from .schemas import RecommendationRequest
 
 
@@ -23,37 +24,38 @@ class EnhancedAIAnalyzer:
     def __init__(self):
         self.catalog = self._load_catalog()
         self._load_analysis_prompts()
+        self._firecrawl = FirecrawlClient()
     
-    def _get_completion(self, prompt: str, timeout: int = 8) -> str:
+    def _get_completion(self, prompt: str, timeout: int = 12) -> str:
         """Wrapper for the LLM complete function that handles single prompts with timeout"""
         try:
+            # Allow forcing fallback when upstream health-check fails
+            if getattr(self, "_force_fallback", False):
+                return "AI explanation unavailable. Using rules and specs to guide you."
+
             # Use simple system message and the prompt as user message
-            system_msg = "You are a running shoe expert. Provide ONE sentence analysis."
-            
+            system_msg = (
+                "You are a running shoe expert. Provide a concise 2-3 sentence analysis. "
+                "Vary your wording across items; avoid identical phrasing."
+            )
+
             print(f"    Calling AI model for analysis...")
-            
-            # Try using the complete function with simple inputs
-            result = complete(system_msg, prompt)
-            print(f"    AI model returned: {type(result)}")
-            
-            # Handle different return types
-            if isinstance(result, list) and len(result) > 0:
-                ai_response = str(result[0])
-                print(f"    AI analysis successful: {ai_response[:50]}...")
-                return ai_response
-            elif isinstance(result, str):
-                print(f"    AI analysis successful: {result[:50]}...")
-                return result
+
+            # Use text completion (raw string), not JSON array
+            response_text = complete_text(system_msg, prompt, timeout_s=timeout)
+            if isinstance(response_text, str) and response_text.strip():
+                print(f"    AI analysis successful: {response_text[:50]}...")
+                return response_text
             else:
-                print(f"    AI returned unexpected type: {type(result)}, value: {result}")
-                return f"This shoe offers solid performance for your running needs with good technical specifications."
+                print("    AI returned empty/invalid text")
+                return "This shoe offers solid performance for your running needs with good technical specifications."
                 
         except Exception as e:
             print(f"    AI analysis error: {e}")
             import traceback
             print(f"    Full error details: {traceback.format_exc()}")
             # Return a meaningful fallback instead of error message
-            return f"This shoe offers solid performance for your running needs with good technical specifications."
+            return "AI explanation unavailable. Using rules and specs to guide you."
     
     def _load_catalog(self) -> List[Dict[str, Any]]:
         """Load shoe catalog"""
@@ -132,6 +134,27 @@ Provide evidence-based technical analysis with specific examples.
             """.strip()
         }
     
+    def _get_weights(self, request: RecommendationRequest):
+        w = getattr(request, "weights", None)
+        if not w:
+            # Defaults
+            return {
+                "brand": 1.0,
+                "budget": 1.0,
+                "easy_runs": 1.0,
+                "tempo_runs": 1.0,
+                "long_runs": 1.0,
+                "races": 1.0,
+            }
+        return {
+            "brand": getattr(w, "brand", 1.0),
+            "budget": getattr(w, "budget", 1.0),
+            "easy_runs": getattr(w, "easy_runs", 1.0),
+            "tempo_runs": getattr(w, "tempo_runs", 1.0),
+            "long_runs": getattr(w, "long_runs", 1.0),
+            "races": getattr(w, "races", 1.0),
+        }
+
     def calculate_dynamic_score(self, shoe: Dict[str, Any], request: RecommendationRequest, market_context: Dict = None) -> float:
         """
         Calculate an enhanced dynamic score that considers:
@@ -180,103 +203,110 @@ Provide evidence-based technical analysis with specific examples.
     def _calculate_base_compatibility(self, shoe: Dict[str, Any], request: RecommendationRequest) -> float:
         """Calculate basic compatibility score with granular adjustments"""
         score = 0.45  # Slightly lower base score for more dynamic range
+        weights = self._get_weights(request)
         
         categories = set(shoe.get("category", []))
         
         # Use case matching with refined scoring
         if request.intended_use.races and "race" in categories:
-            score += 0.28
+            score += 0.28 * weights["races"]
         elif request.intended_use.tempo_runs and "tempo" in categories:
-            score += 0.22
+            score += 0.22 * weights["tempo_runs"]
         elif request.intended_use.long_runs and any(cat in categories for cat in ["long", "daily"]):
-            score += 0.20
+            score += 0.20 * weights["long_runs"]
         elif request.intended_use.easy_runs and any(cat in categories for cat in ["daily", "easy"]):
-            score += 0.18
+            score += 0.18 * weights["easy_runs"]
         
         # Plate technology optimization with granular scoring
         plate = shoe.get("plate", "none")
         if request.intended_use.races:
             if plate == "carbon":
-                score += 0.22
+                score += 0.22 * weights["races"]
             elif plate == "nylon":
-                score += 0.12
+                score += 0.12 * weights["tempo_runs"]
         elif request.intended_use.long_runs:
             if plate == "nylon":
-                score += 0.08  # Some plate benefit for long runs
+                score += 0.08 * weights["long_runs"]  # Some plate benefit for long runs
         
         # Weight considerations with granular adjustments
         weight = shoe.get("weight_g")
         if weight is not None:
             if request.intended_use.races:
                 if weight < 200:
-                    score += 0.15  # Ultra lightweight racing bonus
+                    score += 0.15 * weights["races"]  # Ultra lightweight racing bonus
                 elif weight < 220:
-                    score += 0.12  # Lightweight racing bonus  
+                    score += 0.12 * weights["races"]  # Lightweight racing bonus  
                 elif weight < 240:
-                    score += 0.08  # Light racing bonus
+                    score += 0.08 * weights["races"]  # Light racing bonus
                 elif weight > 280:
-                    score -= 0.1   # Heavy racing penalty
+                    score -= 0.1 * weights["races"]   # Heavy racing penalty
             elif request.intended_use.long_runs:
                 if 240 <= weight <= 280:
-                    score += 0.08  # Good cushioning weight for long runs
+                    score += 0.08 * weights["long_runs"]  # Good cushioning weight for long runs
                 elif weight > 320:
-                    score -= 0.05  # Too heavy for long runs
+                    score -= 0.05 * weights["long_runs"]  # Too heavy for long runs
             elif request.intended_use.easy_runs:
                 if 250 <= weight <= 320:
-                    score += 0.06  # Moderate weight for daily training
+                    score += 0.06 * weights["easy_runs"]  # Moderate weight for daily training
                 elif weight > 350:
-                    score -= 0.08  # Too heavy for easy runs
+                    score -= 0.08 * weights["easy_runs"]  # Too heavy for easy runs
         
         # Drop considerations for granular scoring
         drop = shoe.get("drop_mm")
         if drop is not None:
             if request.intended_use.races:
                 if drop <= 4:
-                    score += 0.06  # Low drop racing advantage
+                    score += 0.06 * weights["races"]  # Low drop racing advantage
                 elif drop <= 6:
-                    score += 0.04  # Moderate low drop
+                    score += 0.04 * weights["races"]  # Moderate low drop
                 elif drop > 10:
-                    score -= 0.03  # High drop racing disadvantage
+                    score -= 0.03 * weights["races"]  # High drop racing disadvantage
             elif request.intended_use.easy_runs:
                 if 8 <= drop <= 12:
-                    score += 0.04  # Traditional drop for easy runs
+                    score += 0.04 * weights["easy_runs"]  # Traditional drop for easy runs
         
         # Budget considerations with granular penalties/bonuses
         if request.cost_limiter.enabled:
             budget_ratio = shoe["price_usd"] / request.cost_limiter.max_usd
             if budget_ratio > 1.3:
-                score -= 0.35  # Very expensive penalty
+                score -= 0.35 * weights["budget"]  # Very expensive penalty
             elif budget_ratio > 1.2:
-                score -= 0.25  # Expensive penalty
+                score -= 0.25 * weights["budget"]  # Expensive penalty
             elif budget_ratio > 1.1:
-                score -= 0.15  # Slightly over budget
+                score -= 0.15 * weights["budget"]  # Slightly over budget
             elif budget_ratio > 1.0:
-                score -= 0.05 * (budget_ratio - 1.0)  # Small penalty for just over
+                score -= (0.05 * (budget_ratio - 1.0)) * weights["budget"]  # Small penalty for just over
             elif budget_ratio <= 0.7:
-                score += 0.08  # Great value bonus
+                score += 0.08 * weights["budget"]  # Great value bonus
             elif budget_ratio <= 0.8:
-                score += 0.05  # Good value bonus
+                score += 0.05 * weights["budget"]  # Good value bonus
+
+        # Brand alignment bonus
+        prefs = getattr(request, "brand_preferences", None)
+        if prefs and shoe.get("brand") in prefs:
+            score += 0.08 * weights["brand"]
         
         return max(0.1, min(1.0, score))  # Allow lower minimum for more range
     
     def _calculate_technical_advantages(self, shoe: Dict[str, Any], request: RecommendationRequest) -> float:
         """Calculate technical advantages score"""
         score = 0.5
+        weights = self._get_weights(request)
         
         # Drop optimization for different use cases
         drop = shoe.get("drop_mm")
         if drop:
             if request.intended_use.races and drop <= 6:
-                score += 0.1  # Low drop for racing
+                score += 0.1 * weights["races"]  # Low drop for racing
             elif request.intended_use.easy_runs and 8 <= drop <= 12:
-                score += 0.1  # Moderate drop for easy runs
+                score += 0.1 * weights["easy_runs"]  # Moderate drop for easy runs
         
         # Advanced plate technology
         plate = shoe.get("plate")
         if plate == "carbon" and request.intended_use.races:
-            score += 0.2  # Carbon plate racing advantage
+            score += 0.2 * weights["races"]  # Carbon plate racing advantage
         elif plate == "nylon" and request.intended_use.tempo_runs:
-            score += 0.15  # Nylon plate tempo advantage
+            score += 0.15 * weights["tempo_runs"]  # Nylon plate tempo advantage
         
         return max(0.0, min(1.0, score))
     
@@ -288,26 +318,27 @@ Provide evidence-based technical analysis with specific examples.
     def _calculate_specialty_bonus(self, shoe: Dict[str, Any], request: RecommendationRequest) -> float:
         """Calculate bonus for specialty features that match user needs"""
         score = 0.45  # Lower base for more dynamic range
+        weights = self._get_weights(request)
         brand = shoe.get("brand", "").upper()
         
         # Brand specialization bonuses based on use case
         if request.intended_use.races:
             if brand in ["NIKE", "SAUCONY", "HOKA"]:
-                score += 0.12  # Racing specialists
+                score += 0.12 * weights["races"]  # Racing specialists
             elif brand in ["ASICS", "NEW BALANCE"]:  # Add New Balance
-                score += 0.10  # Strong racing options
+                score += 0.10 * weights["races"]  # Strong racing options
             elif brand == "BROOKS":
-                score += 0.08  # Good racing shoes but not specialized
+                score += 0.08 * weights["races"]  # Good racing shoes but not specialized
         elif request.intended_use.long_runs:
             if brand in ["HOKA", "BROOKS", "ASICS"]:
-                score += 0.12  # Cushioning specialists
+                score += 0.12 * weights["long_runs"]  # Cushioning specialists
             elif brand in ["NEW BALANCE", "SAUCONY"]:
-                score += 0.10  # Good long run options
+                score += 0.10 * weights["long_runs"]  # Good long run options
         elif request.intended_use.easy_runs:
             if brand in ["BROOKS", "ASICS", "NEW BALANCE"]:
-                score += 0.10  # Daily training specialists
+                score += 0.10 * weights["easy_runs"]  # Daily training specialists
             elif brand in ["HOKA", "SAUCONY"]:
-                score += 0.08  # Good daily options
+                score += 0.08 * weights["easy_runs"]  # Good daily options
         
         # Brand diversity bonus to prevent same-brand dominance
         # This would need to be passed from the recommender, for now just slight randomization
@@ -327,19 +358,41 @@ Provide evidence-based technical analysis with specific examples.
         
         return max(0.1, min(1.0, score))
     
-    def generate_detailed_ai_analysis(self, shoe: Dict[str, Any], request: RecommendationRequest, rank: int = 1) -> str:
-        """Generate comprehensive AI analysis for a specific shoe"""
-        
+    def generate_detailed_ai_analysis(self, shoe: Dict[str, Any], request: RecommendationRequest, rank: int = 1) -> tuple[str, list[str]]:
+        """Generate comprehensive AI analysis for a specific shoe.
+        Returns (analysis_text, sources).
+        """
+
         # Prepare detailed shoe information
         shoe_details = self._format_shoe_details_for_analysis(shoe)
         user_requirements = self._format_user_requirements(request)
-        
+
+        # Try to enrich with Firecrawl web context
+        web_findings = ""
+        sources_note = ""
+        try:
+            # Limit enrichment to top K to keep latency reasonable
+            import os as _os
+            top_k = int(_os.getenv("FIRECRAWL_ENRICH_TOP_K", "2"))
+            if rank <= top_k and self._firecrawl.is_configured():
+                fc = self._firecrawl.get_shoe_web_context(shoe["brand"], shoe["model"], limit=1)
+                summaries = fc.get("summaries", [])
+                sources = fc.get("sources", [])
+                if summaries:
+                    web_findings = "\n\nWeb Findings (summarized):\n- " + "\n- ".join(summaries)
+                if sources:
+                    sources_note = "\n\nSources: " + ", ".join(sources)
+            else:
+                print("    Firecrawl not configured; skipping web enrichment")
+        except Exception as e:
+            print(f"    Firecrawl enrichment failed: {e}")
+
         # Generate the detailed analysis
         analysis_prompt = self.analysis_prompts["detailed_analysis"].format(
             shoe_details=shoe_details,
             user_requirements=user_requirements
-        )
-        
+        ) + web_findings + sources_note
+
         try:
             detailed_analysis = self._get_completion(analysis_prompt)
             
@@ -349,10 +402,13 @@ Provide evidence-based technical analysis with specific examples.
             else:
                 ranking_context = f"\n\n**RECOMMENDATION #{rank}**: Strong alternative option with specific advantages."
             
-            return detailed_analysis + ranking_context
-            
+            return detailed_analysis + ranking_context, (sources or [])
+
         except Exception as e:
-            return f"Advanced AI analysis temporarily unavailable. Basic analysis: This {shoe['brand']} {shoe['model']} offers solid performance for your intended use with {shoe.get('plate', 'standard')} construction and {shoe.get('drop_mm', 'standard')} drop."
+            return (
+                "AI explanation unavailable. Using rules and specs to guide you.",
+                []
+            )
     
     def generate_comparative_analysis(self, shoes: List[Dict[str, Any]], request: RecommendationRequest) -> str:
         """Generate comparative analysis between multiple shoes"""

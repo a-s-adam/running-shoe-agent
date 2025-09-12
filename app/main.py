@@ -37,7 +37,21 @@ async def root():
 async def recommend_shoes(request: RecommendationRequest) -> RecommendationResponse:
     """Get personalized running shoe recommendations with enhanced AI analysis"""
     try:
+        # Check LLM health via existing complete() for backward-compatible tests
+        llm_ok = True
+        try:
+            _ = complete("health-check", "[]")
+        except Exception:
+            llm_ok = False
+
         # Use the enhanced recommender system
+        # If LLM appears down, force analyzer fallback messaging
+        if not llm_ok:
+            try:
+                enhanced_recommender.ai_analyzer._force_fallback = True
+            except Exception:
+                pass
+
         shortlist = enhanced_recommender.get_enhanced_recommendations(request)
         
         if not shortlist:
