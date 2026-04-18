@@ -10,12 +10,18 @@ from pathlib import Path
 import requests
 from flask import Flask, flash, jsonify, render_template, request
 
-app = Flask(__name__)
+_WEB_DIR = Path(__file__).resolve().parent
+_REPO_ROOT = _WEB_DIR.parent
+
+app = Flask(
+    __name__,
+    template_folder=str(_WEB_DIR / "templates"),
+    static_folder=str(_REPO_ROOT / "static"),
+    static_url_path="/static",
+)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-only-change-for-production")
 
-_BASE_DIR = Path(__file__).resolve().parent
-_CATALOG_PATH = _BASE_DIR / "app" / "catalog.json"
-
+_CATALOG_PATH = _REPO_ROOT / "app" / "catalog.json"
 API_URL = os.environ.get("RECOMMEND_API_URL", "http://localhost:8000")
 DEFAULT_PORT = int(os.environ.get("FLASK_PORT", "3000"))
 
@@ -97,11 +103,34 @@ def recommend():
 
         num_recommendations = int(request.form.get("num_recommendations", 5))
 
+        if "allow_carbon" in request.form:
+            allow_carbon = request.form.get("allow_carbon") == "on"
+        else:
+            allow_carbon = True
+
+        def _num(name: str, default: float) -> float:
+            try:
+                v = request.form.get(name)
+                return float(v) if v not in (None, "") else default
+            except (TypeError, ValueError):
+                return default
+
+        weights = {
+            "brand": _num("weight_brand", 1.0),
+            "budget": _num("weight_budget", 1.0),
+            "easy_runs": _num("weight_easy_runs", 1.0),
+            "tempo_runs": _num("weight_tempo_runs", 1.0),
+            "long_runs": _num("weight_long_runs", 1.0),
+            "races": _num("weight_races", 1.0),
+        }
+
         api_request = {
             "brand_preferences": brand_preferences,
             "intended_use": intended_use,
             "cost_limiter": cost_limiter,
             "num_recommendations": num_recommendations,
+            "allow_carbon": allow_carbon,
+            "weights": weights,
         }
 
         response = requests.post(

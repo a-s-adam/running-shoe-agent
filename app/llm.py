@@ -60,13 +60,36 @@ def build_prompt(inputs: Dict[str, Any], candidates: List[Dict[str, Any]]) -> tu
     with open(os.path.join(here, "prompts", "user_template.txt"), "r", encoding="utf-8") as f:
         user_tmpl = f.read()
 
-    # Small, readable candidate table; include critical fields only
+    # Small, readable candidate table; include critical fields and richer specs when available
     lines = []
     for c in candidates:
-        lines.append(
-            f"- {c['brand']} {c['model']} | cat={','.join(c.get('category', []))} "
-            f"| price=${c.get('price_usd','?')} | plate={c.get('plate','none')} | drop={c.get('drop_mm','?')}mm"
-        )
+        cat = ",".join(c.get('category', []))
+        price = c.get('price_usd', '?')
+        plate = c.get('plate', 'none')
+        drop = c.get('drop_mm', '?')
+        weight = c.get('weight_g', None)
+        cushioning = c.get('cushioning_level', None)
+        support = c.get('support_type', None)
+        heel_stack = c.get('heel_stack_mm', None)
+        fore_stack = c.get('forefoot_stack_mm', None)
+
+        parts = [
+            f"- {c['brand']} {c['model']}",
+            f"cat={cat}",
+            f"price=${price}",
+            f"plate={plate}",
+            f"drop={drop}mm"
+        ]
+        if weight is not None:
+            parts.append(f"weight={weight}g")
+        if cushioning:
+            parts.append(f"cushioning={cushioning}")
+        if support:
+            parts.append(f"support={support}")
+        if heel_stack is not None and fore_stack is not None:
+            parts.append(f"stack={heel_stack}/{fore_stack}mm")
+
+        lines.append(" | ".join(parts))
     candidate_table = "\n".join(lines)
 
     user_str = user_tmpl.replace(
@@ -149,3 +172,38 @@ def complete(system_str: str, user_str: str, timeout_s: float = 30.0) -> List[st
 
     # As a last resort, return a single generic line; caller should duplicate per candidate length if needed.
     return ["Solid fit for the stated use; consider feel and budget tradeoffs."]
+
+
+def complete_text(system_str: str, user_str: str, timeout_s: float = 30.0) -> str:
+    """
+    Call Ollama /api/chat and return the raw assistant text content.
+    This is suitable for standard prose answers (not JSON lists).
+    """
+    url = f"{OLLAMA_HOST}/api/chat"
+    payload = {
+        "model": OLLAMA_MODEL,
+        "messages": [
+            {"role": "system", "content": system_str},
+            {"role": "user", "content": user_str},
+        ],
+        "stream": False,
+        "options": {
+            "temperature": float(os.getenv("OLLAMA_TEMPERATURE", 0.5)),
+            "top_p": 0.9,
+            "num_ctx": 2048,
+        },
+    }
+
+    try:
+        with httpx.Client(timeout=timeout_s) as client:
+            resp = client.post(url, json=payload)
+            resp.raise_for_status()
+            data = resp.json()
+        text = data.get("message", {}).get("content", "").strip()
+        if text:
+            return text
+    except Exception:
+        pass
+
+    # Fallback textual response
+    return "This shoe aligns with your stated needs; consider fit preference and budget."

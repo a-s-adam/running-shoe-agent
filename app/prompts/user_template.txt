@@ -5,10 +5,10 @@ Candidate shoes (from rules filter):
 {{candidate_table}}
 
 Task:
-For each candidate, write 2–3 sentences:
-- Why it fits the user's intended runs/races,
-- Any tradeoffs (weight, plate type, feel),
-- Budget awareness (mark "above budget" if price > max).
+For each candidate, write 2–3 sentences that:
+- Tie the shoe to the user's intended runs/races (e.g., daily, tempo, race distances if provided),
+- Reference at least two concrete specs (e.g., plate type, drop, weight, cushioning level, support/stability, heel/forefoot stack),
+- Include budget awareness (mark "above budget" if price > max and give a one-phrase justification).
 
 IMPORTANT: Return ONLY a JSON array of strings, one per candidate, in the exact format:
 ["explanation for shoe 1", "explanation for shoe 2", "explanation for shoe 3"]

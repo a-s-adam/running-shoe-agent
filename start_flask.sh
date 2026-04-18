@@ -31,5 +31,5 @@ echo ""
 echo "Press Ctrl+C to stop"
 echo ""
 
-# Start Flask app
-python flask_app.py
+# Start Flask app (moved to web/)
+python web/app.py

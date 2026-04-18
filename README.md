@@ -1,51 +1,42 @@
-# Running shoe recommendation agent
+# Running Shoe Recommendation Agent
 
-Small example app: rule-based shortlisting plus local LLM explanations via [Ollama](https://ollama.com).
+A minimal, beginner-friendly repository demonstrating basic LLM usage for running shoe recommendations using Ollama (local).
 
-## Quick start
+## Quick Start
 
-### Python environment
-
+### 0. Setup Python Environment
 ```bash
-cd running-shoe-agent
+# Using uv (recommended - faster)
 uv venv
-# Windows PowerShell:
-#   .\.venv\Scripts\Activate.ps1
-# Windows cmd:
-#   .venv\Scripts\activate.bat
-# macOS/Linux:
-#   source .venv/bin/activate
+source .venv/bin/activate  # or .venv\Scripts\activate on Windows
 uv pip install -r requirements.txt
+
+# Or traditional pip
+python -m venv .venv
+source .venv/bin/activate  # or .venv\Scripts\activate on Windows
+pip install -r requirements.txt
 ```
 
-If `.venv` exists but `pip` is missing (some minimal venvs), run: `python -m ensurepip --upgrade`, then `pip install -r requirements.txt`.
+**📖 Detailed setup instructions: [SETUP_UV.md](SETUP_UV.md)**
 
-**Run commands** only after activating `.venv`, or prefix with the venv’s `python` / `uv run`.
-
-**Start the API** (from the project root, with `.venv` active):
+### 1. Install & Run Ollama
 
 ```bash
-python -m uvicorn app.main:app --reload --port 8000
-```
-
-More detail: [SETUP_UV.md](SETUP_UV.md).
-
-### Ollama
-
-```bash
+# macOS / Linux: https://ollama.com/download
 ollama pull llama3.1
-# ollama serve  # if needed; often already running on localhost:11434
+ollama serve   # usually auto-starts; ensures localhost:11434
 ```
 
-### API
+### 2. Run the API
 
 ```bash
 cp env.example .env
-# Optional: set OLLAMA_MODEL, OLLAMA_HOST, PORT
-python -m uvicorn app.main:app --reload --port 8000
+# optionally edit OLLAMA_MODEL in .env
+# To enable web-enriched analysis, set FIRECRAWL_API_KEY in .env
+uvicorn app.main:app --reload --port ${PORT:-8000}
 ```
 
-### Try the API
+### 3. Try It
 
 ```bash
 curl -s -X POST "http://localhost:8000/recommend" \
@@ -54,25 +45,34 @@ curl -s -X POST "http://localhost:8000/recommend" \
     "brand_preferences": ["Saucony","Adidas"],
     "intended_use": {"easy_runs": true, "tempo_runs": true, "races": ["half_marathon"], "trail": false},
     "cost_limiter": {"enabled": true, "max_usd": 180}
-  }'
+  }' | jq
 ```
 
-## Models
+## Swap Models
 
-Set `OLLAMA_MODEL` in `.env`, run `ollama pull <name>`, then restart the API.
-
-## Web UI (optional)
+Change `OLLAMA_MODEL` in your `.env` file (e.g., `phi3`, `qwen2.5:7b-instruct`, `mistral`), then:
 
 ```bash
-# Terminal 1: API (see above)
-# Terminal 2:
-./start_flask.sh
-# or: python flask_app.py
+ollama pull <model>
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Flask setup: [FLASK_README.md](FLASK_README.md).
+## 🌐 Web Interface (Optional)
 
-## Layout
+Instead of curl commands, use the beautiful Flask web interface:
+
+```bash
+# Terminal 1: Start the API backend
+./start.sh
+
+# Terminal 2: Start the Flask frontend  
+./start_flask.sh
+
+# Open browser to: http://localhost:3000
+```
+
+**📖 Detailed Flask setup: [FLASK_README.md](FLASK_README.md)**
+
+## Project Structure
 
 ```text
 running-shoe-agent/
@@ -80,25 +80,39 @@ running-shoe-agent/
 ├── env.example
 ├── pyproject.toml
 ├── requirements.txt
-├── flask_app.py
-├── app/
-│   ├── main.py
-│   ├── schemas.py
-│   ├── catalog.json
-│   ├── recommender.py
-│   ├── enhanced_recommender.py
-│   ├── llm.py
-│   └── prompts/
-├── static/css/
-│   └── app.css
-├── templates/
-│   ├── index.html
-│   └── results.html
-├── tests/
-└── scrape_roadrunners_mens_running.py   # see SCRAPER_README.md
+├── start.sh
+├── start_flask.sh
+├── FLASK_README.md
+├── app/                    # FastAPI + recommender
+├── static/css/app.css      # Flask UI styles
+├── web/
+│   ├── app.py              # Flask entry (run: python web/app.py)
+│   └── templates/
+└── tests/
 ```
+
+## Features
+
+- **Local LLM**: Uses Ollama via `http://localhost:11434`
+- **Smart Filtering**: Brand preferences, intended use, and budget constraints
+- **LLM Explanations**: AI-generated justifications for each recommendation
+- **Web Enrichment (Firecrawl)**: When `FIRECRAWL_API_KEY` is set, the model will crawl reviews and product pages for each shoe and incorporate findings into the analysis
+- **Simple Scoring**: Rule-based ranking with configurable weights
+- **FastAPI**: Clean REST API with automatic validation
+- **Web Interface**: Beautiful Flask frontend (optional) for easy form input
 
 ## Requirements
 
 - Python 3.11+
-- Ollama (for LLM text)
+- Ollama running locally
+- (Optional) Firecrawl API key for web enrichment
+- ~300 LOC (excluding catalog and tests)
+
+## Firecrawl Setup (Optional)
+
+To incorporate live web context in the AI explanations:
+
+- Get an API key from Firecrawl
+- Set `FIRECRAWL_API_KEY` in `.env`
+
+The enhanced analyzer will search for “<brand> <model> running shoe review 2024”, extract brief context from top sources, and include summaries + source links in the prompt it sends to the LLM.

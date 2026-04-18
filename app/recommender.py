@@ -64,9 +64,9 @@ class ShoeRecommender:
         if intended_use.races and "race" in categories:
             return True
         
-        # Trail - would need trail category (not in current catalog)
-        if intended_use.trail and "trail" in categories:
-            return True
+        # Trail - not supported in current catalog
+        if intended_use.trail:
+            return False
         
         # If no specific use specified, include daily/easy shoes
         if not any([intended_use.easy_runs, intended_use.tempo_runs, 
@@ -169,3 +169,57 @@ class ShoeRecommender:
             return 1.0  # No change for basic explanations
         
         return 0.95  # Small penalty for very basic explanations
+
+    def ensure_explanation_depth(self, shoe: Dict[str, Any], request: RecommendationRequest, why_llm: str) -> str:
+        """
+        Ensure the AI explanation has at least 2 sentences and includes concrete specs.
+        If it's too short or generic, append a concise, spec-driven sentence.
+        """
+        text = (why_llm or "").strip()
+        # Normalize whitespace
+        text = " ".join(text.split())
+
+        # Count sentences (roughly)
+        import re
+        sentences = [s for s in re.split(r"(?<=[.!?])\s+", text) if s]
+
+        # Build a factual sentence from available specs
+        facts = []
+        if shoe.get("plate") and shoe.get("plate") != "none":
+            facts.append(f"{shoe['plate']} plate")
+        if shoe.get("drop_mm") is not None:
+            facts.append(f"{shoe['drop_mm']}mm drop")
+        if shoe.get("weight_g") is not None:
+            facts.append(f"~{shoe['weight_g']}g weight")
+        if shoe.get("cushioning_level"):
+            facts.append(f"{shoe['cushioning_level']} cushioning")
+        if shoe.get("support_type"):
+            facts.append(f"{shoe['support_type']} support")
+        if shoe.get("heel_stack_mm") is not None and shoe.get("forefoot_stack_mm") is not None:
+            facts.append(f"stack {shoe['heel_stack_mm']}/{shoe['forefoot_stack_mm']}mm")
+        if shoe.get("category"):
+            facts.append(f"category: {', '.join(shoe['category'])}")
+
+        budget_note = None
+        if request.cost_limiter.enabled and shoe.get("price_usd"):
+            if shoe["price_usd"] > request.cost_limiter.max_usd:
+                budget_note = "above budget"
+
+        # If the explanation is empty or a single sentence, add a factual sentence.
+        if len(sentences) < 2:
+            # Pick up to 3 distinct facts
+            fact_str = ", ".join(facts[:3]) if facts else None
+            add_parts = []
+            if fact_str:
+                add_parts.append(f"Specs: {fact_str}.")
+            if budget_note:
+                add_parts.append("Priced above budget; consider for performance value.")
+            if add_parts:
+                if text:
+                    text = text + " " + " ".join(add_parts)
+                else:
+                    # Build a minimal explanation from scratch
+                    base = f"{shoe['brand']} {shoe['model']} fits your {', '.join(shoe.get('category', []))} needs."
+                    text = base + (" " + " ".join(add_parts) if add_parts else "")
+
+        return text
