@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
 </head>
 <body>
+    <p class="site-byline" aria-label="Author">Austin Adam</p>
     <div class="page-shell card">
         <header class="hero">
             <h1>Running shoe recommendations</h1>
@@ -32,7 +33,7 @@
                 {% endif %}
             {% endwith %}
 
-            <form method="POST" action="/recommend">
+            <form id="recommend-form" method="POST" action="/recommend" aria-busy="false">
                 <section class="section" aria-labelledby="brands-heading">
                     <h3 id="brands-heading">Brand preferences</h3>
                     <div class="field">
@@ -116,9 +117,36 @@
                 </section>
 
                 <div class="field">
-                    <button type="submit" class="btn-primary">Get recommendations</button>
+                    <button type="submit" class="btn-primary" id="submit-btn">
+                        <span class="btn-primary__label">Get recommendations</span>
+                    </button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <div id="submit-overlay" class="submit-overlay" hidden>
+        <div class="submit-overlay__panel" role="status" aria-live="polite" aria-atomic="true">
+            <p class="submit-overlay__title">Working on your recommendations</p>
+            <p class="submit-overlay__hint">Do not close this tab—the next page loads when everything is ready.</p>
+            <ol class="submit-steps" aria-label="Progress">
+                <li class="submit-steps__item is-active" data-step="0">
+                    <span class="step-dot" aria-hidden="true"></span>
+                    <span class="step-text">Sending your preferences</span>
+                </li>
+                <li class="submit-steps__item" data-step="1">
+                    <span class="step-dot" aria-hidden="true"></span>
+                    <span class="step-text">Scoring shoes from the catalog</span>
+                </li>
+                <li class="submit-steps__item" data-step="2">
+                    <span class="step-dot" aria-hidden="true"></span>
+                    <span class="step-text">Asking the AI for explanations (often the slowest step)</span>
+                </li>
+                <li class="submit-steps__item" data-step="3">
+                    <span class="step-dot" aria-hidden="true"></span>
+                    <span class="step-text">Preparing your results</span>
+                </li>
+            </ol>
         </div>
     </div>
 
@@ -163,6 +191,59 @@
 
         document.getElementById('budget_enabled').addEventListener('change', function () {
             document.getElementById('max_budget').disabled = !this.checked;
+        });
+
+        const overlay = document.getElementById('submit-overlay');
+        const form = document.getElementById('recommend-form');
+        const stepItems = () => Array.from(document.querySelectorAll('.submit-steps__item'));
+        let stepTimers = [];
+
+        function clearStepTimers() {
+            stepTimers.forEach(clearTimeout);
+            stepTimers = [];
+        }
+
+        function setSubmitStep(activeIndex) {
+            stepItems().forEach((el, i) => {
+                el.classList.remove('is-active', 'is-done');
+                if (i < activeIndex) el.classList.add('is-done');
+                if (i === activeIndex) el.classList.add('is-active');
+            });
+        }
+
+        function hideSubmitOverlay() {
+            overlay.hidden = true;
+            document.body.style.overflow = '';
+            form.setAttribute('aria-busy', 'false');
+            clearStepTimers();
+            setSubmitStep(0);
+            stepItems().forEach((el) => el.classList.remove('is-done'));
+            document.getElementById('submit-btn').disabled = false;
+        }
+
+        function showSubmitProgress() {
+            overlay.hidden = false;
+            document.body.style.overflow = 'hidden';
+            form.setAttribute('aria-busy', 'true');
+            document.getElementById('submit-btn').disabled = true;
+            clearStepTimers();
+            setSubmitStep(0);
+            const milestones = [
+                [600, 1],
+                [2200, 2],
+                [6500, 3],
+            ];
+            milestones.forEach(([ms, idx]) => {
+                stepTimers.push(setTimeout(() => setSubmitStep(idx), ms));
+            });
+        }
+
+        form.addEventListener('submit', function () {
+            showSubmitProgress();
+        });
+
+        window.addEventListener('pageshow', function (ev) {
+            if (ev.persisted) hideSubmitOverlay();
         });
     </script>
 </body>
