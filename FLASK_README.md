@@ -11,7 +11,7 @@ Activate this repo’s **`.venv`** first (see [README.md](README.md) or [SETUP_U
 python -m uvicorn app.main:app --reload --port 8000
 
 # Terminal 2 — Flask (same .venv)
-python flask_app.py
+python web/app.py
 # or: ./start_flask.sh
 ```
 
@@ -35,13 +35,13 @@ Browser  →  Flask (port 3000)  →  FastAPI (port 8000)  →  Ollama (11434)
 
 ## Customization
 
-- Form options: `RACE_DISTANCES`, `CATEGORIES`, and brand list from `app/catalog.json` in `flask_app.py`.
+- Form options: `RACE_DISTANCES`, `CATEGORIES`, and brand list from `app/catalog.json` in `web/app.py`.
 - Styling: `static/css/app.css` (shared by `templates/index.html` and `templates/results.html`).
 
 ## Troubleshooting
 
 - **Cannot connect to API** — Ensure FastAPI is up: `curl http://localhost:8000/`
-- **Port in use** — Set `FLASK_PORT` or run `python flask_app.py` after editing `DEFAULT_PORT` in code.
+- **Port in use** — Set `FLASK_PORT` or change `DEFAULT_PORT` in `web/app.py`.
 
 ## Production notes
 

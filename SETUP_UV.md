@@ -4,7 +4,7 @@ This guide shows how to set up and run the Running Shoe Recommendation Agent usi
 
 ## Use this project’s `.venv` only
 
-All installs and runs for this repository should use the **`running-shoe-agent/.venv`** environment. Other environments (for example a Conda env such as `sapiens_lite`) are easy to confuse with this one in the terminal; they will not include this app’s dependencies unless you duplicate `requirements.txt` there. In Cursor or PowerShell, **activate `.venv` before** `uvicorn`, `python flask_app.py`, or `pytest`.
+All installs and runs for this repository should use the **`running-shoe-agent/.venv`** environment. Other environments (for example a Conda env such as `sapiens_lite`) are easy to confuse with this one in the terminal; they will not include this app’s dependencies unless you duplicate `requirements.txt` there. In Cursor or PowerShell, **activate `.venv` before** `uvicorn`, `python web/app.py`, or `pytest`.
 
 ## What is `uv`?
 
