@@ -77,7 +77,7 @@ uvicorn app.main:app --reload --port 8000
 
 ### 4. Test the API
 ```bash
-python demo.py
+curl -s http://localhost:8000/
 ```
 
 ## Alternative: Using `uv run`
@@ -91,8 +91,8 @@ uv run uvicorn app.main:app --reload --port 8000
 # Run tests
 uv run pytest tests/ -v
 
-# Run demo
-uv run python demo.py
+# With the API already running — smoke test
+curl -s http://localhost:8000/
 ```
 
 ## Development Workflow

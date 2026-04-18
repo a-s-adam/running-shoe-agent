@@ -1,41 +1,36 @@
-# Running Shoe Recommendation Agent
+# Running shoe recommendation agent
 
-A minimal, beginner-friendly repository demonstrating basic LLM usage for running shoe recommendations using Ollama (local).
+Small example app: rule-based shortlisting plus local LLM explanations via [Ollama](https://ollama.com).
 
-## Quick Start
+## Quick start
 
-### 0. Setup Python Environment
+### Python environment
+
 ```bash
-# Using uv (recommended - faster)
 uv venv
-source .venv/bin/activate  # or .venv\Scripts\activate on Windows
+# Windows: .venv\Scripts\activate
+# macOS/Linux: source .venv/bin/activate
 uv pip install -r requirements.txt
-
-# Or traditional pip
-python -m venv .venv
-source .venv/bin/activate  # or .venv\Scripts\activate on Windows
-pip install -r requirements.txt
 ```
 
-**📖 Detailed setup instructions: [SETUP_UV.md](SETUP_UV.md)**
+More detail: [SETUP_UV.md](SETUP_UV.md).
 
-### 1. Install & Run Ollama
+### Ollama
 
 ```bash
-# macOS / Linux: https://ollama.com/download
 ollama pull llama3.1
-ollama serve   # usually auto-starts; ensures localhost:11434
+# ollama serve  # if needed; often already running on localhost:11434
 ```
 
-### 2. Run the API
+### API
 
 ```bash
-cp .env.example .env
-# optionally edit OLLAMA_MODEL in .env
+cp env.example .env
+# Optional: set OLLAMA_MODEL, OLLAMA_HOST, PORT
 uvicorn app.main:app --reload --port ${PORT:-8000}
 ```
 
-### 3. Try It
+### Try the API
 
 ```bash
 curl -s -X POST "http://localhost:8000/recommend" \
@@ -44,74 +39,51 @@ curl -s -X POST "http://localhost:8000/recommend" \
     "brand_preferences": ["Saucony","Adidas"],
     "intended_use": {"easy_runs": true, "tempo_runs": true, "races": ["half_marathon"], "trail": false},
     "cost_limiter": {"enabled": true, "max_usd": 180}
-  }' | jq
+  }'
 ```
 
-## Swap Models
+## Models
 
-Change `OLLAMA_MODEL` in your `.env` file (e.g., `phi3`, `qwen2.5:7b-instruct`, `mistral`), then:
+Set `OLLAMA_MODEL` in `.env`, run `ollama pull <name>`, then restart the API.
 
-```bash
-ollama pull <model>
-```
-
-## 🌐 Web Interface (Optional)
-
-Instead of curl commands, use the beautiful Flask web interface:
+## Web UI (optional)
 
 ```bash
-# Terminal 1: Start the API backend
-./start.sh
-
-# Terminal 2: Start the Flask frontend  
+# Terminal 1: API (see above)
+# Terminal 2:
 ./start_flask.sh
-
-# Open browser to: http://localhost:3000
+# or: python flask_app.py
 ```
 
-**📖 Detailed Flask setup: [FLASK_README.md](FLASK_README.md)**
+Open [http://localhost:3000](http://localhost:3000). Flask setup: [FLASK_README.md](FLASK_README.md).
 
-## Project Structure
+## Layout
 
-```
+```text
 running-shoe-agent/
 ├── README.md
-├── .env.example
+├── env.example
 ├── pyproject.toml
 ├── requirements.txt
-├── start.sh                 # API startup script
-├── start_flask.sh           # Flask startup script
-├── flask_app.py             # Flask web interface
-├── FLASK_README.md          # Flask setup guide
+├── flask_app.py
 ├── app/
-│   ├── __init__.py
 │   ├── main.py
 │   ├── schemas.py
 │   ├── catalog.json
 │   ├── recommender.py
-│   ├── llm.py              # Ollama chat wrapper
+│   ├── enhanced_recommender.py
+│   ├── llm.py
 │   └── prompts/
-│       ├── system.txt
-│       └── user_template.txt
-├── templates/               # Flask HTML templates
-│   ├── index.html          # Main form page
-│   └── results.html        # Results display page
-└── tests/
-    ├── test_recommender.py
-    └── test_api.py
+├── static/css/
+│   └── app.css
+├── templates/
+│   ├── index.html
+│   └── results.html
+├── tests/
+└── scrape_roadrunners_mens_running.py   # see SCRAPER_README.md
 ```
-
-## Features
-
-- **Local LLM**: Uses Ollama via `http://localhost:11434`
-- **Smart Filtering**: Brand preferences, intended use, and budget constraints
-- **LLM Explanations**: AI-generated justifications for each recommendation
-- **Simple Scoring**: Rule-based ranking with configurable weights
-- **FastAPI**: Clean REST API with automatic validation
-- **Web Interface**: Beautiful Flask frontend (optional) for easy form input
 
 ## Requirements
 
 - Python 3.11+
-- Ollama running locally
-- ~300 LOC (excluding catalog and tests)
+- Ollama (for LLM text)

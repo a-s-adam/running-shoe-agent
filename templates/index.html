@@ -3,507 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Running Shoe Recommendations</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            font-weight: 300;
-        }
-        
-        .header p {
-            opacity: 0.9;
-            font-size: 1.1rem;
-        }
-        
-        .form-container {
-            padding: 40px;
-        }
-        
-        .form-section {
-            margin-bottom: 30px;
-            padding: 20px;
-            border: 1px solid #e1e8ed;
-            border-radius: 8px;
-            background: #f8f9fa;
-        }
-        
-        .form-section h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 8px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-        
-        .checkbox-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .checkbox-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: #3498db;
-        }
-        
-        .checkbox-item label {
-            margin: 0;
-            font-weight: normal;
-            cursor: pointer;
-        }
-        
-        .brand-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 10px;
-        }
-        
-        .brand-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .brand-item:hover {
-            border-color: #3498db;
-            background: #f0f8ff;
-        }
-        
-        .brand-item input[type="checkbox"] {
-            width: 16px;
-            height: 16px;
-            accent-color: #3498db;
-        }
-        
-        .budget-section {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .budget-toggle {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .budget-input {
-            flex: 1;
-            max-width: 200px;
-        }
-        
-        input[type="number"] {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e1e8ed;
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: border-color 0.2s;
-        }
-        
-        input[type="number"]:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-        
-        .budget-input input[type="number"] {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e1e8ed;
-            border-radius: 6px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
-        
-        .budget-input input[type="number"]:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-        
-        .price-range {
-            display: block;
-            margin-top: 5px;
-            font-size: 0.9rem;
-            color: #666;
-            font-style: italic;
-        }
-        
-        select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e1e8ed;
-            border-radius: 6px;
-            font-size: 16px;
-            background-color: white;
-            transition: border-color 0.3s ease;
-        }
-        
-        select:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-        
-        .help-text {
-            display: block;
-            margin-top: 5px;
-            font-size: 0.9rem;
-            color: #666;
-            font-style: italic;
-        }
-        
-        .submit-btn {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            width: 100%;
-            font-weight: 600;
-        }
-        
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.3);
-        }
-        
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-        
-        .flash-messages {
-            margin-bottom: 20px;
-        }
-        
-        .flash-message {
-            padding: 12px 16px;
-            border-radius: 6px;
-            margin-bottom: 10px;
-        }
-        
-        .flash-error {
-            background: #fee;
-            border: 1px solid #fcc;
-            color: #c33;
-        }
-        
-        .flash-success {
-            background: #efe;
-            border: 1px solid #cfc;
-            color: #3c3;
-        }
-        
-        .api-status {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 0.9rem;
-        }
-        
-        .api-status.healthy {
-            background: #efe;
-            color: #3c3;
-            border: 1px solid #cfc;
-        }
-        
-        .api-status.unhealthy {
-            background: #fee;
-            color: #c33;
-            border: 1px solid #fcc;
-        }
-        
-        .model-status {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: 500;
-        }
-        
-        .model-status.healthy {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .model-status.warning {
-            background: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
-        }
-        
-        .model-status.unhealthy {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        
-        @media (max-width: 600px) {
-            .container {
-                margin: 10px;
-                border-radius: 8px;
-            }
-            
-            .form-container {
-                padding: 20px;
-            }
-            
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .checkbox-group {
-                grid-template-columns: 1fr;
-            }
-            
-            .brand-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-    </style>
+    <title>Running shoe recommendations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🏃‍♂️ Running Shoe Recommendations</h1>
-            <p>Get personalized shoe suggestions based on your running style and preferences</p>
-        </div>
-        
-        <div class="form-container">
-            <!-- Model Status Check -->
-            <div id="model-status" class="model-status {{ model_status }}">
+    <div class="page-shell card">
+        <header class="hero">
+            <h1>Running shoe recommendations</h1>
+            <p>Tell us how you run and we will match shoes from your catalog.</p>
+        </header>
+
+        <div class="body-pad">
+            <div id="model-status" class="status-pill model {{ model_status }}">
                 {{ model_message }}
             </div>
-            
-            <!-- API Status Check -->
-            <div id="api-status" class="api-status">
-                Checking API status...
+
+            <div id="api-status" class="status-pill api">
+                Checking API status…
             </div>
-            
-            <!-- Flash Messages -->
+
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
-                    <div class="flash-messages">
+                    <div class="flash-stack">
                         {% for category, message in messages %}
-                            <div class="flash-message flash-{{ category }}">
-                                {{ message }}
-                            </div>
+                            <div class="flash flash-{{ category }}">{{ message }}</div>
                         {% endfor %}
                     </div>
                 {% endif %}
             {% endwith %}
-            
+
             <form method="POST" action="/recommend">
-                <!-- Brand Preferences -->
-                <div class="form-section">
-                    <h3>🏷️ Brand Preferences</h3>
-                    <div class="form-group">
-                        <label>Select your preferred brands (or choose "Any" for all brands):</label>
+                <section class="section" aria-labelledby="brands-heading">
+                    <h3 id="brands-heading">Brand preferences</h3>
+                    <div class="field">
+                        <label>Choose brands, or check <strong>Any</strong> to skip brand filtering.</label>
                         <div class="brand-grid">
                             {% for brand in brands %}
-                                <div class="brand-item">
+                                <label class="brand-tile">
                                     <input type="checkbox" name="brand_preferences" value="{{ brand }}" id="brand_{{ brand }}">
-                                    <label for="brand_{{ brand }}">{{ brand }}</label>
-                                </div>
+                                    <span>{{ brand }}</span>
+                                </label>
                             {% endfor %}
                         </div>
                     </div>
-                </div>
-                
-                <!-- Intended Use -->
-                <div class="form-section">
-                    <h3>🎯 Intended Use</h3>
-                    <div class="form-group">
-                        <label>What type of running will you be doing?</label>
-                        <div class="checkbox-group">
+                </section>
+
+                <section class="section" aria-labelledby="use-heading">
+                    <h3 id="use-heading">Intended use</h3>
+                    <div class="field">
+                        <label>What kind of running do you do?</label>
+                        <div class="grid-checks">
                             {% for category in categories %}
-                                <div class="checkbox-item">
+                                <div class="check">
                                     <input type="checkbox" name="{{ category }}" id="{{ category }}">
                                     <label for="{{ category }}">
-                                        {% if category == 'easy_runs' %}Easy/Recovery Runs
-                                        {% elif category == 'tempo_runs' %}Tempo Runs
-                                        {% elif category == 'long_runs' %}Long Runs
+                                        {% if category == 'easy_runs' %}Easy / recovery
+                                        {% elif category == 'tempo_runs' %}Tempo
+                                        {% elif category == 'long_runs' %}Long runs
                                         {% elif category == 'races' %}Races
-                                        {% elif category == 'trail' %}Trail Running
-                                        {% else %}{{ category|title }}{% endif %}
+                                        {% elif category == 'trail' %}Trail
+                                        {% else %}{{ category|replace('_', ' ')|title }}{% endif %}
                                     </label>
                                 </div>
                             {% endfor %}
                         </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label>Race distances (if applicable):</label>
-                        <div class="checkbox-group">
+
+                    <div class="field">
+                        <label>Race distances (if applicable)</label>
+                        <div class="grid-checks">
                             {% for distance in race_distances %}
-                                <div class="checkbox-item">
+                                <div class="check">
                                     <input type="checkbox" name="races" value="{{ distance }}" id="race_{{ distance }}">
                                     <label for="race_{{ distance }}">{{ distance|replace('_', ' ')|title }}</label>
                                 </div>
                             {% endfor %}
                         </div>
                     </div>
-                </div>
-                
-                <!-- Budget -->
-                <div class="form-section">
-                    <h3>💰 Budget</h3>
-                    <div class="form-group">
-                        <div class="budget-section">
+                </section>
+
+                <section class="section" aria-labelledby="budget-heading">
+                    <h3 id="budget-heading">Budget</h3>
+                    <div class="field">
+                        <div class="budget-row">
                             <div class="budget-toggle">
                                 <input type="checkbox" name="budget_enabled" id="budget_enabled" checked>
-                                <label for="budget_enabled">Set budget limit</label>
+                                <label for="budget_enabled">Limit maximum price</label>
                             </div>
-                            <div class="budget-input">
-                                <label for="max_budget">Maximum price (USD):</label>
+                            <div class="budget-field">
+                                <label for="max_budget">Maximum price (USD)</label>
                                 <input type="number" name="max_budget" id="max_budget" value="200" min="50" max="{{ max_price }}" step="10">
-                                <small class="price-range">Range: $50 - ${{ max_price }} (based on catalog)</small>
+                                <span class="hint">Typical range in catalog: $50–${{ max_price }}.</span>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Number of Recommendations -->
-                <div class="form-section">
-                    <h3>📊 Recommendations</h3>
-                    <div class="form-group">
-                        <label for="num_recommendations">Number of recommendations to show:</label>
+                </section>
+
+                <section class="section" aria-labelledby="count-heading">
+                    <h3 id="count-heading">How many results</h3>
+                    <div class="field">
+                        <label for="num_recommendations">Number of recommendations</label>
                         <select name="num_recommendations" id="num_recommendations">
-                            <option value="3">3 recommendations</option>
-                            <option value="5" selected>5 recommendations</option>
-                            <option value="8">8 recommendations</option>
-                            <option value="10">10 recommendations</option>
-                            <option value="15">15 recommendations</option>
-                            <option value="20">20 recommendations</option>
+                            <option value="3">3</option>
+                            <option value="5" selected>5</option>
+                            <option value="8">8</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
                         </select>
-                        <small class="help-text">More recommendations give you more options but may include lower-scoring shoes</small>
+                        <span class="hint">Larger lists include lower-scoring options.</span>
                     </div>
-                </div>
-                
-                <!-- Submit Button -->
-                <div class="form-group">
-                    <button type="submit" class="submit-btn">
-                        🚀 Get Recommendations
-                    </button>
+                </section>
+
+                <div class="field">
+                    <button type="submit" class="btn-primary">Get recommendations</button>
                 </div>
             </form>
         </div>
     </div>
-    
+
     <script>
-        // Check API and model status on page load
         async function checkStatuses() {
-            await Promise.all([
-                checkApiStatus(),
-                checkModelStatus()
-            ]);
+            await Promise.all([checkApiStatus(), checkModelStatus()]);
         }
-        
+
         async function checkApiStatus() {
+            const el = document.getElementById('api-status');
             try {
                 const response = await fetch('/api/health');
                 const data = await response.json();
-                const statusDiv = document.getElementById('api-status');
-                
                 if (data.status === 'healthy') {
-                    statusDiv.className = 'api-status healthy';
-                    statusDiv.textContent = '✅ API is running and healthy';
+                    el.className = 'status-pill api healthy';
+                    el.textContent = 'API is running.';
                 } else {
-                    statusDiv.className = 'api-status unhealthy';
-                    statusDiv.textContent = '❌ API is not responding properly';
+                    el.className = 'status-pill api unhealthy';
+                    el.textContent = 'API is not responding as expected.';
                 }
-            } catch (error) {
-                const statusDiv = document.getElementById('api-status');
-                statusDiv.className = 'api-status unhealthy';
-                statusDiv.textContent = '❌ Cannot connect to API';
+            } catch {
+                el.className = 'status-pill api unhealthy';
+                el.textContent = 'Cannot reach the API proxy. Is the Flask app up?';
             }
         }
-        
+
         async function checkModelStatus() {
+            const el = document.getElementById('model-status');
             try {
                 const response = await fetch('/api/model-status');
                 const data = await response.json();
-                const statusDiv = document.getElementById('model-status');
-                
-                statusDiv.className = `model-status ${data.status}`;
-                statusDiv.textContent = data.message;
-            } catch (error) {
-                const statusDiv = document.getElementById('model-status');
-                statusDiv.className = 'model-status unhealthy';
-                statusDiv.textContent = '❌ Cannot check model status';
+                el.className = `status-pill model ${data.status}`;
+                el.textContent = data.message;
+            } catch {
+                el.className = 'status-pill model unhealthy';
+                el.textContent = 'Could not check backend status.';
             }
         }
-        
-        // Check status when page loads
+
         document.addEventListener('DOMContentLoaded', checkStatuses);
-        
-        // Auto-check status every 30 seconds
         setInterval(checkStatuses, 30000);
-        
-        // Handle budget toggle
-        document.getElementById('budget_enabled').addEventListener('change', function() {
-            const budgetInput = document.getElementById('max_budget');
-            budgetInput.disabled = !this.checked;
+
+        document.getElementById('budget_enabled').addEventListener('change', function () {
+            document.getElementById('max_budget').disabled = !this.checked;
         });
     </script>
 </body>
