@@ -13,7 +13,7 @@ analysis techniques including:
 from typing import Dict, List, Any, Tuple
 import json
 import os
-from .llm import complete
+from .llm import complete_text
 from .schemas import RecommendationRequest
 
 
@@ -24,36 +24,24 @@ class EnhancedAIAnalyzer:
         self.catalog = self._load_catalog()
         self._load_analysis_prompts()
     
-    def _get_completion(self, prompt: str, timeout: int = 8) -> str:
-        """Wrapper for the LLM complete function that handles single prompts with timeout"""
+    def _get_completion(self, prompt: str, timeout: int = 120) -> str:
+        """Call the local LLM for plain-text analysis (not JSON array)."""
+        system_msg = (
+            "You are an expert running shoe fitter. Answer in 2-4 short sentences. "
+            "Be specific to the shoe model and the runner's stated goals. "
+            "Use plain prose only: no JSON, no code fences, no markdown (no **bold** or headings)."
+        )
         try:
-            # Use simple system message and the prompt as user message
-            system_msg = "You are a running shoe expert. Provide ONE sentence analysis."
-            
-            print(f"    Calling AI model for analysis...")
-            
-            # Try using the complete function with simple inputs
-            result = complete(system_msg, prompt)
-            print(f"    AI model returned: {type(result)}")
-            
-            # Handle different return types
-            if isinstance(result, list) and len(result) > 0:
-                ai_response = str(result[0])
-                print(f"    AI analysis successful: {ai_response[:50]}...")
-                return ai_response
-            elif isinstance(result, str):
-                print(f"    AI analysis successful: {result[:50]}...")
-                return result
-            else:
-                print(f"    AI returned unexpected type: {type(result)}, value: {result}")
-                return f"This shoe offers solid performance for your running needs with good technical specifications."
-                
+            print("    Calling AI model for analysis...")
+            text = complete_text(system_msg, prompt, timeout_s=float(timeout))
+            if text:
+                print(f"    AI analysis successful: {text[:80]}...")
+                return text
         except Exception as e:
             print(f"    AI analysis error: {e}")
-            import traceback
-            print(f"    Full error details: {traceback.format_exc()}")
-            # Return a meaningful fallback instead of error message
-            return f"This shoe offers solid performance for your running needs with good technical specifications."
+        return (
+            "This shoe offers solid performance for your running needs with good technical specifications."
+        )
     
     def _load_catalog(self) -> List[Dict[str, Any]]:
         """Load shoe catalog"""
@@ -343,13 +331,16 @@ Provide evidence-based technical analysis with specific examples.
         try:
             detailed_analysis = self._get_completion(analysis_prompt)
             
-            # Add ranking context if this is a top recommendation
+            # Short plain-text rank note (matches "no markdown" system instruction for the LLM body).
             if rank == 1:
-                ranking_context = f"\n\n**TOP RECOMMENDATION #{rank}**: This shoe ranked highest due to optimal alignment with your requirements."
+                ranking_note = (
+                    f" Top pick in this list (#{rank}): strongest match to your stated use and constraints."
+                )
             else:
-                ranking_context = f"\n\n**RECOMMENDATION #{rank}**: Strong alternative option with specific advantages."
-            
-            return detailed_analysis + ranking_context
+                ranking_note = (
+                    f" Alternative option (#{rank}): still a strong match; compare fit and feel with the top pick."
+                )
+            return (detailed_analysis.rstrip() + ranking_note).strip()
             
         except Exception as e:
             return f"Advanced AI analysis temporarily unavailable. Basic analysis: This {shoe['brand']} {shoe['model']} offers solid performance for your intended use with {shoe.get('plate', 'standard')} construction and {shoe.get('drop_mm', 'standard')} drop."

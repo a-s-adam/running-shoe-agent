@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field
 
     
@@ -38,6 +38,9 @@ class RecommendationItem(BaseModel):
     why_rules: str = Field(description="Why this shoe matches the rules")
     why_llm: str = Field(description="LLM-generated explanation")
     score: float = Field(ge=0, le=1, description="Recommendation score 0-1")
+    enhanced_data: Optional[Dict[str, Any]] = Field(
+        default=None, description="Optional enriched catalog metadata when present"
+    )
 
 
 class RecommendationResponse(BaseModel):

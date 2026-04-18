@@ -2,6 +2,10 @@
 
 This guide shows how to set up and run the Running Shoe Recommendation Agent using `uv`, a fast Python package installer and resolver.
 
+## Use this project’s `.venv` only
+
+All installs and runs for this repository should use the **`running-shoe-agent/.venv`** environment. Other environments (for example a Conda env such as `sapiens_lite`) are easy to confuse with this one in the terminal; they will not include this app’s dependencies unless you duplicate `requirements.txt` there. In Cursor or PowerShell, **activate `.venv` before** `uvicorn`, `python flask_app.py`, or `pytest`.
+
 ## What is `uv`?
 
 `uv` is a modern Python toolchain that's significantly faster than pip and provides better dependency resolution. It's a great alternative to pip, pipenv, and poetry.
@@ -42,9 +46,14 @@ uv venv
 source .venv/bin/activate
 ```
 
-**Windows:**
-```bash
-.venv\Scripts\activate
+**Windows (PowerShell):**
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+**Windows (Command Prompt):**
+```bat
+.venv\Scripts\activate.bat
 ```
 
 ### 4. Install Dependencies
@@ -72,7 +81,7 @@ ollama serve
 
 ### 3. Run the API
 ```bash
-uvicorn app.main:app --reload --port 8000
+python -m uvicorn app.main:app --reload --port 8000
 ```
 
 ### 4. Test the API
@@ -86,7 +95,7 @@ You can also run commands directly without activating the virtual environment:
 
 ```bash
 # Run the API
-uv run uvicorn app.main:app --reload --port 8000
+uv run python -m uvicorn app.main:app --reload --port 8000
 
 # Run tests
 uv run pytest tests/ -v
@@ -122,15 +131,22 @@ If you encounter activation problems:
 # Remove and recreate
 rm -rf .venv
 uv venv
-source .venv/bin/activate  # or .venv\Scripts\activate on Windows
+source .venv/bin/activate  # or .\.venv\Scripts\Activate.ps1 on Windows PowerShell
 uv pip install -r requirements.txt
+```
+
+If `pip` is not available inside `.venv` after `uv venv`, bootstrap it and install:
+
+```bash
+python -m ensurepip --upgrade
+python -m pip install -r requirements.txt
 ```
 
 ### Port Already in Use
 If port 8000 is busy:
 ```bash
 # Use a different port
-uvicorn app.main:app --reload --port 8001
+python -m uvicorn app.main:app --reload --port 8001
 ```
 
 ### Ollama Connection Issues
@@ -165,11 +181,11 @@ pip install -r requirements.txt
 ### pipenv
 ```bash
 pipenv install
-pipenv run uvicorn app.main:app --reload
+pipenv run python -m uvicorn app.main:app --reload
 ```
 
 ### poetry
 ```bash
 poetry install
-poetry run uvicorn app.main:app --reload
+poetry run python -m uvicorn app.main:app --reload
 ```

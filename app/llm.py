@@ -8,6 +8,46 @@ from typing import List, Dict, Any
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "llama3.1")
 
+
+def complete_text(system_str: str, user_str: str, timeout_s: float = 120.0) -> str:
+    """
+    Call Ollama /api/chat and return the assistant message as plain text.
+    Used for prose analysis; use complete() when the model must return a JSON array of strings.
+    """
+    url = f"{OLLAMA_HOST}/api/chat"
+    payload = {
+        "model": OLLAMA_MODEL,
+        "messages": [
+            {"role": "system", "content": system_str},
+            {"role": "user", "content": user_str},
+        ],
+        "stream": False,
+        "options": {
+            "temperature": 0.35,
+            "top_p": 0.9,
+            "num_ctx": 4096,
+        },
+    }
+
+    with httpx.Client(timeout=timeout_s) as client:
+        resp = client.post(url, json=payload)
+        resp.raise_for_status()
+        data = resp.json()
+
+    text = (data.get("message") or {}).get("content") or ""
+    text = text.strip()
+
+    if text.startswith("```"):
+        lines = text.splitlines()
+        if lines and lines[0].startswith("```"):
+            lines = lines[1:]
+        while lines and lines[-1].strip().startswith("```"):
+            lines.pop()
+        text = "\n".join(lines).strip()
+
+    return text
+
+
 def build_prompt(inputs: Dict[str, Any], candidates: List[Dict[str, Any]]) -> tuple[str, str]:
     """
     Render system and user prompts from templates.

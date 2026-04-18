@@ -14,9 +14,9 @@ Python scraper for men’s running shoes on [Road Runner Sports](https://www.roa
 
 ### Dependencies
 
+From the project root, activate **`.venv`** (this repository’s virtual environment), then install everything the app uses (including Selenium):
+
 ```bash
-pip install selenium
-# or
 pip install -r requirements.txt
 ```
 
@@ -110,3 +110,4 @@ python -c "import json; d=json.load(open('app/catalog.json')); print(len(d), d[0
 ## Legal and ethics
 
 Scraping may be restricted by the site’s terms. Use polite delays, do not overload their servers, and prefer official APIs or data partnerships for production or commercial use.
+'S

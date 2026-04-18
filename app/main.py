@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 from .schemas import RecommendationRequest, RecommendationResponse, RecommendationItem
 from .recommender import ShoeRecommender
 from .enhanced_recommender import EnhancedShoeRecommender
-from .llm import build_prompt, complete
 
 # Load environment variables
 load_dotenv()

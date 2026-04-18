@@ -101,10 +101,10 @@ class TestShoeRecommender:
     
     def test_empty_results(self, recommender):
         """Test handling of no matching results"""
-        # Impossible request
         request = RecommendationRequest(
-            intended_use=IntendedUse(trail=True),  # No trail shoes in catalog
-            cost_limiter=CostLimiter(enabled=True, max_usd=50)
+            intended_use=IntendedUse(easy_runs=True),
+            cost_limiter=CostLimiter(enabled=True, max_usd=500),
+            brand_preferences=["__NonexistentBrand__"],
         )
         
         candidates = recommender.filter_and_score(request)

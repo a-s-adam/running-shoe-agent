@@ -7,10 +7,25 @@ Small example app: rule-based shortlisting plus local LLM explanations via [Olla
 ### Python environment
 
 ```bash
+cd running-shoe-agent
 uv venv
-# Windows: .venv\Scripts\activate
-# macOS/Linux: source .venv/bin/activate
+# Windows PowerShell:
+#   .\.venv\Scripts\Activate.ps1
+# Windows cmd:
+#   .venv\Scripts\activate.bat
+# macOS/Linux:
+#   source .venv/bin/activate
 uv pip install -r requirements.txt
+```
+
+If `.venv` exists but `pip` is missing (some minimal venvs), run: `python -m ensurepip --upgrade`, then `pip install -r requirements.txt`.
+
+**Run commands** only after activating `.venv`, or prefix with the venv’s `python` / `uv run`.
+
+**Start the API** (from the project root, with `.venv` active):
+
+```bash
+python -m uvicorn app.main:app --reload --port 8000
 ```
 
 More detail: [SETUP_UV.md](SETUP_UV.md).
@@ -27,7 +42,7 @@ ollama pull llama3.1
 ```bash
 cp env.example .env
 # Optional: set OLLAMA_MODEL, OLLAMA_HOST, PORT
-uvicorn app.main:app --reload --port ${PORT:-8000}
+python -m uvicorn app.main:app --reload --port 8000
 ```
 
 ### Try the API

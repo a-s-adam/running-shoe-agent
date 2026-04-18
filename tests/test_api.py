@@ -1,8 +1,7 @@
 import pytest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from fastapi.testclient import TestClient
 from app.main import app
-from app.schemas import RecommendationRequest, IntendedUse, CostLimiter
 
 
 class TestAPI:
@@ -37,15 +36,14 @@ class TestAPI:
         assert "ollama_host" in data
         assert "ollama_model" in data
     
-    @patch('app.main.complete')
-    def test_recommend_endpoint_success(self, mock_complete, client, sample_request):
+    @patch('app.enhanced_recommender.complete_text')
+    @patch('app.enhanced_ai_analyzer.complete_text')
+    def test_recommend_endpoint_success(self, mock_llm_text, mock_rerank_text, client, sample_request):
         """Test successful recommendation generation"""
-        # Mock LLM response
-        mock_complete.return_value = [
-            "Great for tempo runs and half marathons with its nylon plate technology.",
-            "Excellent daily trainer that can handle easy and tempo runs comfortably.",
-            "Race-focused design with carbon plate for maximum speed during half marathons."
-        ]
+        mock_rerank_text.side_effect = Exception("skip LLM re-rank in unit test")
+        mock_llm_text.return_value = (
+            "Great for tempo runs and half marathons; matches your goals well."
+        )
         
         response = client.post("/recommend", json=sample_request)
         assert response.status_code == 200
@@ -68,22 +66,22 @@ class TestAPI:
             assert "score" in item
             assert 0 <= item["score"] <= 1
     
-    @patch('app.main.complete')
-    def test_recommend_endpoint_llm_fallback(self, mock_complete, client, sample_request):
+    @patch('app.enhanced_ai_analyzer.complete_text')
+    @patch('app.enhanced_recommender.complete_text')
+    def test_recommend_endpoint_llm_fallback(self, mock_rerank, mock_analyze, client, sample_request):
         """Test fallback when LLM is unavailable"""
-        # Mock LLM failure
-        mock_complete.side_effect = Exception("Ollama connection failed")
-        
+        mock_analyze.side_effect = Exception("Ollama connection failed")
+        mock_rerank.side_effect = Exception("Ollama connection failed")
+
         response = client.post("/recommend", json=sample_request)
         assert response.status_code == 200
-        
+
         data = response.json()
         shortlist = data["shortlist"]
-        
-        # Should still return recommendations with fallback explanations
+
         assert len(shortlist) > 0
         for item in shortlist:
-            assert "AI explanation unavailable" in item["why_llm"]
+            assert "solid performance" in item["why_llm"].lower()
     
     def test_recommend_endpoint_validation(self, client):
         """Test input validation"""
@@ -106,8 +104,11 @@ class TestAPI:
             "cost_limiter": {"enabled": True, "max_usd": 150}
         }
         
-        with patch('app.main.complete') as mock_complete:
-            mock_complete.return_value = ["Good race shoe for 5K events."]
+        with patch('app.enhanced_recommender.complete_text') as mock_rerank, patch(
+            'app.enhanced_ai_analyzer.complete_text'
+        ) as mock_llm_text:
+            mock_rerank.side_effect = Exception("skip LLM re-rank in unit test")
+            mock_llm_text.return_value = "Good race shoe for 5K events."
             
             response = client.post("/recommend", json=low_budget_request)
             assert response.status_code == 200
@@ -123,28 +124,26 @@ class TestAPI:
     
     def test_recommend_endpoint_no_results(self, client):
         """Test handling of no matching results"""
-        # Impossible request
         impossible_request = {
-            "intended_use": {"trail": True},  # No trail shoes in catalog
-            "cost_limiter": {"enabled": True, "max_usd": 50}
+            "brand_preferences": ["__NonexistentBrand__"],
+            "intended_use": {"easy_runs": True},
+            "cost_limiter": {"enabled": True, "max_usd": 500},
         }
         
-        with patch('app.main.complete') as mock_complete:
-            mock_complete.return_value = []
-            
-            response = client.post("/recommend", json=impossible_request)
-            assert response.status_code == 200
-            
-            data = response.json()
-            assert len(data["shortlist"]) == 0
-            assert len(data["notes"]) > 0
-            assert "No shoes match your criteria" in data["notes"][0]
+        response = client.post("/recommend", json=impossible_request)
+        assert response.status_code == 200
+
+        data = response.json()
+        assert len(data["shortlist"]) == 0
+        assert len(data["notes"]) > 0
+        assert "No shoes match your criteria" in data["notes"][0]
     
-    @patch('app.main.complete')
-    def test_llm_explanation_alignment(self, mock_complete, client, sample_request):
+    @patch('app.enhanced_recommender.complete_text')
+    @patch('app.enhanced_ai_analyzer.complete_text')
+    def test_llm_explanation_alignment(self, mock_llm_text, mock_rerank, client, sample_request):
         """Test that LLM explanations align with candidates"""
-        # Mock LLM returning fewer explanations than candidates
-        mock_complete.return_value = ["Good for tempo runs"]
+        mock_rerank.side_effect = Exception("skip LLM re-rank in unit test")
+        mock_llm_text.return_value = "Good for tempo runs."
         
         response = client.post("/recommend", json=sample_request)
         assert response.status_code == 200

@@ -4,11 +4,13 @@ HTML form and results pages that call the FastAPI `/recommend` endpoint so you d
 
 ## Run
 
-```bash
-# Terminal 1 — API
-uvicorn app.main:app --reload --port 8000
+Activate this repo’s **`.venv`** first (see [README.md](README.md) or [SETUP_UV.md](SETUP_UV.md)). Do not use unrelated Conda envs unless you have installed `requirements.txt` into them.
 
-# Terminal 2 — Flask
+```bash
+# Terminal 1 — API (from project root, .venv active)
+python -m uvicorn app.main:app --reload --port 8000
+
+# Terminal 2 — Flask (same .venv)
 python flask_app.py
 # or: ./start_flask.sh
 ```

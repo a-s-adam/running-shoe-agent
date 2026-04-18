@@ -9,12 +9,14 @@ This module replaces the basic recommender with:
 5. Technical deep-dive analysis
 """
 
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any
+import json
+import re
+import os
+
 from .schemas import RecommendationRequest, RecommendationItem
 from .enhanced_ai_analyzer import EnhancedAIAnalyzer
-from .llm import complete
-import json
-import os
+from .llm import complete_text
 
 
 class EnhancedShoeRecommender:
@@ -79,16 +81,16 @@ class EnhancedShoeRecommender:
         # Step 2: Apply dynamic ranking adjustments
         candidates = self._apply_dynamic_ranking(candidates, request)
         
-        # Step 3: Generate enhanced AI analysis for top candidates
-        top_candidates = candidates[:request.num_recommendations]
+        # Step 3: Optional LLM re-ranking of the shortlist (same candidates, new order)
+        top_candidates = candidates[: request.num_recommendations]
+        top_candidates = self._llm_rerank_shortlist(top_candidates, request)
         recommendations = []
-        
+
         print(f"   Generating enhanced AI analysis for top {len(top_candidates)} shoes...")
-        
+
         for idx, candidate in enumerate(top_candidates, 1):
             print(f"   Analyzing #{idx}: {candidate['brand']} {candidate['model']}")
-            
-            # Temporarily disable AI analysis to test basic functionality
+
             try:
                 # Generate detailed AI analysis
                 detailed_analysis = self.ai_analyzer.generate_detailed_ai_analysis(
@@ -97,7 +99,11 @@ class EnhancedShoeRecommender:
             except Exception as e:
                 print(f"   AI analysis failed for {candidate['brand']} {candidate['model']}: {e}")
                 # Fallback to rule-based analysis
-                detailed_analysis = f"This {candidate['brand']} {candidate['model']} is recommended for your use case based on its {candidate.get('plate', 'standard')} construction and {candidate.get('category', ['general'])} design. **RECOMMENDATION #{idx}**: {'Top choice' if idx == 1 else 'Strong alternative option'} with specific advantages."
+                detailed_analysis = (
+                    f"This {candidate['brand']} {candidate['model']} fits your use case based on its "
+                    f"{candidate.get('plate', 'standard')} setup and {candidate.get('category', ['general'])} design. "
+                    f"Recommendation #{idx}: {'top choice' if idx == 1 else 'strong alternative'}."
+                )
             
             # Create enhanced recommendation item
             recommendation = RecommendationItem(
@@ -130,7 +136,54 @@ class EnhancedShoeRecommender:
         
         print(f" Generated {len(recommendations)} enhanced recommendations")
         return recommendations
-    
+
+    def _llm_rerank_shortlist(
+        self,
+        ranked: List[Dict[str, Any]],
+        request: RecommendationRequest,
+    ) -> List[Dict[str, Any]]:
+        """Re-order the shortlist using the LLM; on any failure, keep the rule-based order."""
+        if len(ranked) <= 1:
+            return ranked
+
+        lines = [
+            f"{i}: {c['brand']} {c['model']} | ${c['price_usd']} | "
+            f"cat={','.join(c.get('category', []))} | plate={c.get('plate', 'none')}"
+            for i, c in enumerate(ranked)
+        ]
+        table = "\n".join(lines)
+        user_req = self.ai_analyzer._format_user_requirements(request)
+        user_msg = (
+            f"Runner goals:\n{user_req}\n\n"
+            f"Candidates (indices 0..{len(ranked) - 1}; 0 is currently top-ranked by the engine):\n"
+            f"{table}\n\n"
+            'Return only JSON: {"order": [<indices, best pick first>]} — each integer from 0 through '
+            f"{len(ranked) - 1} exactly once."
+        )
+        system_msg = (
+            "You rank running shoes for the runner's goals. Reply with JSON only, no markdown fences or prose."
+        )
+        try:
+            raw = complete_text(system_msg, user_msg, timeout_s=90.0)
+            parsed = None
+            try:
+                parsed = json.loads(raw)
+            except json.JSONDecodeError:
+                m = re.search(r"\{[\s\S]*\"order\"\s*:\s*\[[\s\S]*?\]\s*\}", raw)
+                if m:
+                    parsed = json.loads(m.group(0))
+            if not parsed or not isinstance(parsed.get("order"), list):
+                return ranked
+            order = parsed["order"]
+            if len(order) != len(ranked) or set(order) != set(range(len(ranked))):
+                return ranked
+            if not all(isinstance(i, int) for i in order):
+                return ranked
+            return [ranked[i] for i in order]
+        except Exception as e:
+            print(f"   LLM re-rank skipped: {e}")
+            return ranked
+
     def _filter_and_enhanced_score(self, request: RecommendationRequest) -> List[Dict[str, Any]]:
         """Filter catalog and apply enhanced scoring algorithm"""
         candidates = []
