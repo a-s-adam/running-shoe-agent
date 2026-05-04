@@ -55,6 +55,16 @@ class RecommendationItem(BaseModel):
         default=None,
         description="Optional enriched catalog metadata when present",
     )
+    description: Optional[str] = None
+    image_url: Optional[str] = None
+    image_thumbnail_data_uri: Optional[str] = None
+    source_url: Optional[str] = None
+    source_name: Optional[str] = None
+    cushioning_level: Optional[str] = None
+    support_type: Optional[str] = None
+    heel_stack_mm: Optional[float] = None
+    forefoot_stack_mm: Optional[float] = None
+    best_for_distances: List[str] = Field(default_factory=list)
 
 
 class RecommendationResponse(BaseModel):

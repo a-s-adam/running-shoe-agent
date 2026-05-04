@@ -3,247 +3,510 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Running shoe recommendations</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    <title>Running Shoe Recommendations</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .form-container {
+            padding: 40px;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+        
+        .form-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #3498db;
+        }
+        
+        .checkbox-item label {
+            margin: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+        
+        .brand-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+        
+        .brand-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .brand-item:hover {
+            border-color: #3498db;
+            background: #f0f8ff;
+        }
+        
+        .brand-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #3498db;
+        }
+        
+        .brand-item label {
+            margin: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+        
+        .budget-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .budget-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .budget-input {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .help-text {
+            display: block;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+        
+        .submit-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+        
+        .submit-btn:hover {
+            background: #2980b9;
+        }
+
+        .top-link {
+            display: inline-block;
+            margin-top: 14px;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.45);
+            border-radius: 6px;
+            padding: 8px 12px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .status-box {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border-left: 3px solid #3498db;
+        }
+        
+        .status-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .api-status {
+            margin: 8px 0;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+        .api-status.healthy { background: #e8f5e9; color: #2e7d32; }
+        .api-status.unhealthy { background: #ffebee; color: #c62828; }
+        
+        .model-status { margin: 8px 0; padding: 8px 12px; border-radius: 4px; }
+        .model-status.healthy { background: #e8f5e9; color: #2e7d32; }
+        .model-status.warning { background: #fff8e1; color: #f57f17; }
+        .model-status.unhealthy { background: #ffebee; color: #c62828; }
+    </style>
 </head>
 <body>
-    <p class="site-byline" aria-label="Author">Austin Adam</p>
-    <div class="page-shell card">
-        <header class="hero">
-            <h1>Running shoe recommendations</h1>
-            <p>Tell us how you run and we will match shoes from your catalog.</p>
-        </header>
-
-        <div class="body-pad">
-            <div id="model-status" class="status-pill model {{ model_status }}">
-                {{ model_message }}
-            </div>
-
-            <div id="api-status" class="status-pill api">
-                Checking API status…
-            </div>
-
+    <div class="container">
+        <div class="header">
+            <h1>Running Shoe Recommendations</h1>
+            <p>Get personalized picks based on your runs, races, and budget.</p>
+            <a class="top-link" href="/catalog">Browse Catalog</a>
+        </div>
+        
+        <div class="form-container">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
-                    <div class="flash-stack">
-                        {% for category, message in messages %}
-                            <div class="flash flash-{{ category }}">{{ message }}</div>
-                        {% endfor %}
-                    </div>
+                    {% for category, message in messages %}
+                        <div class="status-box" style="border-left-color: {% if category == 'error' %}#e74c3c{% else %}#3498db{% endif %};">
+                            <div class="status-title">{{ category|title }}</div>
+                            <div>{{ message }}</div>
+                        </div>
+                    {% endfor %}
                 {% endif %}
             {% endwith %}
-
-            <form id="recommend-form" method="POST" action="/recommend" aria-busy="false">
-                <section class="section" aria-labelledby="brands-heading">
-                    <h3 id="brands-heading">Brand preferences</h3>
-                    <div class="field">
-                        <label>Choose brands, or check <strong>Any</strong> to skip brand filtering.</label>
+            
+            <div class="status-box">
+                <div class="status-title">System Status</div>
+                <div id="api-status" class="api-status">Checking API...</div>
+                <div id="model-status" class="model-status">Checking model...</div>
+                <div class="model-status healthy">Catalog backend: {{ catalog_backend }}</div>
+            </div>
+            
+            <form id="recommend-form" action="/recommend" method="POST" style="margin-top: 20px;">
+                <!-- Brands -->
+                <div class="form-section">
+                    <h3>🏷️ Brand Preferences</h3>
+                    <div class="form-group">
+                        <label>Select brands (optional):</label>
                         <div class="brand-grid">
                             {% for brand in brands %}
-                                <label class="brand-tile">
-                                    <input type="checkbox" name="brand_preferences" value="{{ brand }}" id="brand_{{ brand }}">
-                                    <span>{{ brand }}</span>
-                                </label>
+                            <label class="brand-item">
+                                <input type="checkbox" name="brand_preferences" value="{{ brand }}">
+                                <span>{{ brand }}</span>
+                            </label>
                             {% endfor %}
                         </div>
+                        <small class="help-text">Leave blank for any brand.</small>
                     </div>
-                </section>
-
-                <section class="section" aria-labelledby="use-heading">
-                    <h3 id="use-heading">Intended use</h3>
-                    <div class="field">
-                        <label>What kind of running do you do?</label>
-                        <div class="grid-checks">
+                </div>
+                
+                <!-- Intended Use -->
+                <div class="form-section">
+                    <h3>🏃 Intended Use</h3>
+                    <div class="form-group">
+                        <label>Select your primary running activities:</label>
+                        <div class="checkbox-group">
                             {% for category in categories %}
-                                <div class="check">
+                                <div class="checkbox-item">
                                     <input type="checkbox" name="{{ category }}" id="{{ category }}">
                                     <label for="{{ category }}">
-                                        {% if category == 'easy_runs' %}Easy / recovery
-                                        {% elif category == 'tempo_runs' %}Tempo
-                                        {% elif category == 'long_runs' %}Long runs
+                                        {% if category == 'easy_runs' %}Easy/Recovery Runs
+                                        {% elif category == 'tempo_runs' %}Tempo Runs
+                                        {% elif category == 'long_runs' %}Long Runs
                                         {% elif category == 'races' %}Races
-                                        {% elif category == 'trail' %}Trail
-                                        {% else %}{{ category|replace('_', ' ')|title }}{% endif %}
+                                        {% elif category == 'trail' %}Trail Running
+                                        {% else %}{{ category|title }}{% endif %}
                                     </label>
                                 </div>
                             {% endfor %}
                         </div>
                     </div>
-
-                    <div class="field">
-                        <label>Race distances (if applicable)</label>
-                        <div class="grid-checks">
+                    
+                    <div class="form-group">
+                        <label>Race distances (if applicable):</label>
+                        <div class="checkbox-group">
                             {% for distance in race_distances %}
-                                <div class="check">
+                                <div class="checkbox-item">
                                     <input type="checkbox" name="races" value="{{ distance }}" id="race_{{ distance }}">
                                     <label for="race_{{ distance }}">{{ distance|replace('_', ' ')|title }}</label>
                                 </div>
                             {% endfor %}
                         </div>
                     </div>
-                </section>
+                </div>
 
-                <section class="section" aria-labelledby="budget-heading">
-                    <h3 id="budget-heading">Budget</h3>
-                    <div class="field">
-                        <div class="budget-row">
+                <!-- Carbon Plate Toggle -->
+                <div class="form-section">
+                    <h3>🧪 Carbon-Plated Shoes</h3>
+                    <div class="form-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="allow_carbon" id="allow_carbon" checked>
+                            <label for="allow_carbon">Include carbon-plated shoes (race-focused, unique feel and cost)</label>
+                        </div>
+                        <small class="help-text">Uncheck to exclude carbon-plated shoes from the results.</small>
+                    </div>
+                </div>
+
+                <!-- Budget -->
+                <div class="form-section">
+                    <h3>💰 Budget</h3>
+                    <div class="form-group">
+                        <div class="budget-section">
                             <div class="budget-toggle">
                                 <input type="checkbox" name="budget_enabled" id="budget_enabled" checked>
-                                <label for="budget_enabled">Limit maximum price</label>
+                                <label for="budget_enabled">Set budget limit</label>
                             </div>
-                            <div class="budget-field">
-                                <label for="max_budget">Maximum price (USD)</label>
+                            <div class="budget-input">
+                                <label for="max_budget">Maximum price (USD):</label>
                                 <input type="number" name="max_budget" id="max_budget" value="200" min="50" max="{{ max_price }}" step="10">
-                                <span class="hint">Typical range in catalog: $50–${{ max_price }}.</span>
+                                <small class="price-range">Range: $50 - ${{ max_price }} (based on catalog)</small>
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
 
-                <section class="section" aria-labelledby="count-heading">
-                    <h3 id="count-heading">How many results</h3>
-                    <div class="field">
-                        <label for="num_recommendations">Number of recommendations</label>
-                        <select name="num_recommendations" id="num_recommendations">
-                            <option value="3">3</option>
-                            <option value="5" selected>5</option>
-                            <option value="8">8</option>
-                            <option value="10">10</option>
-                            <option value="15">15</option>
-                            <option value="20">20</option>
-                        </select>
-                        <span class="hint">Larger lists include lower-scoring options.</span>
+                <!-- Weights -->
+                <div class="form-section">
+                    <h3>⚖️ Preference Weights</h3>
+                    <div class="form-group">
+                        <label>Adjust how strongly each factor influences ranking (0 disables):</label>
+                        <div class="checkbox-group" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+                            <div>
+                                <label for="weight_brand">Brand weight</label>
+                                <input type="number" id="weight_brand" name="weight_brand" step="0.1" min="0" max="3" value="1.0">
+                            </div>
+                            <div>
+                                <label for="weight_budget">Budget weight</label>
+                                <input type="number" id="weight_budget" name="weight_budget" step="0.1" min="0" max="3" value="1.0">
+                            </div>
+                            <div>
+                                <label for="weight_easy_runs">Easy runs weight</label>
+                                <input type="number" id="weight_easy_runs" name="weight_easy_runs" step="0.1" min="0" max="3" value="1.0">
+                            </div>
+                            <div>
+                                <label for="weight_tempo_runs">Tempo runs weight</label>
+                                <input type="number" id="weight_tempo_runs" name="weight_tempo_runs" step="0.1" min="0" max="3" value="1.0">
+                            </div>
+                            <div>
+                                <label for="weight_long_runs">Long runs weight</label>
+                                <input type="number" id="weight_long_runs" name="weight_long_runs" step="0.1" min="0" max="3" value="1.0">
+                            </div>
+                            <div>
+                                <label for="weight_races">Races weight</label>
+                                <input type="number" id="weight_races" name="weight_races" step="0.1" min="0" max="3" value="1.0">
+                            </div>
+                        </div>
+                        <small class="help-text">Set a factor to 0 to ignore it. Higher values increase its influence.</small>
                     </div>
-                </section>
+                </div>
 
-                <div class="field">
-                    <button type="submit" class="btn-primary" id="submit-btn">
-                        <span class="btn-primary__label">Get recommendations</span>
+                <!-- Number of Recommendations -->
+                <div class="form-section">
+                    <h3>📊 Recommendations</h3>
+                    <div class="form-group">
+                        <label for="num_recommendations">Number of recommendations to show:</label>
+                        <select name="num_recommendations" id="num_recommendations">
+                            <option value="3">3 recommendations</option>
+                            <option value="5" selected>5 recommendations</option>
+                            <option value="8">8 recommendations</option>
+                            <option value="10">10 recommendations</option>
+                            <option value="15">15 recommendations</option>
+                            <option value="20">20 recommendations</option>
+                        </select>
+                        <small class="help-text">More recommendations give you more options but may include lower-scoring shoes</small>
+                    </div>
+                </div>
+                
+                <!-- Submit Button -->
+                <div class="form-group">
+                    <button id="submit-btn" type="submit" class="submit-btn">
+                        🚀 Get Recommendations
                     </button>
                 </div>
             </form>
         </div>
     </div>
-
-    <div id="submit-overlay" class="submit-overlay" hidden>
-        <div class="submit-overlay__panel" role="status" aria-live="polite" aria-atomic="true">
-            <p class="submit-overlay__title">Working on your recommendations</p>
-            <p class="submit-overlay__hint">Do not close this tab—the next page loads when everything is ready.</p>
-            <ol class="submit-steps" aria-label="Progress">
-                <li class="submit-steps__item is-active" data-step="0">
-                    <span class="step-dot" aria-hidden="true"></span>
-                    <span class="step-text">Sending your preferences</span>
-                </li>
-                <li class="submit-steps__item" data-step="1">
-                    <span class="step-dot" aria-hidden="true"></span>
-                    <span class="step-text">Scoring shoes from the catalog</span>
-                </li>
-                <li class="submit-steps__item" data-step="2">
-                    <span class="step-dot" aria-hidden="true"></span>
-                    <span class="step-text">Asking the AI for explanations (often the slowest step)</span>
-                </li>
-                <li class="submit-steps__item" data-step="3">
-                    <span class="step-dot" aria-hidden="true"></span>
-                    <span class="step-text">Preparing your results</span>
-                </li>
-            </ol>
+    
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" style="
+        position: fixed; inset: 0; background: rgba(255,255,255,0.8);
+        display: none; align-items: center; justify-content: center; z-index: 9999;">
+        <div style="width: min(680px, 92vw); background: white; border: 1px solid #e1e8ed; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.12); padding: 18px;">
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+                <div class="spinner" style="width: 28px; height: 28px; border: 4px solid #e1e8ed; border-top-color: #3498db; border-radius: 50%; animation: spin 0.9s linear infinite;"></div>
+                <div>
+                    <div style="font-weight:700; color:#2c3e50;">Working on your recommendations…</div>
+                    <div style="font-size:0.9rem; color:#7f8c8d;">Live task log (developer view)</div>
+                </div>
+            </div>
+            <div style="height:8px; background:#f0f3f5; border-radius:6px; overflow:hidden; margin-bottom:12px;">
+                <div id="progress-bar" style="height:100%; width:0%; background:#3498db; transition: width 0.25s ease"></div>
+            </div>
+            <pre id="progress-log" style="height: 180px; overflow:auto; background:#0b1020; color:#e8edf7; padding:12px; border-radius:6px; font-size:12px; line-height:1.35; margin:0;">
+            </pre>
         </div>
     </div>
-
+    <style>
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    </style>
+    
     <script>
+        // Check API and model status on page load
         async function checkStatuses() {
-            await Promise.all([checkApiStatus(), checkModelStatus()]);
+            await Promise.all([
+                checkApiStatus(),
+                checkModelStatus()
+            ]);
         }
-
+        
         async function checkApiStatus() {
-            const el = document.getElementById('api-status');
             try {
                 const response = await fetch('/api/health');
                 const data = await response.json();
+                const statusDiv = document.getElementById('api-status');
+                
                 if (data.status === 'healthy') {
-                    el.className = 'status-pill api healthy';
-                    el.textContent = 'API is running.';
+                    statusDiv.className = 'api-status healthy';
+                    statusDiv.textContent = '✅ API is running and healthy';
                 } else {
-                    el.className = 'status-pill api unhealthy';
-                    el.textContent = 'API is not responding as expected.';
+                    statusDiv.className = 'api-status unhealthy';
+                    statusDiv.textContent = '❌ API is not responding properly';
                 }
-            } catch {
-                el.className = 'status-pill api unhealthy';
-                el.textContent = 'Cannot reach the API proxy. Is the Flask app up?';
+            } catch (error) {
+                const statusDiv = document.getElementById('api-status');
+                statusDiv.className = 'api-status unhealthy';
+                statusDiv.textContent = '❌ Cannot connect to API';
             }
         }
-
+        
         async function checkModelStatus() {
-            const el = document.getElementById('model-status');
             try {
                 const response = await fetch('/api/model-status');
                 const data = await response.json();
-                el.className = `status-pill model ${data.status}`;
-                el.textContent = data.message;
-            } catch {
-                el.className = 'status-pill model unhealthy';
-                el.textContent = 'Could not check backend status.';
+                const statusDiv = document.getElementById('model-status');
+                
+                statusDiv.className = `model-status ${data.status}`;
+                statusDiv.textContent = data.message;
+            } catch (error) {
+                const statusDiv = document.getElementById('model-status');
+                statusDiv.className = 'model-status unhealthy';
+                statusDiv.textContent = '❌ Cannot check model status';
             }
         }
-
+        
+        // Check status when page loads
         document.addEventListener('DOMContentLoaded', checkStatuses);
+        
+        // Auto-check status every 30 seconds
         setInterval(checkStatuses, 30000);
-
-        document.getElementById('budget_enabled').addEventListener('change', function () {
-            document.getElementById('max_budget').disabled = !this.checked;
+        
+        // Handle budget toggle
+        document.getElementById('budget_enabled').addEventListener('change', function() {
+            const budgetInput = document.getElementById('max_budget');
+            budgetInput.disabled = !this.checked;
         });
 
-        const overlay = document.getElementById('submit-overlay');
+        // Show loading overlay on form submit
         const form = document.getElementById('recommend-form');
-        const stepItems = () => Array.from(document.querySelectorAll('.submit-steps__item'));
-        let stepTimers = [];
-
-        function clearStepTimers() {
-            stepTimers.forEach(clearTimeout);
-            stepTimers = [];
+        const overlay = document.getElementById('loading-overlay');
+        const submitBtn = document.getElementById('submit-btn');
+        function appendLog(msg){
+            const el = document.getElementById('progress-log');
+            const ts = new Date().toLocaleTimeString();
+            el.textContent += `[${ts}] ${msg}\n`;
+            el.scrollTop = el.scrollHeight;
         }
 
-        function setSubmitStep(activeIndex) {
-            stepItems().forEach((el, i) => {
-                el.classList.remove('is-active', 'is-done');
-                if (i < activeIndex) el.classList.add('is-done');
-                if (i === activeIndex) el.classList.add('is-active');
-            });
-        }
+        form.addEventListener('submit', function() {
+            overlay.style.display = 'flex';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Working…';
 
-        function hideSubmitOverlay() {
-            overlay.hidden = true;
-            document.body.style.overflow = '';
-            form.setAttribute('aria-busy', 'false');
-            clearStepTimers();
-            setSubmitStep(0);
-            stepItems().forEach((el) => el.classList.remove('is-done'));
-            document.getElementById('submit-btn').disabled = false;
-        }
-
-        function showSubmitProgress() {
-            overlay.hidden = false;
-            document.body.style.overflow = 'hidden';
-            form.setAttribute('aria-busy', 'true');
-            document.getElementById('submit-btn').disabled = true;
-            clearStepTimers();
-            setSubmitStep(0);
-            const milestones = [
-                [600, 1],
-                [2200, 2],
-                [6500, 3],
+            // Simulated live task log to mirror backend stages
+            const n = parseInt(document.getElementById('num_recommendations').value || '5', 10);
+            let step = 0;
+            const steps = [
+                'Loading catalog…',
+                'Filtering by brand and use-case…',
+                'Scoring candidates (compatibility, tech, market)…',
+                'Applying dynamic ranking adjustments…',
+                'Preparing AI analysis prompts…',
             ];
-            milestones.forEach(([ms, idx]) => {
-                stepTimers.push(setTimeout(() => setSubmitStep(idx), ms));
-            });
-        }
+            const analyzeSteps = Array.from({length: n}, (_, i) => `Analyzing #${i+1} with LLM…`);
+            const tail = ['Compiling results…'];
+            const all = steps.concat(analyzeSteps).concat(tail);
 
-        form.addEventListener('submit', function () {
-            showSubmitProgress();
-        });
-
-        window.addEventListener('pageshow', function (ev) {
-            if (ev.persisted) hideSubmitOverlay();
+            appendLog('Starting pipeline');
+            const bar = document.getElementById('progress-bar');
+            const timer = setInterval(() => {
+                if (step >= all.length) { clearInterval(timer); return; }
+                appendLog(all[step]);
+                step += 1;
+                bar.style.width = `${Math.round((step / all.length) * 100)}%`;
+            }, 600);
         });
     </script>
 </body>

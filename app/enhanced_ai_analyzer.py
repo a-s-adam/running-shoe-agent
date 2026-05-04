@@ -15,6 +15,7 @@ import json
 import os
 from .llm import complete, complete_text
 from .firecrawl_client import FirecrawlClient
+from .catalog_repository import load_catalog_items
 from .schemas import RecommendationRequest
 
 
@@ -60,9 +61,7 @@ class EnhancedAIAnalyzer:
     
     def _load_catalog(self) -> List[Dict[str, Any]]:
         """Load shoe catalog"""
-        here = os.path.dirname(__file__)
-        with open(os.path.join(here, "catalog.json"), "r", encoding="utf-8") as f:
-            return json.load(f)
+        return load_catalog_items()
     
     def _load_analysis_prompts(self):
         """Load specialized analysis prompts for different analysis types"""

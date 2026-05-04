@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from .schemas import RecommendationRequest, RecommendationResponse, RecommendationItem
 from .recommender import ShoeRecommender
 from .enhanced_recommender import EnhancedShoeRecommender
+from .catalog_repository import CatalogRepository
 from .llm import build_prompt, complete
 
 # Load environment variables
@@ -20,6 +21,7 @@ app = FastAPI(
 # Initialize recommenders (loads catalog once)
 recommender = ShoeRecommender()  # Keep for backward compatibility
 enhanced_recommender = EnhancedShoeRecommender()  # New enhanced system
+catalog_repository = CatalogRepository()
 
 
 @app.get("/")
@@ -29,8 +31,30 @@ async def root():
         "message": "Running Shoe Recommendation Agent",
         "status": "healthy",
         "ollama_host": os.getenv("OLLAMA_HOST", "http://localhost:11434"),
-        "ollama_model": os.getenv("OLLAMA_MODEL", "llama3.1")
+        "ollama_model": os.getenv("OLLAMA_MODEL", "llama3.1"),
+        "catalog_backend": catalog_repository.backend_name,
     }
+
+
+@app.get("/shoes")
+async def list_shoes(category: str | None = None, search: str | None = None, limit: int = 30):
+    """Browse stored shoes for the website catalog."""
+    limit = max(1, min(limit, 100))
+    shoes = catalog_repository.list_shoes(category=category, search=search, limit=limit)
+    return {
+        "backend": catalog_repository.backend_name,
+        "count": len(shoes),
+        "shoes": shoes,
+    }
+
+
+@app.get("/shoes/{shoe_key}")
+async def get_shoe(shoe_key: str):
+    """Fetch a single stored shoe by generated key."""
+    for shoe in catalog_repository.load_catalog():
+        if shoe.get("shoe_key") == shoe_key:
+            return shoe
+    raise HTTPException(status_code=404, detail="Shoe not found")
 
 
 @app.post("/recommend", response_model=RecommendationResponse)

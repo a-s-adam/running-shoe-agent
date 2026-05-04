@@ -8,3 +8,4 @@ flask>=3.0
 selenium>=4.15.2
 pytest>=8.2
 webdriver-manager>=4.0.1
+Pillow>=10.0

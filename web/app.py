@@ -1,118 +1,153 @@
 #!/usr/bin/env python3
-"""Flask UI for running shoe recommendations (proxies to the FastAPI backend)."""
+"""
+Flask Web Interface for Running Shoe Recommendations
+Provides a user-friendly form instead of curl commands
+"""
 
-from __future__ import annotations
-
-import json
-import os
+from flask import Flask, render_template, request, jsonify, flash
+import requests
+import sys
 from pathlib import Path
 
-import requests
-from flask import Flask, flash, jsonify, render_template, request
+ROOT_DIR = Path(__file__).resolve().parents[1]
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
-_WEB_DIR = Path(__file__).resolve().parent
-_REPO_ROOT = _WEB_DIR.parent
+from app.catalog_repository import CatalogRepository
 
-app = Flask(
-    __name__,
-    template_folder=str(_WEB_DIR / "templates"),
-    static_folder=str(_REPO_ROOT / "static"),
-    static_url_path="/static",
-)
-app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-only-change-for-production")
+app = Flask(__name__)
+app.secret_key = 'your-secret-key-here'  # Change this in production
 
-_CATALOG_PATH = _REPO_ROOT / "app" / "catalog.json"
-API_URL = os.environ.get("RECOMMEND_API_URL", "http://localhost:8000")
-DEFAULT_PORT = int(os.environ.get("FLASK_PORT", "3000"))
+# Configuration
+API_URL = "http://localhost:8000"
+DEFAULT_PORT = 3000
 
+# Race distance options
 RACE_DISTANCES = ["5k", "10k", "half_marathon", "marathon", "ultra"]
+
+# Category options
 CATEGORIES = ["easy_runs", "tempo_runs", "long_runs", "races", "trail"]
+CATALOG_CATEGORIES = ["daily", "easy", "tempo", "race", "trail"]
+CATALOG_CATEGORY_LABELS = {
+    "daily": "Daily Trainer",
+    "easy": "Easy Miles",
+    "tempo": "Tempo",
+    "race": "Race Day",
+    "trail": "Trail",
+}
 
-_DEFAULT_BRANDS = ["Saucony", "Adidas", "Nike", "Hoka", "Brooks", "Any"]
-_DEFAULT_MAX_PRICE = 500
 
+def catalog_repo() -> CatalogRepository:
+    """Create a fresh repository so env changes are picked up between dev reloads."""
+    return CatalogRepository()
+
+
+def _bounded_limit(default: int = 30) -> int:
+    try:
+        return min(max(int(request.args.get("limit", default)), 1), 100)
+    except (TypeError, ValueError):
+        return default
 
 def load_catalog_data():
-    """Load brand list and a sensible max price from catalog.json."""
+    """Load brand and price data from catalog.json"""
     try:
-        with _CATALOG_PATH.open(encoding="utf-8") as f:
-            catalog = json.load(f)
-        brands = sorted({item["brand"] for item in catalog if item.get("brand")})
-        brands.append("Any")
-        prices = [item["price_usd"] for item in catalog if item.get("price_usd")]
-        max_price = int(max(prices) + 50) if prices else _DEFAULT_MAX_PRICE
-        return brands, max_price
-    except OSError as e:
+        repo = catalog_repo()
+        brands = repo.brands()
+        brands.append("Any")  # Add "Any" option
+        return brands, repo.max_price()
+    except Exception as e:
         print(f"Error loading catalog: {e}")
-        return list(_DEFAULT_BRANDS), _DEFAULT_MAX_PRICE
-
+        # Fallback to default values
+        return ["Saucony", "Adidas", "Nike", "Hoka", "Brooks", "Any"], 500
 
 def check_model_status():
-    """Lightweight check that the FastAPI server answers on GET /."""
+    """Check if the API is available (simple health check only)"""
     try:
+        # Just check if the API is running - don't test the model
         response = requests.get(f"{API_URL}/", timeout=3)
         if response.status_code == 200:
-            return "healthy", "Recommendation API is running."
-        return "warning", "API returned a non-200 status."
+            return "healthy", "✅ API server is running"
+        else:
+            return "warning", "⚠️ API responded with error status"
     except requests.exceptions.ConnectionError:
-        return "unhealthy", "Cannot connect to the recommendation API."
+        return "unhealthy", "❌ Cannot connect to recommendation API"
     except requests.exceptions.Timeout:
-        return "warning", "API is responding slowly."
-    except OSError as e:
-        return "warning", f"Could not reach API: {e}"
+        return "warning", "⚠️ API is responding slowly"
+    except Exception as e:
+        return "warning", f"⚠️ API status unclear: {str(e)}"
 
-
-def render_index():
+@app.route('/')
+def index():
+    """Main form page"""
     brands, max_price = load_catalog_data()
     model_status, model_message = check_model_status()
+    
+    return render_template('index.html', 
+                         brands=brands, 
+                         race_distances=RACE_DISTANCES,
+                         categories=CATEGORIES,
+                         max_price=max_price,
+                         catalog_backend=catalog_repo().backend_name,
+                         model_status=model_status,
+                         model_message=model_message)
+
+
+@app.route('/catalog')
+def catalog():
+    """Browse stored shoe data and thumbnails."""
+    category = request.args.get("category") or None
+    search = request.args.get("search") or None
+    limit = _bounded_limit()
+    repo = catalog_repo()
+    shoes = repo.list_shoes(category=category, search=search, limit=limit)
+
     return render_template(
-        "index.html",
-        brands=brands,
-        race_distances=RACE_DISTANCES,
-        categories=CATEGORIES,
-        max_price=max_price,
-        model_status=model_status,
-        model_message=model_message,
+        "catalog.html",
+        shoes=shoes,
+        categories=CATALOG_CATEGORIES,
+        category_labels=CATALOG_CATEGORY_LABELS,
+        selected_category=category,
+        search=search or "",
+        catalog_backend=repo.backend_name,
+        limit=limit,
     )
 
-
-@app.route("/")
-def index():
-    return render_index()
-
-
-@app.route("/recommend", methods=["POST"])
+@app.route('/recommend', methods=['POST'])
 def recommend():
+    """Handle form submission and call the API"""
     try:
-        brand_preferences = request.form.getlist("brand_preferences")
-        if "Any" in brand_preferences:
+        # Extract form data
+        brand_preferences = request.form.getlist('brand_preferences')
+        if 'Any' in brand_preferences:
             brand_preferences = None
-
+        
+        # Build intended use object
         intended_use = {
             "easy_runs": "easy_runs" in request.form,
             "tempo_runs": "tempo_runs" in request.form,
             "long_runs": "long_runs" in request.form,
-            "races": request.form.getlist("races"),
-            "trail": "trail" in request.form,
+            "races": request.form.getlist('races'),
+            "trail": "trail" in request.form
         }
-
+        
+        # Build cost limiter
         cost_limiter = {
-            "enabled": request.form.get("budget_enabled") == "on",
-            "max_usd": float(request.form.get("max_budget", 200)),
+            "enabled": request.form.get('budget_enabled') == 'on',
+            "max_usd": float(request.form.get('max_budget', 200))
         }
+        
+        # Get number of recommendations (default to 5)
+        num_recommendations = int(request.form.get('num_recommendations', 5))
+        
+        # Carbon plate toggle
+        allow_carbon = request.form.get('allow_carbon') == 'on'
 
-        num_recommendations = int(request.form.get("num_recommendations", 5))
-
-        if "allow_carbon" in request.form:
-            allow_carbon = request.form.get("allow_carbon") == "on"
-        else:
-            allow_carbon = True
-
-        def _num(name: str, default: float) -> float:
+        # Optional weights
+        def _num(name, default):
             try:
                 v = request.form.get(name)
-                return float(v) if v not in (None, "") else default
-            except (TypeError, ValueError):
+                return float(v) if v is not None and v != '' else default
+            except Exception:
                 return default
 
         weights = {
@@ -124,66 +159,103 @@ def recommend():
             "races": _num("weight_races", 1.0),
         }
 
+        # Prepare API request
         api_request = {
             "brand_preferences": brand_preferences,
             "intended_use": intended_use,
             "cost_limiter": cost_limiter,
             "num_recommendations": num_recommendations,
             "allow_carbon": allow_carbon,
-            "weights": weights,
+            "weights": weights
         }
-
+        
+        # Call the recommendation API
         response = requests.post(
             f"{API_URL}/recommend",
             json=api_request,
-            timeout=120,
+            timeout=90
         )
-
+        
         if response.status_code == 200:
             result = response.json()
-            return render_template(
-                "results.html",
-                recommendations=result["shortlist"],
-                notes=result["notes"],
-                request_data=api_request,
-            )
-
-        flash(f"API error: {response.status_code} — {response.text}", "error")
-        return render_index()
-
+            return render_template('results.html', 
+                                recommendations=result['shortlist'],
+                                notes=result['notes'],
+                                request_data=api_request)
+        else:
+            flash(f"API Error: {response.status_code} - {response.text}", "error")
+            brands, max_price = load_catalog_data()
+            return render_template('index.html', 
+                                brands=brands, 
+                                race_distances=RACE_DISTANCES,
+                                categories=CATEGORIES,
+                                max_price=max_price,
+                                catalog_backend=catalog_repo().backend_name,
+                                form_data=request.form)
+            
     except requests.exceptions.ConnectionError:
-        flash(
-            "Cannot connect to the recommendation API. Start it on port 8000 "
-            f"(or set RECOMMEND_API_URL; currently {API_URL}).",
-            "error",
-        )
-        return render_index()
+        flash("Cannot connect to the recommendation API. Make sure it's running on localhost:8000", "error")
+        brands, max_price = load_catalog_data()
+        return render_template('index.html', 
+                            brands=brands, 
+                            race_distances=RACE_DISTANCES,
+                            categories=CATEGORIES,
+                            max_price=max_price,
+                            catalog_backend=catalog_repo().backend_name,
+                            form_data=request.form)
     except Exception as e:
-        flash(str(e), "error")
-        return render_index()
+        flash(f"Error: {str(e)}", "error")
+        brands, max_price = load_catalog_data()
+        return render_template('index.html', 
+                            brands=brands, 
+                            race_distances=RACE_DISTANCES,
+                            categories=CATEGORIES,
+                            max_price=max_price,
+                            catalog_backend=catalog_repo().backend_name,
+                            form_data=request.form)
 
-
-@app.route("/api/health")
+@app.route('/api/health')
 def api_health():
+    """Health check endpoint"""
     try:
+        # Check if the recommendation API is running
         response = requests.get(f"{API_URL}/", timeout=5)
         if response.status_code == 200:
             return jsonify({"status": "healthy", "message": "API is running"})
-        return jsonify({"status": "unhealthy", "message": "API is not responding properly"})
+        else:
+            return jsonify({"status": "unhealthy", "message": "API is not responding properly"})
     except requests.exceptions.ConnectionError:
         return jsonify({"status": "unhealthy", "message": "Cannot connect to API"})
-    except OSError as e:
+    except Exception as e:
         return jsonify({"status": "error", "message": str(e)})
 
 
-@app.route("/api/model-status")
-def model_status_route():
+@app.route('/api/catalog')
+def api_catalog():
+    """Return stored shoe data for lightweight frontend integrations."""
+    category = request.args.get("category") or None
+    search = request.args.get("search") or None
+    limit = _bounded_limit()
+    repo = catalog_repo()
+    shoes = repo.list_shoes(category=category, search=search, limit=limit)
+    return jsonify({
+        "backend": repo.backend_name,
+        "count": len(shoes),
+        "shoes": shoes,
+    })
+
+@app.route('/api/model-status')
+def model_status():
+    """Check model status and return detailed information"""
     status, message = check_model_status()
     return jsonify({"status": status, "message": message})
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
+    print(f"Starting Flask app on port {DEFAULT_PORT}")
+    print(f"Recommendation API: {API_URL}")
+    print("Loading catalog data...")
     brands, max_price = load_catalog_data()
-    print(f"Starting Flask on port {DEFAULT_PORT} (API: {API_URL})")
-    print(f"Catalog: {len(brands) - 1} brands, budget cap hint ${max_price}")
-    app.run(host="0.0.0.0", port=DEFAULT_PORT, debug=True)
+    print(f"   Found {len(brands)-1} brands, max price: ${max_price}")
+    print("Web interface will be available at: http://localhost:3000")
+    
+    app.run(host='0.0.0.0', port=DEFAULT_PORT, debug=True)

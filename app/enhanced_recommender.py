@@ -12,6 +12,7 @@ This module replaces the basic recommender with:
 from typing import List, Dict, Any, Optional
 from .schemas import RecommendationRequest, RecommendationItem
 from .enhanced_ai_analyzer import EnhancedAIAnalyzer
+from .catalog_repository import load_catalog_items
 from .llm import complete
 import json
 import os
@@ -28,9 +29,7 @@ class EnhancedShoeRecommender:
     
     def _load_catalog(self) -> List[Dict[str, Any]]:
         """Load shoe catalog"""
-        here = os.path.dirname(__file__)
-        with open(os.path.join(here, "catalog.json"), "r", encoding="utf-8") as f:
-            return json.load(f)
+        return load_catalog_items()
     
     def _load_market_context(self) -> Dict[str, Any]:
         """Load market context data (reviews, popularity, etc.)"""
@@ -117,7 +116,16 @@ class EnhancedShoeRecommender:
                 why_rules=self._generate_enhanced_rule_explanation(candidate, request),
                 sources=sources,
                 score=candidate["enhanced_score"],
-                enhanced_data=candidate.get("enhanced_data", {})
+                description=candidate.get("description"),
+                image_url=candidate.get("image_url"),
+                image_thumbnail_data_uri=candidate.get("image_thumbnail_data_uri"),
+                source_url=candidate.get("source_url"),
+                source_name=candidate.get("source_name"),
+                cushioning_level=candidate.get("cushioning_level"),
+                support_type=candidate.get("support_type"),
+                heel_stack_mm=candidate.get("heel_stack_mm"),
+                forefoot_stack_mm=candidate.get("forefoot_stack_mm"),
+                best_for_distances=candidate.get("best_for_distances") or [],
             )
             
             recommendations.append(recommendation)

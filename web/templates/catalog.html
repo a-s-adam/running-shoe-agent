@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Running Shoe Catalog</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #1f2933;
+            background: #f3f6f4;
+        }
+
+        .shell {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+
+        .brand-block h1 {
+            font-size: 2rem;
+            line-height: 1.1;
+            letter-spacing: 0;
+            color: #15201b;
+        }
+
+        .brand-block p {
+            margin-top: 6px;
+            color: #52605a;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
+            padding: 0 14px;
+            border-radius: 6px;
+            border: 1px solid #c9d5cf;
+            color: #1f3b31;
+            background: #ffffff;
+            text-decoration: none;
+            font-weight: 650;
+        }
+
+        .button.primary {
+            color: #ffffff;
+            border-color: #236b4f;
+            background: #236b4f;
+        }
+
+        .toolbar {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 14px;
+            align-items: end;
+            margin-bottom: 22px;
+            padding: 16px;
+            background: #ffffff;
+            border: 1px solid #d9e2dd;
+            border-radius: 8px;
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            min-height: 36px;
+            padding: 0 12px;
+            border: 1px solid #cbd7d1;
+            border-radius: 999px;
+            background: #ffffff;
+            color: #385046;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .chip.active {
+            background: #123c31;
+            border-color: #123c31;
+            color: #ffffff;
+        }
+
+        .search {
+            display: grid;
+            grid-template-columns: minmax(180px, 260px) auto;
+            gap: 8px;
+        }
+
+        .search input {
+            min-height: 40px;
+            border: 1px solid #cbd7d1;
+            border-radius: 6px;
+            padding: 0 12px;
+            font-size: 1rem;
+            background: #ffffff;
+        }
+
+        .search button {
+            min-height: 40px;
+            border: 0;
+            border-radius: 6px;
+            padding: 0 14px;
+            background: #236b4f;
+            color: #ffffff;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+            color: #52605a;
+            font-size: 0.95rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
+        }
+
+        .legend {
+            margin-bottom: 18px;
+            background: #ffffff;
+            border: 1px solid #d9e2dd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .legend summary {
+            cursor: pointer;
+            padding: 14px 16px;
+            color: #123c31;
+            font-weight: 800;
+            list-style-position: inside;
+        }
+
+        .legend-content {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            padding: 0 16px 16px;
+            color: #364840;
+        }
+
+        .legend-panel {
+            border-top: 1px solid #e1e8e4;
+            padding-top: 12px;
+        }
+
+        .legend-panel h2 {
+            font-size: 1rem;
+            color: #15201b;
+            margin-bottom: 8px;
+            letter-spacing: 0;
+        }
+
+        .legend-panel p,
+        .legend-panel li {
+            font-size: 0.94rem;
+            line-height: 1.45;
+            margin-bottom: 7px;
+        }
+
+        .legend-panel ul {
+            padding-left: 18px;
+        }
+
+        .legend-panel a {
+            color: #174f3f;
+            font-weight: 700;
+        }
+
+        .shoe-card {
+            display: grid;
+            grid-template-rows: 190px auto;
+            background: #ffffff;
+            border: 1px solid #d9e2dd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .shoe-image {
+            position: relative;
+            background: #e5ebe7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .shoe-image img {
+            max-width: 90%;
+            max-height: 160px;
+            width: auto;
+            height: auto;
+            object-fit: scale-down;
+            background: #ffffff;
+        }
+
+        .initials {
+            width: 74px;
+            height: 74px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #d7a84d;
+            color: #18221d;
+            font-weight: 800;
+            font-size: 1.25rem;
+        }
+
+        .shoe-body {
+            padding: 14px;
+        }
+
+        .shoe-title {
+            font-size: 1.05rem;
+            line-height: 1.25;
+            letter-spacing: 0;
+            color: #15201b;
+            margin-bottom: 8px;
+        }
+
+        .shoe-source {
+            color: #5c6b64;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .metric {
+            min-height: 58px;
+            padding: 8px;
+            border: 1px solid #e1e8e4;
+            border-radius: 6px;
+            background: #f8faf9;
+        }
+
+        .metric strong {
+            display: block;
+            color: #15201b;
+            font-size: 0.95rem;
+            line-height: 1.15;
+            overflow-wrap: anywhere;
+        }
+
+        .metric span {
+            display: block;
+            margin-top: 4px;
+            color: #6a776f;
+            font-size: 0.74rem;
+            text-transform: uppercase;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .tag {
+            border-radius: 999px;
+            background: #e8f1ec;
+            color: #236b4f;
+            padding: 4px 8px;
+            font-size: 0.82rem;
+            font-weight: 650;
+            text-transform: capitalize;
+        }
+
+        .source-link {
+            display: inline-block;
+            margin-top: 12px;
+            color: #174f3f;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .empty {
+            padding: 28px;
+            background: #ffffff;
+            border: 1px solid #d9e2dd;
+            border-radius: 8px;
+            color: #52605a;
+        }
+
+        @media (max-width: 720px) {
+            .shell {
+                padding: 16px;
+            }
+
+            .topbar,
+            .toolbar,
+            .status-row,
+            .legend-content {
+                display: block;
+            }
+
+            .legend-panel {
+                margin-top: 14px;
+            }
+
+            .nav-actions,
+            .filters {
+                margin-top: 14px;
+            }
+
+            .search {
+                margin-top: 14px;
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <div class="topbar">
+            <div class="brand-block">
+                <h1>Running Shoe Catalog</h1>
+                <p>Stored shoes from retailer sources and the local catalog.</p>
+            </div>
+            <div class="nav-actions">
+                <a class="button" href="/">Recommendation Form</a>
+                <a class="button primary" href="/catalog">Catalog</a>
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <div class="filters">
+                <a class="chip {% if not selected_category %}active{% endif %}" href="/catalog">All</a>
+                {% for category in categories %}
+                <a class="chip {% if selected_category == category %}active{% endif %}" href="/catalog?category={{ category }}">{{ category_labels.get(category, category) }}</a>
+                {% endfor %}
+            </div>
+            <form class="search" action="/catalog" method="get">
+                {% if selected_category %}
+                <input type="hidden" name="category" value="{{ selected_category }}">
+                {% endif %}
+                <input type="search" name="search" value="{{ search }}" placeholder="Brand or model">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        <div class="status-row">
+            <div>{{ shoes|length }} shoes shown</div>
+            <div>Backend: {{ catalog_backend }}</div>
+        </div>
+
+        <details class="legend">
+            <summary>Catalog guide</summary>
+            <div class="legend-content">
+                <section class="legend-panel">
+                    <h2>Cushion feel</h2>
+                    <p><strong>Firm</strong> feels more connected to the ground and can feel quicker for intervals, strides, and runners who dislike a soft sink.</p>
+                    <p><strong>Moderate</strong> balances protection and response for daily training and uptempo runs.</p>
+                    <p><strong>Plush</strong> absorbs more impact for easy miles, long runs, and low-intensity days, but may feel less snappy.</p>
+                </section>
+                <section class="legend-panel">
+                    <h2>Shoe rotation</h2>
+                    <ul>
+                        <li><strong>Easy shoe:</strong> cushioned daily trainer for most relaxed mileage.</li>
+                        <li><strong>Workout shoe:</strong> lighter or firmer tempo shoe for intervals, hills, and progression runs.</li>
+                        <li><strong>Race shoe:</strong> reserved for key sessions and race day so the foam and plate stay fresh.</li>
+                    </ul>
+                </section>
+                <section class="legend-panel">
+                    <h2>Shoe lifespan</h2>
+                    <p>Most running shoes last about 300-500 miles. Lightweight racing shoes tend toward the low end; durable daily trainers often last longer.</p>
+                    <p>Replace sooner if the midsole feels flat, the outsole is uneven, or new aches appear. Sources: <a href="https://www.rei.com/learn/expert-advice/replace-shoes.html" target="_blank" rel="noopener">REI</a>, <a href="https://www.asics.com/us/en-us/blog/how-do-running-shoes-wear-over-time/" target="_blank" rel="noopener">ASICS</a>.</p>
+                </section>
+            </div>
+        </details>
+
+        {% if shoes %}
+        <section class="grid">
+            {% for shoe in shoes %}
+            <article class="shoe-card">
+                <div class="shoe-image">
+                    {% if shoe.image_thumbnail_data_uri %}
+                    <img src="{{ shoe.image_thumbnail_data_uri }}" alt="{{ shoe.brand }} {{ shoe.model }}">
+                    {% elif shoe.image_url %}
+                    <img src="{{ shoe.image_url }}" alt="{{ shoe.brand }} {{ shoe.model }}">
+                    {% else %}
+                    <div class="initials">{{ shoe.brand[:1] }}{{ shoe.model[:1] }}</div>
+                    {% endif %}
+                </div>
+                <div class="shoe-body">
+                    <h2 class="shoe-title">{{ shoe.brand }} {{ shoe.model }}</h2>
+                    <div class="shoe-source">
+                        {{ shoe.source_name or "Local catalog" }}
+                    </div>
+                    <div class="metric-grid">
+                        <div class="metric">
+                            <strong>${{ "%.0f"|format(shoe.price_usd or 0) }}</strong>
+                            <span>Price</span>
+                        </div>
+                        <div class="metric">
+                            <strong>{{ shoe.plate|title }}</strong>
+                            <span>Plate</span>
+                        </div>
+                        <div class="metric">
+                            <strong>{% if shoe.drop_mm is not none %}{{ shoe.drop_mm }}mm{% else %}n/a{% endif %}</strong>
+                            <span>Drop</span>
+                        </div>
+                    </div>
+                    <div class="metric-grid">
+                        <div class="metric">
+                            <strong>{% if shoe.weight_g %}{{ shoe.weight_g }}g{% else %}n/a{% endif %}</strong>
+                            <span>Weight</span>
+                        </div>
+                        <div class="metric">
+                            <strong>{{ shoe.cushioning_level or "n/a" }}</strong>
+                            <span>Cushion</span>
+                        </div>
+                        <div class="metric">
+                            <strong>{{ shoe.support_type or "n/a" }}</strong>
+                            <span>Support</span>
+                        </div>
+                    </div>
+                    <div class="tags">
+                        {% for category in shoe.category %}
+                        <span class="tag">{{ category_labels.get(category, category) }}</span>
+                        {% endfor %}
+                    </div>
+                    {% if shoe.source_url %}
+                    <a class="source-link" href="{{ shoe.source_url }}" target="_blank" rel="noopener">Link</a>
+                    {% endif %}
+                </div>
+            </article>
+            {% endfor %}
+        </section>
+        {% else %}
+        <div class="empty">No shoes matched the current filters.</div>
+        {% endif %}
+    </main>
+</body>
+</html>

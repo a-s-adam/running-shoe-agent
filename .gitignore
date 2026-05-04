@@ -103,12 +103,22 @@ celerybeat.pid
 
 # Environments
 .env
+.env.*
+!.env.example
+.envrc
 .venv
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Local catalog databases and scraper exports
+data/*.db
+data/*.db-*
+catalog_*third_party*.json
+catalog_*production*.json
+*_catalog.json
 
 # Spyder project settings
 .spyderproject

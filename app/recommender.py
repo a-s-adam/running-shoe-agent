@@ -1,7 +1,6 @@
 from __future__ import annotations
-import json
-import os
 from typing import List, Dict, Any
+from .catalog_repository import load_catalog_items
 from .schemas import RecommendationRequest, RecommendationItem
 
 
@@ -13,9 +12,7 @@ class ShoeRecommender:
     
     def _load_catalog(self) -> List[Dict[str, Any]]:
         """Load shoe catalog once at startup"""
-        here = os.path.dirname(__file__)
-        with open(os.path.join(here, "catalog.json"), "r", encoding="utf-8") as f:
-            return json.load(f)
+        return load_catalog_items()
     
     def filter_and_score(self, request: RecommendationRequest) -> List[Dict[str, Any]]:
         """Filter catalog by constraints and score candidates"""

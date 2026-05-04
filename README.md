@@ -17,7 +17,7 @@ source .venv/bin/activate  # or .venv\Scripts\activate on Windows
 pip install -r requirements.txt
 ```
 
-**📖 Detailed setup instructions: [SETUP_UV.md](SETUP_UV.md)**
+**Detailed setup instructions: [SETUP_UV.md](SETUP_UV.md)**
 
 ### 1. Install & Run Ollama
 
@@ -30,7 +30,7 @@ ollama serve   # usually auto-starts; ensures localhost:11434
 ### 2. Run the API
 
 ```bash
-cp env.example .env
+cp .env.example .env
 # optionally edit OLLAMA_MODEL in .env
 # To enable web-enriched analysis, set FIRECRAWL_API_KEY in .env
 uvicorn app.main:app --reload --port ${PORT:-8000}
@@ -56,7 +56,7 @@ Change `OLLAMA_MODEL` in your `.env` file (e.g., `phi3`, `qwen2.5:7b-instruct`, 
 ollama pull <model>
 ```
 
-## 🌐 Web Interface (Optional)
+## Web Interface (Optional)
 
 Instead of curl commands, use the beautiful Flask web interface:
 
@@ -70,25 +70,29 @@ Instead of curl commands, use the beautiful Flask web interface:
 # Open browser to: http://localhost:3000
 ```
 
-**📖 Detailed Flask setup: [FLASK_README.md](FLASK_README.md)**
+**Detailed Flask setup: [FLASK_README.md](FLASK_README.md)**
 
 ## Project Structure
 
-```text
+```
 running-shoe-agent/
-├── README.md
-├── env.example
-├── pyproject.toml
-├── requirements.txt
-├── start.sh
-├── start_flask.sh
-├── FLASK_README.md
-├── app/                    # FastAPI + recommender
-├── static/css/app.css      # Flask UI styles
-├── web/
-│   ├── app.py              # Flask entry (run: python web/app.py)
-│   └── templates/
-└── tests/
+|-- README.md
+|-- env.example
+|-- pyproject.toml
+|-- requirements.txt
+|-- start.sh
+|-- start_flask.sh
+|-- app/
+|   |-- main.py
+|   |-- schemas.py
+|   |-- catalog.json
+|   |-- catalog_repository.py
+|   |-- recommender.py
+|   `-- prompts/
+|-- web/
+|   |-- app.py
+|   `-- templates/
+`-- tests/
 ```
 
 ## Features
@@ -97,6 +101,9 @@ running-shoe-agent/
 - **Smart Filtering**: Brand preferences, intended use, and budget constraints
 - **LLM Explanations**: AI-generated justifications for each recommendation
 - **Web Enrichment (Firecrawl)**: When `FIRECRAWL_API_KEY` is set, the model will crawl reviews and product pages for each shoe and incorporate findings into the analysis
+- **Catalog Database**: Use JSON, local SQLite, or Supabase Free for stored shoe data
+- **Catalog Website**: Browse stored shoes, specs, source links, and compressed thumbnails at `/catalog`
+- **Third-Party Scrapers**: Pull catalog snapshots from retailer sources such as REI, Road Runner Sports, Sports Basement, and A Runner's Mind
 - **Simple Scoring**: Rule-based ranking with configurable weights
 - **FastAPI**: Clean REST API with automatic validation
 - **Web Interface**: Beautiful Flask frontend (optional) for easy form input
@@ -115,4 +122,26 @@ To incorporate live web context in the AI explanations:
 - Get an API key from Firecrawl
 - Set `FIRECRAWL_API_KEY` in `.env`
 
-The enhanced analyzer will search for “<brand> <model> running shoe review 2024”, extract brief context from top sources, and include summaries + source links in the prompt it sends to the LLM.
+The enhanced analyzer will search for <brand> <model> running shoe review 2024, extract brief context from top sources, and include summaries + source links in the prompt it sends to the LLM.
+
+## Catalog Database and Scrapers
+
+The default catalog still comes from `app/catalog.json`. To use a free database backend:
+
+```bash
+# Local zero-cost database
+SHOE_CATALOG_BACKEND=sqlite python -m app.catalog_repository init --backend sqlite
+SHOE_CATALOG_BACKEND=sqlite python -m app.catalog_repository seed --backend sqlite --from-json app/catalog.json
+```
+
+For hosted storage, create a Supabase Free project, run `db/supabase_schema.sql`, then set `SHOE_CATALOG_BACKEND=supabase`, `SUPABASE_URL`, and your Supabase API keys in `.env`.
+
+Third-party scraper examples:
+
+```bash
+python scrape_third_party_running.py --list-sources
+python scrape_third_party_running.py --source rei_mens_road --max-products 10 --out rei_catalog.json
+SHOE_CATALOG_BACKEND=sqlite python scrape_third_party_running.py --source all --store --compress-images
+```
+
+See [DATABASE_README.md](DATABASE_README.md) for the full setup.
